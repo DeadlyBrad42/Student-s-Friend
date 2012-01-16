@@ -8,13 +8,30 @@ html, body
   padding: 0;
 }
 
+body
+{
+  font-family: "Lucida Grande", Arial, Helvetica;
+  font-size: 12px;
+  background-color: #303030;
+}
+
 h1, h2, h3, h4, h5, h6
 {
   margin: 0;
   padding: 0;
 }
 
+p, a, li, ul
+{
+  margin: 0;
+  padding: 0;
+}
+
 /* Specific Styles */
+div.fb-login-button
+{
+  width: 147px;
+}
 
 div#wrapper, div#headerWrap, div#footerWrap
 {
@@ -22,4 +39,14 @@ div#wrapper, div#headerWrap, div#footerWrap
   width: 950px;
 }
 
+div#header
+{
+ padding-top: 25px; 
+}
 
+div#footer
+{
+  color: #ffffff;
+  text-align: center;
+  padding-bottom: 25px;
+}

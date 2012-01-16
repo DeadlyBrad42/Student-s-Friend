@@ -11,7 +11,8 @@
       <div id="fb-root"></div>
       <script type="text/javascript">
         window.fbAsyncInit = function() {
-          FB.init({ appId:'346560865373540', status:true, cookie:true, xfbml:true});
+          FB._https = window.location.protocol == "https:";
+          FB.init({ appId:'346560865373540', status:true, cookie:true, xfbml:true, oauth:true});
         };
         (function(){
           var js = document.createElement('script');
