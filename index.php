@@ -15,7 +15,7 @@
           FB.init({ appId:'346560865373540', status:true, cookie:true, xfbml:true, oauth:true});
         };
 					FB.Event.subscribe('auth.login', function() {
-						window.location = "http://localhost/student\'s friend/trunk/loginPage.php";
+						window.location = "http://localhost/Student_friend/trunk/loginPage.php";
 					});
       </script>
       <div class="fb-login-button">Login with Facebook</div>
