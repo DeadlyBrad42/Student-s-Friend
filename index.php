@@ -2,6 +2,7 @@
 <html>
   <head>
   <link rel="stylesheet" href="styles/default.css" />
+	<script src="http://connect.facebook.net/en_US/all.js"></script>
   </head>
   <body>
     <div id="headerWrap">
@@ -11,15 +12,11 @@
       <div id="fb-root"></div>
       <script type="text/javascript">
         window.fbAsyncInit = function() {
-          FB._https = window.location.protocol == "https:";
           FB.init({ appId:'346560865373540', status:true, cookie:true, xfbml:true, oauth:true});
         };
-        (function(){
-          var js = document.createElement('script');
-          js.src = document.location.protocol + "//connect.facebook.net/en_US/all.js";
-          js.async = true;
-          document.getElementsByTagName('head')[0].appendChild(js);
-          }());
+					FB.Event.subscribe('auth.login', function() {
+						window.location = "http://localhost/student\'s friend/trunk/loginPage.php";
+					});
       </script>
       <div class="fb-login-button">Login with Facebook</div>
     </div>
