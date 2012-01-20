@@ -2,7 +2,6 @@
 <html>
   <head>
   <link rel="stylesheet" href="styles/default.css" />
-	<script src="http://connect.facebook.net/en_US/all.js"></script>
   </head>
   <body>
     <div id="headerWrap">
@@ -12,11 +11,26 @@
       <div id="fb-root"></div>
       <script type="text/javascript">
         window.fbAsyncInit = function() {
-          FB.init({ appId:'346560865373540', status:true, cookie:true, xfbml:true, oauth:true});
-        };
-					FB.Event.subscribe('auth.login', function() {
-						window.location = "http://localhost/Student_friend/trunk/loginPage.php";
+          FB.init({ 
+						appId:'346560865373540', 
+						status:true, 
+						cookie:true, 
+						xfbml:true, 
+						oauth:true
 					});
+					
+					FB.Event.subscribe('auth.login', function() {
+						window.location = "http://localhost/sf/loginPage.php";
+					});
+        };
+
+				(function() {
+					var e = document.createElement('script');
+					e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+					e.async = true;
+					document.getElementById('fb-root').appendChild(e);
+				}());
+				
       </script>
       <div class="fb-login-button">Login with Facebook</div>
     </div>
