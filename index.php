@@ -20,7 +20,7 @@
 					});
 					
 					FB.Event.subscribe('auth.login', function() {
-						window.location = "http://localhost/sf/loginPage.php";
+						window.location = "http://localhost/sf/main.php";
 					});
         };
 
