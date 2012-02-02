@@ -10,17 +10,18 @@
   <script src="https://connect.facebook.net/en_US/all.js" async="true"></script>
   <script type="text/javascript">
     function login() {
-       var url = "https://www.facebook.com/dialog/oauth?client_id=346560865373540&redirect_uri=http://localhost/sf/main.php&response_type=token";
-      window.location = url;
-
+       var path = "https://www.facebook.com/dialog/oauth?client_id=";
+       var appId = '346560865373540';
+       var redirect = "http://localhost/sf/main.php";
+       var params = [appId, "redirect_uri="+redirect, "response_type=token"];
+       var query = params.join('&');
+       var url = path + query;
+       window.location = url;
     }
   </script>
   <link rel="stylesheet" href="styles/default.css" />
   </head>
   <body>
-    <div id="headerWrap">
-      <div id="header"></div>
-    </div>
     <div id="wrapper">
     <button id="loginBtn" onclick="FB.login(function(response) { login(); });">Log in with Facebook</button>
       <div id="fb-root">
@@ -41,16 +42,9 @@
 					e.async = true;
 					document.getElementsByTagName('head')[0].appendChild(e);
 				}());
-				
       </script>
       </div>
     </div>
-    <div id="footerWrap">
-      <div id="footer">
-        <?php $date = date("Y");
-              echo "<p>{$date} Student's Friend Application</p>"; 
-        ?>
-      </div>
-    </div>
+    <?php require_once("layout/footer.php"); ?>
   </body>
 </html>

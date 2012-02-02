@@ -1,8 +1,8 @@
 <?php
+  $date = date("Y");
   echo "<div id='footerWrap'>
           <div id='footer'>
-           <form method='post' action='".{htmlentities($_SERVER['PHP_SELF'])}."'>
-           </form>
+            <p>{$date} Student's Friend Application</p> 
           </div>
         </div>";
 ?>
