@@ -28,11 +28,6 @@ p, a, li, ul
 }
 
 /* Specific Styles */
-div.fb-login-button
-{
-  width: 150px;
-}
-
 div#wrapper, div#headerWrap, div#footerWrap
 {
   margin: 0 auto;
@@ -50,3 +45,20 @@ div#footer
   text-align: center;
   padding-bottom: 25px;
 }
+
+ul#nav
+{
+  list-style-type: none;
+}
+
+ul#nav li
+{
+  float: left;
+}
+
+button#logoutBtn
+{
+  float: right;
+}
+
+

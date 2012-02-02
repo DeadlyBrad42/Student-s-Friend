@@ -23,7 +23,7 @@
     </div>
     <div id="wrapper">
     <button id="loginBtn" onclick="FB.login(function(response) { login(); });">Log in with Facebook</button>
-      <div id="fb-root"></div>
+      <div id="fb-root">
       <script type="text/javascript">
         window.fbAsyncInit = function() {
           FB.init({ 
@@ -43,7 +43,7 @@
 				}());
 				
       </script>
-      <div class="fb-login-button">Login with Facebook</div>
+      </div>
     </div>
     <div id="footerWrap">
       <div id="footer">
