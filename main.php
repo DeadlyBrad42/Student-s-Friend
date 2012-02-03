@@ -1,11 +1,13 @@
 <?php
   session_start();
+  require_once("classes/Database.php");
 ?>
 <html>
 <head>
   <link type="text/css" href="styles/default.css" rel="stylesheet" />
   <script src="http://connect.facebook.net/en_US/all.js" async="true"></script>
   <script type="text/javascript" src="scripts/jsFuncs.js"></script>
+  <script type="text/javascript" src="scripts/jquery.js"></script>
 </head>
 <body>
   <div id="fb-root">
@@ -17,7 +19,12 @@
       };
 
       function welcome(user) {
-        document.getElementById('userWelcome').innerHTML = "Hello, " + user.first_name; 
+        //document.getElementById('userWelcome').innerHTML = "Hello, " + user.first_name;
+	var uid = user.id;	
+	var fname = user.first_name;
+	var lname = user.last_name; 
+	var url = "scripts/addUser.php?userID="+uid+"&fname="+fname+"&lname="+lname;
+      	$.get(url); 
       }
 
       // Put the url string together, and create a script tag dynamically
