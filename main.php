@@ -1,11 +1,10 @@
 <?php
-  session_start();
   require_once("classes/Database.php");
+  session_start();
 ?>
 <html>
 <head>
   <link type="text/css" href="styles/default.css" rel="stylesheet" />
-  <script src="http://connect.facebook.net/en_US/all.js" async="true"></script>
   <script type="text/javascript" src="scripts/jsFuncs.js"></script>
   <script type="text/javascript" src="scripts/jquery.js"></script>
 </head>
@@ -18,15 +17,14 @@
         FB.Event.subscribe("auth.logout", function() { window.location = "index.php"; });
       };
 
-      function welcome(user) {
-        //document.getElementById('userWelcome').innerHTML = "Hello, " + user.first_name;
-	var uid = user.id;	
-	var fname = user.first_name;
-	var lname = user.last_name; 
-	var url = "scripts/addUser.php?userID="+uid+"&fname="+fname+"&lname="+lname;
-      	$.get(url); 
-      }
-
+			(function() {
+				var e = document.createElement('script');
+				e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+				e.async = true;
+				document.getElementsByTagName('head')[0].appendChild(e);
+			}());
+			
+			/*
       // Put the url string together, and create a script tag dynamically
       var token = window.location.hash.substring(1);
       var path = "https://graph.facebook.com/me?";
@@ -36,12 +34,13 @@
       var script = document.createElement('script');
       script.src = url;
       document.body.appendChild(script);
+      */
 
   </script>
   </div>
   <?php require_once("layout/header.php"); ?>
     <div id="wrapper">
-      <p id='userWelcome'></p>
+      <p id='userWelcome'><?php echo "userID = ". $_SESSION['userID']; ?></p>
     </div>
   <?php require_once("layout/footer.php"); ?>
 </body>

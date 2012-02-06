@@ -6,16 +6,16 @@ class Database
   private $conn;
   private $query;
 
-  function __construct() {
+  public function __construct() {
     $this->setConn();
     mysql_select_db("sf", $this->getConn());
   }
   
-  function getConn() {
+  public function getConn() {
     return $this->conn;
   }
   
-  function setConn() {
+  public function setConn() {
     $this->conn = mysql_connect("146.186.177.188", "root", "denim");
     if (!$this->conn)
     {
@@ -23,9 +23,16 @@ class Database
     }
   }
 
-  function query($query) {
+  public function query($query) {
     return mysql_query($query);
   }
+
+  /* Stored Procedure FUnctions */
+
+  public function addUser() {
+  
+  }
+
 }
 
 $db = new Database();
