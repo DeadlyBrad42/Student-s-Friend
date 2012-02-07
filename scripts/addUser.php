@@ -4,7 +4,6 @@ session_start();
 echo "Got here";
 $userID = $_GET["userID"];
 $_SESSION["userID"] = $userID;
-//$_SESSION["userMod"] = new User($userID);
 $fname = $_GET["fname"];
 $lname = $_GET["lname"];
 
