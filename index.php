@@ -31,7 +31,6 @@
         };
 
         function welcome(user) {
-          //document.getElementById('userWelcome').innerHTML = "Hello, " + user.first_name;
       	  var uid = user.id;	
       	  var fname = user.first_name;
       	  var lname = user.last_name; 

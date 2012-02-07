@@ -28,13 +28,14 @@ class Database
   }
 
   /* Stored Procedure FUnctions */
-
-  public function addUser() {
   
-  }
+  /*public static function getUser($id) {
+  	$query = mysql_query("SELECT * FROM sfuser WHERE user_ID = '{$id}'");
+  	$result = mysql_fetch_assoc($query);
+  	
+  	return $result;
+  }*/
 
 }
-
-$db = new Database();
 
 ?>

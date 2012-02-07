@@ -11,7 +11,7 @@
 <body>
   <div id="fb-root">
   <script type="text/javascript">
-     
+
      window.fbAsyncInit = function() {
         FB.init({ appId: '346560865373540', status: true, cookie: true, xfbml: true });
         FB.Event.subscribe("auth.logout", function() { window.location = "index.php"; });
@@ -24,7 +24,7 @@
 				document.getElementsByTagName('head')[0].appendChild(e);
 			}());
 			
-			/*
+			 /*
       // Put the url string together, and create a script tag dynamically
       var token = window.location.hash.substring(1);
       var path = "https://graph.facebook.com/me?";
