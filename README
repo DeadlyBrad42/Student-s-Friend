@@ -1,2 +1,1 @@
-Dom was here
-Dom is a liar he was never here
+In order to view all the stored procedures we've written, go into PHPMyAdmin, select the Information_Schema database, and there should be a ROUTINES table in there. Clicking on that should allow you to view all the names and parameters of our procedures.
