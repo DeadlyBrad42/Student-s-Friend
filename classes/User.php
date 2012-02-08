@@ -17,10 +17,8 @@ class User {
   } 	
 
   function getALL() {
-    // We'll sort out the mysqli thing at some point, for now do the same as on Database.php
-    //$mysqli = new mysqli("146.186.177.188", "root", "denim", "sf");
-    $mysqli = new mysqli("localhost", "root", "denim", "sf");
-    $rs = $mysqli->query("CALL getUser('{$this->id}')");
+    global $db;
+    $rs = $db->query("CALL getUser('{$this->id}')");
     $row = $rs->fetch_array(MYSQLI_ASSOC);
     $this->fname = $row['user_fname'];
   }

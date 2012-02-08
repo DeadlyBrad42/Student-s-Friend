@@ -1,4 +1,5 @@
 <?php
+
   session_start();
   require_once("../classes/Database.php");
   echo "included the database";
@@ -17,8 +18,9 @@
   echo "{$userID}, {$fname}, {$lname}";
 
   $result = $db->query("SELECT COUNT(*) AS num from sfuser WHERE user_ID = '{$userID}'");
-  $row = mysql_fetch_assoc($result);
-  if($row['num'] == 0) 
+  $row = $result->fetch_array(MYSQLI_ASSOC);
+  $num = $result->num_rows;
+  if($num == 0) 
   {
 	  $db->query("INSERT INTO sfuser (user_ID, user_fname, user_lname) VALUES ('{$userID}','{$fname}','{$lname}')");
 	  echo "Inserted new user.";
@@ -27,5 +29,4 @@
 	  echo "Did not insert user.";
   }
 
-  echo mysql_error();
 ?>

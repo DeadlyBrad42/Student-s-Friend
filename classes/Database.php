@@ -6,27 +6,20 @@ class Database
 
   public function __construct() {
     $this->setConn();
-    mysql_select_db("sf", $this->getConn());
-  }
-  
-  public function getConn() {
-    return $this->conn;
   }
   
   public function setConn() {
     // switch between commenting these lines depending on where you're developing from
-    //$this->conn = mysql_connect("146.186.177.188", "root", "denim");
-    $this->conn = mysql_connect("localhost", "root", "denim");
-    if (!$this->conn)
+    //$this->conn = new mysqli("localhost", "root", "denim", "sf");
+    $this->conn = new mysqli("146.186.177.188", "root", "denim", "sf");
+    if(mysqli_connect_errno())
     {
-      die("Could not connect to specified database!");
+      die("Could not connect to specified database: " . mysqli_connect_error());
     }
   }
-
   public function query($query) {
-    return mysql_query($query);
+    return $this->conn->query($query);
   }
-
 }
 
 $db = new Database();
