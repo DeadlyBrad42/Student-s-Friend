@@ -1,6 +1,7 @@
 <?php
   require_once("classes/Database.php");
   session_start();
+  $id = $_SESSION['userID'];
 ?>
 <html>
 <head>
@@ -40,7 +41,7 @@
   </div>
   <?php require_once("layout/header.php"); ?>
     <div id="wrapper">
-      <p id='userWelcome'><?php echo "userID = ". $_SESSION['userID']; ?></p>
+      <p id='userWelcome'><?php echo "Hello, {$id}"; ?>
     </div>
   <?php require_once("layout/footer.php"); ?>
 </body>

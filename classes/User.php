@@ -12,8 +12,9 @@ class User {
 	private $token;
 	private $major;
 
-	/*function __construct($fbID) {
-		$result = Database::getUser($fbID);
+	function __construct($fbID) {
+    $this->id = $fbID;
+ /*	$result = Database::getUser($fbID);
 		$this->id = $result["user_ID"];
 		$this->userType = $result["user_type"];
 		$this->fname = $result["user_fname"];
@@ -22,9 +23,16 @@ class User {
 		$this->semester = $result["user_semester"];
 		$this->school = $result["user_university"];
 		$this->token = $result["user_dbToken"];
-		$this->major = $result["user_major"];
-	}*/
+		$this->major = $result["user_major"];*/
+  } 	
 
+  function getALL() {
+   /* $mysqli = new mysqli("146.186.177.188", "root", "denim", "sf");
+    $rs = $mysqli->query("CALL getUser('{$this->id}')");
+    $row = $rs->fetch_array(MYSQLI_ASSOC);
+    $this->fname = $row['fname'];*/
+
+  }
 	function get_id() {
 		return $this->id;
 	}

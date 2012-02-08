@@ -1,6 +1,4 @@
 <?php
-//require_once("../scripts/conn.php");
-
 class Database
 {
   private $conn;
@@ -27,15 +25,8 @@ class Database
     return mysql_query($query);
   }
 
-  /* Stored Procedure FUnctions */
-  
-  /*public static function getUser($id) {
-  	$query = mysql_query("SELECT * FROM sfuser WHERE user_ID = '{$id}'");
-  	$result = mysql_fetch_assoc($query);
-  	
-  	return $result;
-  }*/
-
 }
+
+$db = new Database();
 
 ?>

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php session_start(); ?>
 <html>
   <head>
   <script type="text/javascript" src="scripts/jquery.js"></script>
@@ -35,8 +36,9 @@
       	  var fname = user.first_name;
       	  var lname = user.last_name; 
       	  var url = "scripts/addUser.php?userID="+uid+"&fname="+fname+"&lname="+lname;
-          $.get(url);
-          window.location = "http://localhost/sf/main.php"; 
+          $.ajax({url: url, cache: false,  success: function() {
+            window.location = "http://localhost/sf/main.php"; }
+          });
         }
 
 				(function() {
