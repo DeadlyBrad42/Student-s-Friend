@@ -1,5 +1,4 @@
 <?php
-<<<<<<< HEAD
   session_start();
   require_once("../classes/Database.php");
   echo "included the database";
@@ -7,15 +6,13 @@
   $_SESSION['userID'] = $userID;
   $fname = $_GET['fname'];
   $lname = $_GET['lname'];
-=======
-require_once("../classes/Database.php");
-session_start();
-echo "Got here";
-$userID = $_GET["userID"];
-$_SESSION["userID"] = $userID;
-$fname = $_GET["fname"];
-$lname = $_GET["lname"];
->>>>>>> 3c0dc91a8f8a34eff3b3032ec533d809e8e645d5
+  require_once("../classes/Database.php");
+  session_start();
+  echo "Got here";
+  $userID = $_GET["userID"];
+  $_SESSION["userID"] = $userID;
+  $fname = $_GET["fname"];
+  $lname = $_GET["lname"];
 
   echo "{$userID}, {$fname}, {$lname}";
 

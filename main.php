@@ -1,7 +1,10 @@
 <?php
   require_once("classes/Database.php");
+  require_once("classes/User.php");
   session_start();
   $id = $_SESSION['userID'];
+  $user = new User($id);
+  $user->getAll();
 ?>
 <html>
 <head>
@@ -41,7 +44,7 @@
   </div>
   <?php require_once("layout/header.php"); ?>
     <div id="wrapper">
-      <p id='userWelcome'><?php echo "Hello, {$id}"; ?>
+      <p id='userWelcome'><?php echo "Hello, {$user->get_fname()}"; ?>
     </div>
   <?php require_once("layout/footer.php"); ?>
 </body>

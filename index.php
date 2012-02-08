@@ -21,6 +21,7 @@
     <button id="loginBtn" onclick="FB.login(function(response) { login(); });">Log in with Facebook</button>
       <div id="fb-root">
       <script type="text/javascript">
+
         window.fbAsyncInit = function() {
           FB.init({ 
 						appId:'346560865373540', 
@@ -36,7 +37,7 @@
       	  var fname = user.first_name;
       	  var lname = user.last_name; 
       	  var url = "scripts/addUser.php?userID="+uid+"&fname="+fname+"&lname="+lname;
-          $.ajax({url: url, cache: false,  success: function() {
+          $.ajax({url: url, success: function() {
             window.location = "http://localhost/sf/main.php"; }
           });
         }
@@ -59,7 +60,7 @@
           script.src = url;
           document.body.appendChild(script);
         }
-       
+
       </script>
       </div>
     </div>
