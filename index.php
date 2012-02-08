@@ -2,6 +2,8 @@
 <?php session_start(); ?>
 <html>
   <head>
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="X-UA-Compatible" content="IE=9" />
   <script type="text/javascript" src="scripts/jquery.js"></script>
   <script type="text/javascript">
     function login() {
@@ -16,10 +18,8 @@
   </script>
   <link rel="stylesheet" href="styles/default.css" />
   </head>
-  <body>
-    <div id="wrapper">
-    <button id="loginBtn" onclick="FB.login(function(response) { login(); });">Log in with Facebook</button>
-      <div id="fb-root">
+  <body class="login">
+    <div id="fb-root">
       <script type="text/javascript">
 
         window.fbAsyncInit = function() {
@@ -32,7 +32,7 @@
 					});
         };
 
-        function welcome(user) {
+        function verify(user) {
       	  var uid = user.id;	
       	  var fname = user.first_name;
       	  var lname = user.last_name; 
@@ -53,15 +53,24 @@
         {
           var token = window.location.hash.substring(1);
           var path = "https://graph.facebook.com/me?";
-          var params = [token, 'callback=welcome'];
+          var params = [token, 'callback=verify'];
           var query = params.join('&');
           var url = path + query;
           var script = document.createElement('script');
           script.src = url;
           document.body.appendChild(script);
         }
-
       </script>
+      </div>
+    <div id="headerWrap">
+      <div id="header">
+        <h2 class="txtCenter">Welcome to the Student's Friend Task Management and Study Assistance Application</h2>
+      </div>
+    </div>
+    <div id="wrapper">
+      <div id="content">
+        <p>Before using our application, you'll first have to log in through Facebook</p>
+        <button id="loginBtn" onclick="FB.login(function(response) { login(); });">Log in with Facebook</button> 
       </div>
     </div>
     <?php require_once("layout/footer.php"); ?>

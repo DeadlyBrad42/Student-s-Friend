@@ -14,7 +14,9 @@ class Database
   }
   
   public function setConn() {
-    $this->conn = mysql_connect("146.186.177.188", "root", "denim");
+    // switch between commenting these lines depending on where you're developing from
+    //$this->conn = mysql_connect("146.186.177.188", "root", "denim");
+    $this->conn = mysql_connect("localhost", "root", "denim");
     if (!$this->conn)
     {
       die("Could not connect to specified database!");

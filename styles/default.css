@@ -12,7 +12,12 @@ body
 {
   font-family: "Lucida Grande", Arial, Helvetica;
   font-size: 12px;
-  background-color: #303030;
+  color: #ffffff;
+  overflow: hidden; /* For sticky footer */
+  background: #303030; /* Fallback for IE */
+  background: -webkit-linear-gradient(top, #303030, #000000 65%);
+  background: -moz-linear-gradient(top, #303030, #000000 65%);
+  background: -o-linear-gradient(top, #303030, #000000 65%);
 }
 
 h1, h2, h3, h4, h5, h6
@@ -26,17 +31,50 @@ p, a, li, ul
   margin: 0;
   padding: 0;
 }
+/* General Class Styles */
+.txtCenter
+{
+  text-align: center;
+}
+
+
+/* End General Class Styles */
 
 /* Specific Styles */
-div#wrapper, div#headerWrap, div#footerWrap
+div#wrapper:before /* Sticky footer Opera and IE8 fix?? */
+{
+  content: "";
+  float: left;
+  height: 100%;
+  margin-top: -999em;
+}
+
+div#wrapper, div#headerWrap
 {
   margin: 0 auto;
   width: 950px;
 }
 
+div#wrapper
+{ 
+  min-height: 100%;
+}
+
+body.login div#wrapper
+{
+  text-align: center;
+}
+
 div#header
 {
- padding-top: 25px; 
+ padding: 25px 0; 
+}
+
+div#footerWrap
+{
+  width: 950px;
+  height: 100px;
+  margin: -100px auto 0 auto;
 }
 
 div#footer
@@ -56,9 +94,15 @@ ul#nav li
   float: left;
 }
 
+button#loginBtn
+{
+  height: 50px;
+  margin-top: 25px;
+}
+
 button#logoutBtn
 {
   float: right;
 }
-
+/* End Specific Styles */
 
