@@ -1,22 +1,22 @@
 <?php
 
-  session_start();
-  require_once("../classes/Database.php");
-  echo "included the database";
-  $userID = $_GET['userID'];
-  $_SESSION['userID'] = $userID;
-  $fname = $_GET['fname'];
-  $lname = $_GET['lname'];
   require_once("../classes/Database.php");
   session_start();
-  echo "Got here";
+  
+  /*
+  Populate session with user's values
+  */
   $userID = $_GET["userID"];
   $_SESSION["userID"] = $userID;
   $fname = $_GET["fname"];
   $lname = $_GET["lname"];
 
+  /*
+  Echo variables that have been passed for debugging
+  
   echo "{$userID}, {$fname}, {$lname}";
-
+  */
+  
   $result = $db->query("SELECT COUNT(*) AS num from sfuser WHERE user_ID = '{$userID}'");
   $row = $result->fetch_array(MYSQLI_ASSOC);
   $num = $result->num_rows;

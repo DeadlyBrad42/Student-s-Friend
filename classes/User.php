@@ -12,7 +12,12 @@ class User {
 	private $token;
 	private $major;
 
-	function __construct($fbID) {
+	/*
+	CONSTRUCTOR
+	Parameter fbID: Unique facebook identifier
+	Using facebook ID sets id parameter to the facebook ID.
+	*/
+  function __construct($fbID) {
     $this->id = $fbID;
   } 	
 
@@ -23,6 +28,9 @@ class User {
     $this->fname = $row['user_fname'];
   }
 
+  /*
+  GETTERS
+  */
 	function get_id() {
 		return $this->id;
 	}
@@ -59,6 +67,9 @@ class User {
 		return $this->major;
 	}
 
+	/*
+	SETTERS
+	*/
 	function set_id($x) {
 		$this->id = $x;
 	}
