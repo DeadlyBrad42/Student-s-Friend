@@ -33,6 +33,17 @@ p, a, li, ul
   padding: 0;
 }
 
+a
+{
+  color: #ffffff;
+  text-decoration: none;
+}
+
+a:hover
+{
+  text-decoration: underline;
+}
+
 /* General Class Styles */
 
 .txtCenter
@@ -95,6 +106,12 @@ ul#nav
 ul#nav li
 {
   float: left;
+  margin-right: 15px;
+}
+
+ul#nav li.last
+{
+  margin: 0;
 }
 
 button#loginBtn
