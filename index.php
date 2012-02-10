@@ -1,5 +1,7 @@
-<!DOCTYPE html>
 <?php session_start(); ?>
+
+
+<!DOCTYPE html>
 <html>
   <head>
   <meta http-equiv="cache-control" content="no-cache" />
@@ -7,13 +9,13 @@
   <script type="text/javascript" src="scripts/jquery.js"></script>
   <script type="text/javascript">
     function login() {
-       var path = "https://www.facebook.com/dialog/oauth?client_id=";
-       var appId = '346560865373540';
-       var redirect = "http://localhost/sf/index.php";
-       var params = [appId, "redirect_uri="+redirect, "response_type=token"];
-       var query = params.join('&');
-       var url = path + query;
-       window.location = url;
+      var path = "https://www.facebook.com/dialog/oauth?client_id=";
+      var appId = '346560865373540';
+      var redirect = "http://localhost/sf/index.php";
+      var params = [appId, "redirect_uri="+redirect, "response_type=token"];
+      var query = params.join('&');
+      var url = path + query;
+      window.location = url;
     }
   </script>
   <link rel="stylesheet" href="styles/default.css" />
@@ -21,34 +23,33 @@
   <body class="login">
     <div id="fb-root">
       <script type="text/javascript">
-
         window.fbAsyncInit = function() {
           FB.init({ 
-						appId:'346560865373540', 
-						status:true, 
-						cookie:true, 
-						xfbml:true, 
-						oauth:true
-					});
-        };
-
-        function verify(user) {
-      	  var uid = user.id;	
-      	  var fname = user.first_name;
-      	  var lname = user.last_name; 
-      	  var url = "scripts/addUser.php?userID="+uid+"&fname="+fname+"&lname="+lname;
-          $.ajax({url: url, success: function() {
-            window.location = "http://localhost/sf/main.php"; }
+            appId:'346560865373540', 
+            status:true, 
+            cookie:true, 
+            xfbml:true, 
+            oauth:true
           });
+        };
+        
+        function verify(user) {
+          var uid = user.id;
+          var fname = user.first_name;
+          var lname = user.last_name; 
+          var url = "scripts/addUser.php?userID="+uid+"&fname="+fname+"&lname="+lname;
+          $.ajax({url: url, success: function() {
+            window.location = "http://localhost/sf/main.php";
+          }});
         }
-
-				(function() {
-					var e = document.createElement('script');
-					e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-					e.async = true;
-					document.getElementsByTagName('head')[0].appendChild(e);
-				}());
-
+        
+        (function() {
+          var e = document.createElement('script');
+          e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+          e.async = true;
+          document.getElementsByTagName('head')[0].appendChild(e);
+        }());
+        
         if (window.location.hash.length > 0)
         {
           var token = window.location.hash.substring(1);
