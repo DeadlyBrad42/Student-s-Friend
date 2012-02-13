@@ -32,4 +32,5 @@
     echo "Did not insert user.";
   }
   
+  $_SESSION['isLogged'] = 'true';
 ?>

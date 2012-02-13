@@ -1,6 +1,10 @@
-<?php session_start(); ?>
-
-
+<?php session_start();
+  $logout = $_GET['logout'];
+  if (isset($logout) && $logout == 'true')
+    $_SESSION['isLogged'] = 'false';
+  if ($_SESSION['isLogged'] == 'true')
+    header("Location: main.php");
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -24,7 +28,7 @@
     <div id="fb-root">
       <script type="text/javascript">
         window.fbAsyncInit = function() {
-          FB.init({ 
+          FB.init({
             appId:'346560865373540', 
             status:true, 
             cookie:true, 
