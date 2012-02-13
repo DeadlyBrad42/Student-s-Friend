@@ -42,9 +42,12 @@
           var fname = user.first_name;
           var lname = user.last_name; 
           var url = "scripts/checkUser.php?userID="+uid+"&fname="+fname+"&lname="+lname;
+
+          // There is probably a way to redirect to main with a hash tag that has the JSON object from checkUser
           $.ajax({url: url, success: function() {
             window.location = "http://localhost/sf/main.php";
           }});
+
         }
         
         (function() {
