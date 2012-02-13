@@ -41,7 +41,7 @@
           var uid = user.id;
           var fname = user.first_name;
           var lname = user.last_name; 
-          var url = "scripts/addUser.php?userID="+uid+"&fname="+fname+"&lname="+lname;
+          var url = "scripts/checkUser.php?userID="+uid+"&fname="+fname+"&lname="+lname;
           $.ajax({url: url, success: function() {
             window.location = "http://localhost/sf/main.php";
           }});
