@@ -2,6 +2,7 @@
   require_once("Database.php");
   
   class User {
+	private $record;
     private $id;
     private $userType;
     private $fname;
@@ -18,14 +19,15 @@
     Using facebook ID sets id parameter to the facebook ID.
     */
     function __construct($fbID) {
-      $this->id = $fbID;
+      $this->set_id($fbID);
     }
     
     function getALL() {
       global $db;
       $rs = $db->query("CALL getUser('{$this->id}')");
       $row = $rs->fetch_array(MYSQLI_ASSOC);
-      $this->fname = $row['user_fname'];
+      $this->set_fname($row['user_fname']);
+	  $this->set_lname($row['user_lname']);
     }
     
     /* GETTERS */
