@@ -7,7 +7,6 @@
   $id = $_SESSION['userID'];
   $user = new User($id);
   $user->getAll();
-  
 ?>
 <!DOCTYPE html>
 <html>
