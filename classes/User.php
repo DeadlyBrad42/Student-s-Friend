@@ -2,14 +2,13 @@
   require_once("Database.php");
   
   class User {
-	private $record;
     private $id;
     private $userType;
     private $fname;
     private $lname;
     private $dob;
     private $semester;
-    private $school;
+    private $university;
     private $token;
     private $major;
     
@@ -20,14 +19,21 @@
     */
     function __construct($fbID) {
       $this->set_id($fbID);
+	  $this->getALL();
     }
     
     function getALL() {
       global $db;
       $rs = $db->query("CALL getUser('{$this->id}')");
       $row = $rs->fetch_array(MYSQLI_ASSOC);
+	  
+	  $this->set_userType($row['user_type']);
       $this->set_fname($row['user_fname']);
 	  $this->set_lname($row['user_lname']);
+	  $this->set_dob($row['user_dob']);
+	  $this->set_semester($row['user_semester']);
+	  $this->set_university($row['user_university']);
+	  $this->set_major($row['user_major']);
     }
     
     /* GETTERS */
@@ -56,8 +62,8 @@
       return $this->semester;
     }
     
-    function get_school() {
-      return $this->school;
+    function get_university() {
+      return $this->university;
     }
     
     function get_token() {
@@ -94,8 +100,8 @@
       $this->semester = $x;
     }
     
-    function set_school($x) {
-      $this->school = $x;
+    function set_university($x) {
+      $this->university = $x;
     }
     
     function set_token($x) {
