@@ -31,6 +31,7 @@
 	function get_post_time() {
       return $this->post_time;
     }
+
 	
 	function get_string(){
 		return $this->name." ".$this->post_time.":  ".$this->content;

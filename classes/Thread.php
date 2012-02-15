@@ -10,11 +10,13 @@
     function __construct($tdID, $tdTitle) {
       $this->id = $tdID;
 	  $this->title = $tdTitle;
+	  $this->getAll();
     }
     
     function getALL() {
       global $db;
 	  $rs = $db->query("CALL getPosts('{$this->id}')");
+	  //getPosts will get all of the thread's posts
       $result = $rs->fetch_array(MYSQLI_ASSOC);
 	  $this->set_posts($result);
 
@@ -48,7 +50,7 @@
 	function set_posts($result) {
 		foreach($result as $row){
 			$holder = new Post($row['post_ID'],$row['post_name'],$row['post_content'],$row['post_time']);
-			array_push(posts, holder);
+			array_push($this->posts, $holder);
 		}
     }
 	    

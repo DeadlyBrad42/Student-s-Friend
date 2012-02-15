@@ -9,11 +9,13 @@
     
     function __construct($fmCourseID) {
       $this->courseID = $fmCourseID;
+	  $this->getAll();
     }
     
     function getALL() {
       global $db;	  
-	  $rs = $db->query("CALL getThreads('{$this->courseID}')");
+	  $rs = $db->query("CALL getThreads('{$this->courseID}')"); 
+	  //getThreads will get all of the threads with the courseID
       $result = $rs->fetch_array(MYSQLI_ASSOC);
 	  $this->set_threads($result);
 
@@ -47,7 +49,6 @@
 	function set_threads($result) {
 		foreach($result as $row){
 			$holder = new Thread($row['thread_ID'], $row['thread_title']);
-			$holder.getAll();
 			array_push(threads, holder);
 		}
     }
