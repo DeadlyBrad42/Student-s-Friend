@@ -1,6 +1,6 @@
 <?php session_start();
-  $logout = $_GET['logout'];
-  if (isset($logout) && $logout == 'true')
+  $logout = isset($_GET['logout']) ? $_GET['logout'] : "";
+  if ($logout == 'true')
     $_SESSION['isLogged'] = 'false';
   if ($_SESSION['isLogged'] == 'true')
     header("Location: main.php");
