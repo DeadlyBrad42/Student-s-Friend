@@ -2,7 +2,7 @@
   $logout = isset($_GET['logout']) ? $_GET['logout'] : "";
   if ($logout == 'true')
     $_SESSION['isLogged'] = 'false';
-  if ($_SESSION['isLogged'] == 'true')
+  if (isset($_SESSION['isLogged']) && $_SESSION['isLogged'] == 'true')
     header("Location: main.php");
 ?>
 <!DOCTYPE html>
@@ -44,8 +44,14 @@
           var url = "scripts/checkUser.php?userID="+uid+"&fname="+fname+"&lname="+lname;
 
           // There is probably a way to redirect to main with a hash tag that has the JSON object from checkUser
-          $.ajax({url: url, success: function() {
-            window.location = "http://localhost/sf/main.php";
+          $.ajax({url: url, dataType: "json", success: function(data) {
+            // We might be tweaking this logic in the future, but for now, it works
+            var c = "?c="+data.courses[0].name;
+            for (var i=1; i < data.courses.length; i++)
+            {
+              c += "&"+data.courses[i].name;
+            }
+            window.location = "http://localhost/sf/main.php"+c;
           }});
 
         }

@@ -38,22 +38,22 @@
     else
     {
       $i = 0;
+      $courses = array();
       while($row = $rs->fetch_array(MYSQLI_ASSOC))
       {
        // While there is still a row to fetch, add an array to $courses based on key/value pairs 
-        $courses[$i] = 
-          (
-            array('id' => $row['course_ID'], 
-                  'name' => $row['course_name'],
-                  'descrip' => $row['course_description'],
-                  'time' => $row['course_time'],
-                  'location' => $row['course_location'],
-                  'eventID' => $row['sfevent_ID'])
-          );
-        $i++;
+        $id = $row['course_ID'];
+        $name = $row['course_name'];
+        $descrip = $row['course_description'];
+        $time = $row['course_time'];
+        $location = $row['course_location'];
+        $eventID = $row['sfevent_ID']; 
+        $c = array('id' => "{$id}", 'name' => "{$name}",'descrip' => "{$descrip}", 'time' => "{$time}", 'location' => "{$location}",'eventID' => "{$eventID}");
+        $courses[] = $c;
       }
       // Test to see if json_encode works...as of 2/13/12, it does
-      echo json_encode($courses);
+      $final = array('courses' => $courses);
+      echo json_encode($final);
     }  
     /* debugging */
     //echo "Did not insert user.";
