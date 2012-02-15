@@ -11,7 +11,7 @@
     public function setConn() {
       // switch between commenting these lines depending on where you're developing from
       //$this->conn = new mysqli("localhost", "root", "denim", "sf");
-      $this->conn = new mysqli("98.17.216.138", "root", "denim", "sf");
+      $this->conn = new mysqli("www.troop551.com", "root", "denim", "sf");
       if(mysqli_connect_errno())
       {
         die("Could not connect to specified database: " . mysqli_connect_error());

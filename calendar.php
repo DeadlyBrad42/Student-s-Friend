@@ -7,8 +7,23 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="styles/default.css" />
+	<link rel='stylesheet' type='text/css' href='styles/fullcalendar.css' />
     <script type="text/javascript" src="scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/jsFuncs.js"></script>
+	<script type='text/javascript' src="scripts/fullcalendar-1.5.3/fullcalendar/fullcalendar.js"></script>
+	
+	<!-- Script for preparing the calendar -->
+	<script>
+	  	$(document).ready(function() {
+
+		// page is now ready, initialize the calendar...
+
+			$('#calendar').fullCalendar({
+				// put your options and callbacks here
+			})	
+
+		});
+	  </script>
   </head>
   <body>
     <div id="fb-root">
@@ -26,10 +41,18 @@
         }());
       </script>
     </div>
+	
+		
+	
     <?php require_once("layout/header.php"); ?>
-      <div id="wrapper">
-      
+	
+	  <div id="wrapper">
+        <!-- Calendar div. This is where fullcalendar places it's calendar. -->
+	    <div id='calendar'></div>
       </div> 
+	
     <?php require_once("layout/footer.php"); ?>
+	
   </body>
+  
 </html>
