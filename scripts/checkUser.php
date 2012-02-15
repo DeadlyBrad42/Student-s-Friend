@@ -47,13 +47,19 @@
         $descrip = $row['course_description'];
         $time = $row['course_time'];
         $location = $row['course_location'];
-        $eventID = $row['sfevent_ID']; 
-        $c = array('id' => "{$id}", 'name' => "{$name}",'descrip' => "{$descrip}", 'time' => "{$time}", 'location' => "{$location}",'eventID' => "{$eventID}");
+        $eventID = $row['sfevent_ID'];
+
+        $c = array('id' => "{$id}", 
+                   'name' => "{$name}",
+                   'descrip' => "{$descrip}",
+                  'time' => "{$time}",
+                  'location' => "{$location}",
+                  'eventID' => "{$eventID}");
+
         $courses[] = $c;
       }
       // Test to see if json_encode works...as of 2/13/12, it does
-      $final = array('courses' => $courses);
-      echo json_encode($final);
+      echo json_encode($courses);
     }  
     /* debugging */
     //echo "Did not insert user.";

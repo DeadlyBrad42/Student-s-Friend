@@ -42,14 +42,16 @@
           var fname = user.first_name;
           var lname = user.last_name; 
           var url = "scripts/checkUser.php?userID="+uid+"&fname="+fname+"&lname="+lname;
-
-          // There is probably a way to redirect to main with a hash tag that has the JSON object from checkUser
           $.ajax({url: url, dataType: "json", success: function(data) {
             // We might be tweaking this logic in the future, but for now, it works
-            var c = "?c="+data.courses[0].name;
-            for (var i=1; i < data.courses.length; i++)
+            if (data.length >= 1)
             {
-              c += "&"+data.courses[i].name;
+              var c = "?c="+data[0].name;
+              for (var i=1; i < data.length; i++)
+              {
+                // %2B is URL code for +, which we will be splitting the array on in main.php
+                c += "%2B" + data[i].name;
+              }
             }
             window.location = "http://localhost/sf/main.php"+c;
           }});

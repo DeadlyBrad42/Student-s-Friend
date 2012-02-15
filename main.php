@@ -6,6 +6,10 @@
     header("Location: index.php");
   $id = $_SESSION['userID'];
   $user = new User($id);
+  if (isset($_GET['c']))
+  {
+    $crs = explode("+", $_GET['c']);
+  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,7 +38,16 @@
   
   <?php require_once("layout/header.php"); ?>
     <div id="wrapper">
-      <p id='userWelcome'><?php echo "Hello, {$user->get_fname()}"; ?>
+      <p id='userWelcome'>
+        <?php 
+          echo "Hello, {$user->get_fname()}"; 
+          echo ". You are enrolled for the following courses: ";
+          foreach ($crs as $c)
+          {
+            echo "<br />{$c}";
+          }
+        ?>
+      </p>
     </div>
   <?php require_once("layout/footer.php"); ?>
   
