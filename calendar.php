@@ -10,7 +10,7 @@
 	<link rel='stylesheet' type='text/css' href='styles/fullcalendar.css' />
     <script type="text/javascript" src="scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/jsFuncs.js"></script>
-	<script type='text/javascript' src="scripts/fullcalendar-1.5.3/fullcalendar/fullcalendar.js"></script>
+	<script type='text/javascript' src="scripts/fullcalendar.js"></script>
 	
 	<!-- Script for preparing the calendar -->
 	<script>
