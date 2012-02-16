@@ -157,6 +157,14 @@ li#courses:hover div#crsMenu
 }
 /* end course list-item stlyes */
 
+/* calendar styles */
+div#calendarWrap
+{
+  width: 650px; 
+  margin: 0 auto;
+}
+/* end calendar styles */
+
 button#loginBtn
 {
   height: 50px;

@@ -6,25 +6,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="styles/default.css" />
+  <link rel="stylesheet" type="text/css" href="styles/default.css" />
 	<link rel='stylesheet' type='text/css' href='styles/fullcalendar.css' />
-    <script type="text/javascript" src="scripts/jquery.js"></script>
-    <script type="text/javascript" src="scripts/jsFuncs.js"></script>
+  <script type="text/javascript" src="scripts/jquery.js"></script>
+  <script type="text/javascript" src="scripts/jsFuncs.js"></script>
 	<script type='text/javascript' src="scripts/fullcalendar.js"></script>
 	<?php require_once("layout/headScripts.php"); ?>
 	
 	<!-- Script for preparing the calendar -->
 	<script>
-	$(document).ready(function() {
-
-	// page is now ready, initialize the calendar...
-
+	  $(document).ready(function() {
+    // page is now ready, initialize the calendar...
 	  $('#calendar').fullCalendar({
 		dayClick: function() {
 		  alert('a day has been clicked!');
 		}
 	  })	
-
 	});
 	  </script>
   </head>
@@ -45,17 +42,14 @@
       </script>
     </div>
 	
-		
-	
     <?php require_once("layout/header.php"); ?>
-	
 	  <div id="wrapper">
-        <!-- Calendar div. This is where fullcalendar places it's calendar. -->
-	    <div id='calendar'></div>
-      </div> 
-	
+      <div id="calendarWrap">
+	      <!-- Calendar div. This is where fullcalendar places it's calendar. -->
+        <div id='calendar'></div>
+      </div>
+    </div>
     <?php require_once("layout/footer.php"); ?>
-	
-  </body>
   
+  </body>
 </html>
