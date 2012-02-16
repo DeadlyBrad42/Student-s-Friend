@@ -14,15 +14,17 @@
 	
 	<!-- Script for preparing the calendar -->
 	<script>
-	  	$(document).ready(function() {
+	$(document).ready(function() {
 
-		// page is now ready, initialize the calendar...
+	// page is now ready, initialize the calendar...
 
-			$('#calendar').fullCalendar({
-				// put your options and callbacks here
-			})	
+	  $('#calendar').fullCalendar({
+		dayClick: function() {
+		  alert('a day has been clicked!');
+		}
+	  })	
 
-		});
+	});
 	  </script>
   </head>
   <body>
