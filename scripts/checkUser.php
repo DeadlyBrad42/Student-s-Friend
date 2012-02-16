@@ -33,7 +33,7 @@
     $rs = $db->query("SELECT * FROM course WHERE user_ID = '{$userID}'");
     if ($rs->num_rows == 0)
     {
-    
+      $_SESSION['courses'] = "Add a course";
     }
     else
     {
@@ -57,9 +57,8 @@
                   'eventID' => "{$eventID}");
 
         $courses[] = $c;
+        $_SESSION['courses'] = json_encode($courses);
       }
-      // Test to see if json_encode works...as of 2/13/12, it does
-      echo json_encode($courses);
     }  
     /* debugging */
     //echo "Did not insert user.";

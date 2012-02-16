@@ -1,4 +1,4 @@
-/* General Styles */
+/* ~~~ General Styles ~~~ */
 
 html, body
 {
@@ -51,9 +51,9 @@ a:hover
   text-align: center;
 }
 
-/* End General Class Styles */
+/* ~~~ End General Class Styles ~~~ */
 
-/* Specific Styles */
+/* ~~~ Specific Styles ~~~ */
 
 div#wrapper:before /* Sticky footer Opera and IE8 fix?? */
 {
@@ -113,6 +113,49 @@ ul#nav li.last
 {
   margin: 0;
 }
+
+/* course list-item stlyes */
+li#courses
+{
+  position: relative;
+}
+
+li#courses div#crsMenu
+{
+  position: absolute;
+  background-color: #ffffff;
+  opacity: 0.80;
+  border: 1px solid black;
+  display: none;
+}
+li#courses div#crsMenu ul
+{
+  list-style-type: none;
+  padding: 5px;
+}
+
+li#courses div#crsMenu ul li
+{
+  margin: 5px 0 0 0;
+  float: none;
+}
+
+li#courses div#crsMenu ul li a
+{
+  color: #030303;
+}
+
+li#courses div#crsMenu ul li a:hover
+{
+  text-decoration: none;
+  font-weight: bold;
+}
+
+li#courses:hover div#crsMenu
+{
+  display: block;
+}
+/* end course list-item stlyes */
 
 button#loginBtn
 {

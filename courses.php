@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="styles/default.css" />
     <script type="text/javascript" src="scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/jsFuncs.js"></script>
+		<?php require_once("layout/headScripts.php"); ?>
   </head>
   <body>
     <div id="fb-root">

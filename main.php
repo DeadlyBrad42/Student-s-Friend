@@ -6,10 +6,6 @@
     header("Location: index.php");
   $id = $_SESSION['userID'];
   $user = new User($id);
-  if (isset($_GET['c']))
-  {
-    $crs = explode("+", $_GET['c']);
-  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,7 +13,7 @@
   <link type="text/css" href="styles/default.css" rel="stylesheet" />
   <script type="text/javascript" src="scripts/jquery.js"></script>
   <script type="text/javascript" src="scripts/jsFuncs.js"></script>
-  
+  <?php require_once("layout/headScripts.php"); ?>
 </head>
 <body>
   <div id="fb-root">
@@ -41,11 +37,6 @@
       <p id='userWelcome'>
         <?php 
           echo "Hello, {$user->get_fname()}"; 
-          echo ". You are enrolled for the following courses: ";
-          foreach ($crs as $c)
-          {
-            echo "<br />{$c}";
-          }
         ?>
       </p>
     </div>

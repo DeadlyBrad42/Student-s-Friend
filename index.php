@@ -42,18 +42,8 @@
           var fname = user.first_name;
           var lname = user.last_name; 
           var url = "scripts/checkUser.php?userID="+uid+"&fname="+fname+"&lname="+lname;
-          $.ajax({url: url, dataType: "json", success: function(data) {
-            // We might be tweaking this logic in the future, but for now, it works
-            if (data.length >= 1)
-            {
-              var c = "?c="+data[0].name;
-              for (var i=1; i < data.length; i++)
-              {
-                // %2B is URL code for +, which we will be splitting the array on in main.php
-                c += "%2B" + data[i].name;
-              }
-            }
-            window.location = "http://localhost/sf/main.php"+c;
+          $.ajax({url: url, success: function() {
+            window.location = "http://localhost/sf/main.php";
           }});
 
         }

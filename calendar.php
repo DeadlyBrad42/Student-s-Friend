@@ -11,6 +11,7 @@
     <script type="text/javascript" src="scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/jsFuncs.js"></script>
 	<script type='text/javascript' src="scripts/fullcalendar.js"></script>
+	<?php require_once("layout/headScripts.php"); ?>
 	
 	<!-- Script for preparing the calendar -->
 	<script>
