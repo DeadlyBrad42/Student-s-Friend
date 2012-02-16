@@ -33,7 +33,7 @@
     $rs = $db->query("SELECT * FROM course WHERE user_ID = '{$userID}'");
     if ($rs->num_rows == 0)
     {
-      $_SESSION['courses'] = "Add a course";
+      // Originally had a session being created here, but the jscript function should take care of the case where no session var is set for courses.
     }
     else
     {
