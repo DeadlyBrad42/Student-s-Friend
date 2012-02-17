@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 13, 2012 at 02:11 AM
+-- Generation Time: Feb 17, 2012 at 12:48 AM
 -- Server version: 5.5.16
 -- PHP Version: 5.3.8
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `course` (
   `course_description` varchar(255) COLLATE armscii8_bin NOT NULL,
   `course_time` datetime NOT NULL,
   `course_location` varchar(255) COLLATE armscii8_bin NOT NULL,
-  `user_ID` int(11) NOT NULL,
+  `user_ID` varchar(30) COLLATE armscii8_bin NOT NULL,
   `sfevent_ID` int(11) NOT NULL,
   PRIMARY KEY (`course_ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=armscii8 COLLATE=armscii8_bin AUTO_INCREMENT=1 ;
@@ -129,7 +129,6 @@ CREATE TABLE IF NOT EXISTS `sfuser` (
   `user_dob` varchar(255) NOT NULL,
   `user_semester` varchar(255) NOT NULL,
   `user_university` varchar(255) NOT NULL,
-  `user_fbToken` varchar(255) NOT NULL,
   `user_type` int(11) NOT NULL,
   `user_major` varchar(255) NOT NULL,
   PRIMARY KEY (`user_ID`)
@@ -139,10 +138,10 @@ CREATE TABLE IF NOT EXISTS `sfuser` (
 -- Dumping data for table `sfuser`
 --
 
-INSERT INTO `sfuser` (`user_ID`, `user_fname`, `user_lname`, `user_dob`, `user_semester`, `user_university`, `user_fbToken`, `user_type`, `user_major`) VALUES
-('100002149553265', 'Alex', 'Wardi', '', '', '', '', 0, ''),
-('609904185', 'Jared', 'Thompson', '', '', '', '', 0, ''),
-('9384948', 'Brad', 'Mason', '', '', '', '', 0, '');
+INSERT INTO `sfuser` (`user_ID`, `user_fname`, `user_lname`, `user_dob`, `user_semester`, `user_university`, `user_type`, `user_major`) VALUES
+('100002149553265', 'Alex', 'Wardi', '', '', '', 0, ''),
+('609904185', 'Jared', 'Thompson', '', '', '', 0, ''),
+('9384948', 'Brad', 'Mason', 'q', 'w', 'e', 0, 'r');
 
 -- --------------------------------------------------------
 
