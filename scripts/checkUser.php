@@ -17,18 +17,18 @@
   // Dubugging
   // echo "{$userID}, {$fname}, {$lname}";
   
-  $num = $db->query("CALL sf.returnIdIfExists('{$userID}');")->num_rows;
+  $num = $db->query("CALL returnIdIfExists('{$userID}');")->num_rows;
   
   /* Insert the user into the database if they don't already exist */
   if($num == 0)
   {
-    $db->query("CALL sf.insertNewUser('{$userID}', '{$fname}', '{$lname}');");
+    $db->query("CALL insertNewUser('{$userID}', '{$fname}', '{$lname}');");
     // Debugging
     // echo "Inserted new user.";
   }
   else
   {
-    $rs = $db->query("CALL sf.getCoursesForUser('{$userID}');");
+    $rs = $db->query("CALL getCoursesForUser('{$userID}');");
     if ($rs->num_rows == 0)
     {
       // Originally had a session being created here, but the jscript function should take care of the case where no session var is set for courses.

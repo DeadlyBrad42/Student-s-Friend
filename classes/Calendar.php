@@ -13,18 +13,24 @@
             },
             events: [
               {
-                title: 'walker',
+                title: 'WALKER!',
                 start: '2012-02-16',
                 end: '2012-02-17',
-                description: 'Walker\'s class sucks'
+                description: 'Tooltip Testy McTesterson!'
               }
             ],
             dayClick: function() {
-                  //alert('a day has been clicked!');
-                  //$(this).html('you clicked me');
+              //alert('a day has been clicked!');
+              //$(this).html('you clicked me');
             },
             eventRender: function(event, element) {
-              
+              element.qtip({
+                content: event.description,
+                position: {
+                  my: 'bottom left',
+                  at: 'top left'
+                }
+              });
             }
           })	
         });
