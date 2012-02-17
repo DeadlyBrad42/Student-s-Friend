@@ -18,6 +18,11 @@
 	  $(document).ready(function() {
     // page is now ready, initialize the calendar...
 	  $('#calendar').fullCalendar({
+	    header: {
+		  left: 'month,agendaWeek,agendaDay',
+		  center: 'title'
+		},
+		
 		dayClick: function() {
 		  alert('a day has been clicked!');
 		}
