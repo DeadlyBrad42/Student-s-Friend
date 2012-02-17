@@ -2,7 +2,9 @@
   class Calendar {
     
     public static function makeCalScript() {
+    // Calendar-specific <head> elements here
       $x = "	
+	    <script type='text/javascript' src='scripts/fullcalendar.js'></script>
       <script type='text/javascript'>
 	      $(document).ready(function() {
         // page is now ready, initialize the calendar...
@@ -21,7 +23,7 @@
             ],
             dayClick: function() {
               //alert('a day has been clicked!');
-              //$(this).html('you clicked me');
+              $(this).append('<button id=\"addEvent\">Add</button>');
             },
             eventRender: function(event, element) {
               element.qtip({
@@ -31,7 +33,8 @@
                   at: 'top left'
                 }
               });
-            }
+            },
+            editable: true
           })	
         });
       </script>";
@@ -44,7 +47,6 @@
         <div id='calendar'></div>
        </div>
       ";
-
       echo $x;
     }
   }
