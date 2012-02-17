@@ -14,23 +14,21 @@
   */
   $_SESSION["userID"] = $userID;
   
-  /*
-  Echo variables that have been passed for debugging
-  echo "{$userID}, {$fname}, {$lname}";
-  */
+  // Dubugging
+  // echo "{$userID}, {$fname}, {$lname}";
   
-  $num = $db->query("SELECT user_ID from sfuser WHERE user_ID = '{$userID}'")->num_rows;
+  $num = $db->query("CALL sf.returnIdIfExists('{$userID}');")->num_rows;
   
   /* Insert the user into the database if they don't already exist */
   if($num == 0)
   {
-    $db->query("INSERT INTO sfuser (user_ID, user_fname, user_lname) VALUES ('{$userID}','{$fname}','{$lname}')");
-    /* debugging */
-    //echo "Inserted new user.";
+    $db->query("CALL sf.insertNewUser('{$userID}', '{$fname}', '{$lname}');");
+    // Debugging
+    // echo "Inserted new user.";
   }
   else
   {
-    $rs = $db->query("SELECT * FROM course WHERE user_ID = '{$userID}'");
+    $rs = $db->query("CALL sf.getCoursesForUser('{$userID}');");
     if ($rs->num_rows == 0)
     {
       // Originally had a session being created here, but the jscript function should take care of the case where no session var is set for courses.
@@ -48,20 +46,20 @@
         $time = $row['course_time'];
         $location = $row['course_location'];
         $eventID = $row['sfevent_ID'];
-
+        
         $c = array('id' => "{$id}", 
                    'name' => "{$name}",
                    'descrip' => "{$descrip}",
                   'time' => "{$time}",
                   'location' => "{$location}",
                   'eventID' => "{$eventID}");
-
+        
         $courses[] = $c;
         $_SESSION['courses'] = json_encode($courses);
       }
     }  
-    /* debugging */
-    //echo "Did not insert user.";
+    // Debugging
+    // echo "Did not insert user.";
   }
   
   $_SESSION['isLogged'] = 'true';
