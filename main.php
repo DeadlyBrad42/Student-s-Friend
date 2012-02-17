@@ -10,9 +10,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link type="text/css" href="styles/default.css" rel="stylesheet" />
-  <script type="text/javascript" src="scripts/jquery.js"></script>
-  <script type="text/javascript" src="scripts/jsFuncs.js"></script>
   <?php require_once("layout/headScripts.php"); ?>
 </head>
 <body>

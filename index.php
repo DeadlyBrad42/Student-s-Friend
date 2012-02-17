@@ -8,21 +8,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <meta http-equiv="cache-control" content="no-cache" />
-  <meta http-equiv="X-UA-Compatible" content="IE=9" />
-  <script type="text/javascript" src="scripts/jquery.js"></script>
-  <script type="text/javascript">
-    function login() {
-      var path = "https://www.facebook.com/dialog/oauth?client_id=";
-      var appId = '346560865373540';
-      var redirect = "http://localhost/sf/index.php";
-      var params = [appId, "redirect_uri="+redirect, "response_type=token"];
-      var query = params.join('&');
-      var url = path + query;
-      window.location = url;
-    }
-  </script>
-  <link rel="stylesheet" href="styles/default.css" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <link rel="stylesheet" href="styles/default.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      function login() {
+        var path = "https://www.facebook.com/dialog/oauth?client_id=";
+        var appId = '346560865373540';
+        var redirect = "http://localhost/sf/index.php";
+        var params = [appId, "redirect_uri="+redirect, "response_type=token"];
+        var query = params.join('&');
+        var url = path + query;
+        window.location = url;
+      }
+    </script>
   </head>
   <body class="login">
     <div id="fb-root">
