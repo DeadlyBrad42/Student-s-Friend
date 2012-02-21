@@ -15,9 +15,11 @@
             center: 'title'
             },
             events: {$evt},
-            dayClick: function() {
-              //alert('a day has been clicked!');
-              //$(this).append('<button id=\"addEvent\">Add</button>');
+            dayClick: function( date, allDay, jsEvent, view ) {
+							newEvent(date, function(response) {
+								// do something with response
+								
+							});
             },
             eventRender: function(event, element) {
               element.qtip({
