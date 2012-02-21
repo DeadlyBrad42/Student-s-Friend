@@ -1,5 +1,6 @@
 <?php 
   require_once("classes/Calendar.php");
+  require_once("classes/Event.php");
   session_start(); 
   if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
     header("Location: index.php");
@@ -8,7 +9,7 @@
 <html>
   <head>
 	<?php require_once("layout/headScripts.php"); ?>
-	<?php Calendar::makeCalScript(); ?>
+	<?php Calendar::makeCalScript($_SESSION['userID']); ?>
   </head>
   <body>
     <div id="fb-root">

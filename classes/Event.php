@@ -2,7 +2,7 @@
   require_once("Database.php");
   
   class Event{
-    private $id;
+  private $id;
 	private $name;
 	private $description;
 	private $location;
@@ -10,22 +10,21 @@
 	private $endTime;
 	private $privacy;
     
-    function __construct($etID) {
-      $this->id = $etID;
-    }
+  function __construct($etID) {
+    $this->id = $etID;
+  }
     
-    function getALL() {
-      global $db;
-      $rs = $db->query("CALL getEvent('{$this->id}')");
-      $row = $rs->fetch_array(MYSQLI_ASSOC);
-      $this->set_name($row['name']);
-	  $this->set_description($row['description']);
-	  $this->set_location($row['location']);
-	  $this->set_startTime($row['start']);
-	  $this->set_endTime($row['end']);
-	  $this->set_privacy($row['privacy']);
-
-    }
+  function getALL() {
+    global $db;
+    $rs = $db->query("CALL getEvent('{$this->id}')");
+    $row = $rs->fetch_array(MYSQLI_ASSOC);
+    $this->set_name($row['name']);
+    $this->set_description($row['description']);
+    $this->set_location($row['location']);
+    $this->set_startTime($row['start']);
+    $this->set_endTime($row['end']);
+    $this->set_privacy($row['privacy']);
+  }
     
 	function createEvent(){
 	}
@@ -33,7 +32,36 @@
 	function isRecurring(){
 	}
 	
-	
+  public static function getEvents($id, $isCrs=0) {
+    global $db;
+    
+    if ($isCrs == 1)
+    {
+      // Do crap here
+    }
+    else
+    {
+      $rs = $db->query("SELECT * FROM sfevent WHERE user_ID = '{$id}'");
+    }
+
+    $evt = array();
+    while($row = $rs->fetch_array(MYSQLI_ASSOC))
+    {
+      $e = array(
+        'id' => $row['event_ID'],
+        'title' => $row['event_name'],
+        'start' => $row['event_startTime'],
+        'end' => $row['event_endTime'],
+        'location' => $row['event_location'],
+        'privacy' => $row['event_privacy'],
+        'description' => $row['event_desc']);
+
+      $evt[] = $e;
+    }
+    
+    return json_encode($evt);
+  }
+
     /* GETTERS */
     
     function get_id() {
@@ -93,8 +121,6 @@
 	function set_privacy($x) {
       $this->privacy = $x;
     }
-
-   
     
   }
   

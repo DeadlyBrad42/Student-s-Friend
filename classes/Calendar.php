@@ -1,7 +1,8 @@
 <?php
   class Calendar {
-    
-    public static function makeCalScript() {
+    public static function makeCalScript($id) {
+      $evt = Event::getEvents($id);
+      //printf("Event: %s\n", $evt);
     // Calendar-specific <head> elements here
       $x = "	
 	    <script type='text/javascript' src='scripts/fullcalendar.js'></script>
@@ -13,17 +14,10 @@
             left: 'month,agendaWeek,agendaDay',
             center: 'title'
             },
-            events: [
-              {
-                title: 'WALKER!',
-                start: '2012-02-16',
-                end: '2012-02-17',
-                description: 'Tooltip Testy McTesterson!'
-              }
-            ],
+            events: {$evt},
             dayClick: function() {
               //alert('a day has been clicked!');
-              $(this).append('<button id=\"addEvent\">Add</button>');
+              //$(this).append('<button id=\"addEvent\">Add</button>');
             },
             eventRender: function(event, element) {
               element.qtip({
