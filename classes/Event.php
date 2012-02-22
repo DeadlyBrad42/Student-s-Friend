@@ -48,7 +48,7 @@
     while($row = $rs->fetch_array(MYSQLI_ASSOC))
     {
       $e = array(
-        'id' => $row['event_ID'],
+        'id' => $row['event_calID'],
         'title' => $row['event_name'],
         'start' => $row['event_startTime'],
         'end' => $row['event_endTime'],

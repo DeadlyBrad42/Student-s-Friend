@@ -30,7 +30,10 @@
                 }
               });
             },
-            editable: true
+            editable: true,
+            eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+              alert(event.id + ' ' + event.start);
+            }
           })	
         });
       </script>";
