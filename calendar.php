@@ -4,6 +4,15 @@
   session_start(); 
   if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
     header("Location: index.php");
+
+  if(isset($_GET['id']) && isset($_GET['day']) && isset($_GET['min']))
+  {
+    $id = $_GET['id'];
+    $day = $_GET['day'];
+    $min = $_GET['min'];
+    Event::changeEvent($id, $day, $min);   
+    exit(0);
+  }
 ?>
 <!DOCTYPE html>
 <html>

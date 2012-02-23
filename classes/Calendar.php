@@ -1,9 +1,8 @@
 <?php
   class Calendar {
     public static function makeCalScript($id) {
-      $evt = Event::getEvents($id);
-      //printf("Event: %s\n", $evt);
     // Calendar-specific <head> elements here
+      $evt = Event::getEvents($id);
       $x = "	
 	    <script type='text/javascript' src='scripts/fullcalendar.js'></script>
       <script type='text/javascript'>
@@ -33,6 +32,8 @@
             editable: true,
             eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
               alert(event.id + ' ' + event.start);
+              var url = 'calendar.php?id=' + event.id + '&day=' + dayDelta + '&min=' +minuteDelta;
+              $.ajax({url: url, dataType: 'json'});
             }
           })	
         });

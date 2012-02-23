@@ -48,6 +48,7 @@
     while($row = $rs->fetch_array(MYSQLI_ASSOC))
     {
       $e = array(
+        'allDay' => false,
         'id' => $row['event_ID'],
         'title' => $row['event_name'],
         'start' => $row['event_startTime'],
@@ -60,6 +61,12 @@
     }
     
     return json_encode($evt);
+  }
+
+  public static function changeEvent($id, $dayDiff=0, $minDiff=0) {
+    global $db;
+    $db->query("UPDATE sfevent SET event_startTime = DATE_ADD(event_startTime, INTERVAL {$dayDiff} DAY), 
+                event_endTime = DATE_ADD(event_endTime, INTERVAL {$dayDiff} DAY) WHERE event_ID = {$id};");
   }
 
     /* GETTERS */
