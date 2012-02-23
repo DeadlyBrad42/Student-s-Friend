@@ -62,8 +62,6 @@
 	  if($row['event_isRecur']) {
 	    for($i = 0; $i < $row['event_recurs']; $i++) {
 		  $daysToAdd = $row['event_daysUntilRecur'];
-		  echo "$daysToAdd";
-		  echo "$e[start]";
 		  
 		  $start = new DateTime($e['start']);
 		  $start->add(new DateInterval("P{$daysToAdd}D"));
