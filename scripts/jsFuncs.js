@@ -63,19 +63,24 @@ function dialogue(content, title) {
 }
 
 // Show Event Dialog
-function newEvent(date, callback)
+function eventDialog(date, callback)
 {
+  var clickedDate = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+  var clickedTime =
+    (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":" +
+    (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes());
+  
   // Content will consist of a question elem and input, with ok/cancel buttons
   var title_msg = $('<p />', { text: 'Title of event' }),
       title_tbx = $('<input />', { val: '' }),
       startdt_msg = $('<p />', { text: 'Start date' }),
-      startdt_tbx = $('<input />', { val: (date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() ) }),
+      startdt_tbx = $('<input />', { val: clickedDate }),
       enddt_msg = $('<p />', { text: 'End date' }),
-      enddt_tbx = $('<input />', { val: '' }),
+      enddt_tbx = $('<input />', { val: clickedDate }),
       startti_msg = $('<p />', { text: 'Start Time' }),
-      startti_tbx = $('<input />', { val: (date.getHours() + ":" + date.getMinutes()) }),
+      startti_tbx = $('<input />', { val: clickedTime }),
       endti_msg = $('<p />', { text: 'End Time' }),
-      endti_tbx = $('<input />', { val: '' }),
+      endti_tbx = $('<input />', { val: clickedTime }),
       lctn_msg = $('<p />', { text: 'Location' }),
       lctn_tbx = $('<input />', { val: '' }),
       desc_msg = $('<p />', { text: 'Description' }),
