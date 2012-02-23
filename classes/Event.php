@@ -58,6 +58,24 @@
         'description' => $row['event_desc']);
 
       $evt[] = $e;
+	  
+	  if($row['event_isRecur']) {
+	    for($i = 0; $i < $row['event_recurs']; $i++) {
+		  $daysToAdd = $row['event_daysUntilRecur'];
+		  echo "$daysToAdd";
+		  echo "$e[start]";
+		  
+		  $start = new DateTime($e['start']);
+		  $start->add(new DateInterval("P{$daysToAdd}D"));
+		  $e['start'] = $start->format('Y-m-d H:i:s');
+		  
+		  $end = new DateTime($e['end']);
+		  $end->add(new DateInterval("P{$daysToAdd}D"));
+		  $e['end'] = $end->format('Y-m-d H:i:s');
+		  
+		  $evt[] = $e;
+	    }
+	  }
     }
     
     return json_encode($evt);
