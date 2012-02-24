@@ -38,7 +38,6 @@
             },
             editable: true,
             eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-              alert(event.id + ' ' + event.start);
               var url = 'calendar.php?id=' + event.id + '&day=' + dayDelta + '&min=' +minuteDelta;
               $.ajax({url: url, dataType: 'json'});
             }
