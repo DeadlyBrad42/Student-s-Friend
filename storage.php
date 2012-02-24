@@ -7,7 +7,11 @@
   // Apparently we can do this asynchronously using iFrames...we might look into that later
   if (isset($_POST['Upload']))
   {
-    if (file_exists("uploads/" . $_FILES['file']['name']))
+    if ($_FILES["file"]["error"] > 0)
+    {
+      $msg = "Error Uploading file: " . $_FILES["file"]["error"] . "<br />"; 
+    }
+    else if (file_exists("uploads/" . $_FILES['file']['name']))
     {
       $msg = $_FILES['file']['name'] . " already exists.<br />";
     }
@@ -15,7 +19,7 @@
     {
       if (is_uploaded_file($_FILES['file']['tmp_name']))
       {
-        move_uploaded_file($_FILES['file']['tmp_name'], "./uploads/".$_FILES['file']['name']);
+        move_uploaded_file($_FILES['file']['tmp_name'], "uploads/".$_FILES['file']['name']);
       }
 
       $msg = $_FILES['file']['name'] . " was successfully uploaded.<br />";
