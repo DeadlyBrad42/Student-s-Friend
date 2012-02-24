@@ -99,3 +99,16 @@ function eventDialog(date, callback)
     .add(save_btn).add(cncl_btn),
     'New Event' );
 }
+
+function uploadFile()
+{
+  var form = $(document.createElement('form'));
+  form.attr({enctype: 'multipart/form-data', action: 'storage.php', method: 'post'});
+
+  var input = $('<input />', {type: 'file', name: 'file', id: 'file'}),
+      upload_btn = $('<input />', {val: 'Upload', name: 'Upload', type: 'Submit'}),
+      cncl_btn = $('<button />', {text: 'Cancel', click: function() {} });
+  form.append(input).append(upload_btn).append(cncl_btn);
+
+  dialogue( form, 'Upload A New File' );
+}

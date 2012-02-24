@@ -1,4 +1,5 @@
 <?php
+  require_once("Event.php");
   class Calendar {
     public static function makeCalScript($id) {
     // Calendar-specific <head> elements here
