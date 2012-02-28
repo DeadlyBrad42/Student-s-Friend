@@ -7,22 +7,26 @@
   // Apparently we can do this asynchronously using iFrames...we might look into that later
   if (isset($_POST['Upload']))
   {
+    UserStorage::setDir($_SESSION['userID']);
+    $file = $_FILES['file']['name'];
+    $path = UserStorage::getDir() . $file;
     if ($_FILES["file"]["error"] > 0)
     {
       $msg = "Error Uploading file: " . $_FILES["file"]["error"] . "<br />"; 
     }
-    else if (file_exists("uploads/" . $_FILES['file']['name']))
+    else if (file_exists($file))
     {
-      $msg = $_FILES['file']['name'] . " already exists.<br />";
+      $msg = "{$file} already exists.<br />";
     }
     else
     {
       if (is_uploaded_file($_FILES['file']['tmp_name']))
       {
-        move_uploaded_file($_FILES['file']['tmp_name'], "uploads/".$_FILES['file']['name']);
+        move_uploaded_file($_FILES['file']['tmp_name'], $path);
+        UserStorage::addItem($_SESSION['userID'], $file);
       }
 
-      $msg = $_FILES['file']['name'] . " was successfully uploaded.<br />";
+      $msg = $file . " was successfully uploaded.<br />";
     }
   }
   else

@@ -1,5 +1,6 @@
 <?php
   require_once("../classes/Database.php");
+  require_once("../classes/UserStorage.php");
   session_start();
   
   /*
@@ -16,14 +17,15 @@
   
   // Dubugging
   // echo "{$userID}, {$fname}, {$lname}";
-  
+  echo "Before returnIdIfExists<br />";
   $rs = $db->query("CALL returnIdIfExists('{$userID}', @id)");
-  $num = $db->query("SELECT @id")->num_rows;
-
+  $rs = $db->query("SELECT @id");
+  $num = $rs->fetch_array(MYSQLI_NUM);
   /* Insert the user into the database if they don't already exist */
-  if($num == 0)
+  if($num[0] == 0)
   {
     $db->query("CALL insertNewUser('{$userID}', '{$fname}', '{$lname}')");
+    UserStorage::makeUserDir($userID);
     // Debugging
     // echo "Inserted new user.";
   }

@@ -1,18 +1,26 @@
 <?php
   require_once("Database.php");
-  class UserStorage {
-    private $storageID;
-    private $dir;
-  
-    public static function makeStoreScript() {
-      echo "<script type='text/javascript'>
-        $(document).ready(function() { 
-          $('button#addFile').click(function() {
-                     uploadFile(); 
-                   });
+class UserStorage {
+  private static $dir;
+
+  public static function setDir($uid) {
+    self::$dir = "uploads/{$uid}/";
+  }
+
+  public static function getDir() {
+    return self::$dir;
+  }
+
+  public static function makeStoreScript() {
+     echo "<script type='text/javascript'>
+       $(document).ready(function() { 
+        $('button#addFile').click(function() {
+            uploadFile(); 
               });
-           </script>";
+            });
+        </script>";
     }
+
     public static function makePage($uid, $msg) {
       global $db;
       $rs= $db->query("SELECT * FROM userstorage WHERE user_ID = '{$uid}'"); 
@@ -30,6 +38,18 @@
           echo "<li>".$row['item_name']."</li>";
         }
         echo "</ul></div>";
+      }
+    }
+
+    public static function addItem($uid, $item) {
+     global $db;
+     $rs = $db->query("INSERT INTO userstorage (user_ID, storage_directory, item_name) VALUES ('{$uid}', '".self::$dir."', '{$item}')"); 
+    }
+
+    public static function makeUserDir($uid) {
+      if (!file_exists(self::$dir))
+      {
+        mkdir(self::$dir, 0777);
       }
     }
 }
