@@ -9,7 +9,7 @@
   if (isset($_POST['Upload']))
   {
     $file = $_FILES['file']['name'];
-    $path = UserStorage::getDir() . $file;
+    $path = UserStorage::getDir() . "/" . $file;
     if ($_FILES["file"]["error"] > 0)
     {
       $msg = "Error Uploading file: " . $_FILES["file"]["error"] . "<br />"; 
