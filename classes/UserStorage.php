@@ -23,7 +23,7 @@ class UserStorage {
 
     public static function makePage($uid, $msg) {
       global $db;
-      $rs= $db->query("SELECT * FROM userstorage WHERE user_ID = '{$uid}'"); 
+      $rs= $db->query("CALL getStorageItems('{$uid}')"); 
       $count = $rs->num_rows;
       echo $msg;
       echo "<button id='addFile'>Add a new file</button>";
@@ -35,7 +35,8 @@ class UserStorage {
               <div id='currentUploads'><ul>";
         while($row = $rs->fetch_array(MYSQLI_ASSOC))
         {
-          echo "<li>".$row['item_name']."</li>";
+          // Construct the list item with dynamic <a> tag
+          echo "<li><a href='" . self::$dir . "/" . $row['item_name'] . "'>" . $row['item_name'] . "</a></li>";
         }
         echo "</ul></div>";
       }
@@ -43,7 +44,7 @@ class UserStorage {
 
     public static function addItem($uid, $item) {
      global $db;
-     $rs = $db->query("INSERT INTO userstorage (user_ID, storage_directory, item_name) VALUES ('{$uid}', '".self::$dir."', '{$item}')"); 
+     $rs = $db->query("CALL insertStorageItem('{$uid}', '".self::$dir."', '{$item}')"); 
     }
 
     public static function makeUserDir($uid) {
@@ -52,6 +53,5 @@ class UserStorage {
         mkdir(self::$dir, 0777);
       }
     }
-}
-
+  }
 ?>

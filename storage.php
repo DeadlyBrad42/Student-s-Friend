@@ -4,17 +4,17 @@
   if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
     header("Location: index.php");
 
-  // Apparently we can do this asynchronously using iFrames...we might look into that later
+  // Set the physical path inside the storage class
+  UserStorage::setDir($_SESSION['userID']);
   if (isset($_POST['Upload']))
   {
-    UserStorage::setDir($_SESSION['userID']);
     $file = $_FILES['file']['name'];
     $path = UserStorage::getDir() . $file;
     if ($_FILES["file"]["error"] > 0)
     {
       $msg = "Error Uploading file: " . $_FILES["file"]["error"] . "<br />"; 
     }
-    else if (file_exists($file))
+    else if (file_exists($path))
     {
       $msg = "{$file} already exists.<br />";
     }
