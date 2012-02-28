@@ -1,5 +1,18 @@
 <?php
   require_once("/classes/Database.php");
+  
+  session_start();
+  
+  if(isset($_GET['content']) && isset($_GET['title']) && isset($_SESSION['userID']))
+  {
+    // Sanatize here
+    $content = $_GET['content'];
+    $threadID = $_GET['title'];
+    
+    //$db->query("INSERT INTO post (post_ID, user_ID, post_content, post_time, thread_ID) VALUES (null, '{$_SESSION['userID']}', '{$content}', now(), {$threadID})");
+    
+    //exit();
+  }
 ?>
 
 <!DOCTYPE html>
@@ -10,6 +23,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
     <link rel="stylesheet" href="styles/default.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <style type="text/css">
+      div.forum-wrapper{
+        width: 95%;
+        margin: 0px auto;
+      }
+      
+      div.post-wrapper{
+        margin-bottom: 10px;
+        clear: both;
+      }
+      
+      div.thread-title{
+        font-size: 1.5em;
+        font-weight: bold;
+        float: left;
+        clear: left;
+      }
+      
+      div.thread-author{
+        font-size: 1.25em;
+        float: left;
+        clear: left;
+      }
+      
+      div.thread-postdate{
+        font-style: italic;
+        float: right;
+      }
+    </style>
   </head>
   <body>
     <div id="fb-root">
@@ -30,26 +72,33 @@
     
     <div id="wrapper">
       <?php
-        // return queries sorted by time created
-        $result = $db->query("SELECT * FROM thread LEFT JOIN post on thread.thread_ID=post.thread_ID GROUP BY thread.thread_ID ORDER BY post.post_time DESC");
+        // return all the threads sorted by the first post's time
+        $result = $db->query("SELECT * FROM thread LEFT JOIN post ON thread.thread_ID=post.thread_ID LEFT JOIN sfuser ON post.user_ID=sfuser.user_ID GROUP BY thread.thread_ID ORDER BY post.post_time DESC");
         
-        
-        echo "<table>";
-        echo "<tr><th>Thread Title</th><th>Thread Author</th><th>First Post Date</th></tr>";
+        echo "<div class='forum-wrapper'>";
         
         // Build a table with all the threads in it
         while($post = $result->fetch_array(MYSQLI_ASSOC))
         {
-          echo "<tr>";
+          echo "<div class='post-wrapper'>";
           
-          echo "<td><a href='thread.php?threadID={$post['thread_ID']}'>{$post['thread_title']}</a></td>";
-          echo "<td>{$post['post_name']}</td>";
-          echo "<td>{$post['post_time']}</td>";
+          echo "<div class='thread-title'><a href='thread.php?threadID={$post['thread_ID']}'>{$post['thread_title']}</a></div>";
+          echo "<div class='thread-author'>".($post['user_ID'] != null ? $post['user_fname']." ".$post['user_lname'] : "Walker")."</div>";
+          echo "<div class='thread-postdate'>{$post['post_time']}</div>";
           
-          echo "</tr>";
+          echo "</div>";
         }
         
-        echo "</table>";
+        echo "</div>";
+        
+        /*
+        echo "<form class='new-thread' name='input' action='forum.php' method='get'>";
+        echo "<input type='text' name='title' />";
+        echo "<textarea name='content' rows='5' cols='35'></textarea>";
+        echo "<input type='hidden' name='threadID' value='{$currentThread}' />";
+        echo "<input type='submit' value='Post' />";
+        echo "</form>";
+        */
       ?>
     </div>
     

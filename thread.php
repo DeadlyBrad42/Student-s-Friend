@@ -1,12 +1,15 @@
 <?php
   require_once("/classes/Database.php");
   
-  if(isset($_GET['content']) && isset($_GET['threadID']))
+  session_start();
+  
+  if(isset($_GET['content']) && isset($_GET['threadID']) && isset($_SESSION['userID']))
   {
+    // Sanatize here
     $content = $_GET['content'];
     $threadID = $_GET['threadID'];
     
-    $db->query("INSERT INTO post VALUES (null, 'anonymous', '{$content}', now(), {$threadID})");
+    $db->query("INSERT INTO post (post_ID, user_ID, post_content, post_time, thread_ID) VALUES (null, '{$_SESSION['userID']}', '{$content}', now(), {$threadID})");
     
     //exit();
   }
@@ -20,6 +23,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
     <link rel="stylesheet" href="styles/default.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <style type="text/css">
+      div.thread-wrapper{
+        width: 95%;
+        margin: 0px auto;
+        clear: both;
+      }
+      
+      div.post-author{
+        font-size: 1.5em;
+        font-weight: bold;
+        float: left;
+        clear: left;
+      }
+      
+      div.post-content{
+        font-size: 1.25em;
+        float: left;
+        clear: left;
+      }
+      
+      div.post-time{
+        font-style: italic;
+        float: right;
+      }
+      
+      form.new-post{
+        padding: 0px auto;
+        clear: both;
+      }
+    </style>
   </head>
   <body>
     <div id="fb-root">
@@ -46,29 +79,27 @@
           
           // Print the thread title
           $result = $db->query("SELECT * FROM thread WHERE thread_ID={$currentThread}")->fetch_array(MYSQLI_ASSOC);
-          echo "<h1>{$result['thread_title']}</h1>";
+          echo "<h1 class='thread-title'>{$result['thread_title']}</h1>";
           
+          echo "<div class='thread-wrapper'>";
           
-          echo "<table>";
-          echo "<tr><th>Author</th><th>Time</th><th>Message</th></tr>";
-          
-          // Print the posts in the specified thread
-          $result = $db->query("SELECT * FROM post WHERE thread_ID={$currentThread} ORDER BY post_time ASC");
+          // Print each post in the specified thread
+          $result = $db->query("SELECT * FROM post LEFT JOIN sfuser ON post.user_ID=sfuser.user_ID WHERE thread_ID={$currentThread} ORDER BY post_time ASC");
           while($post = $result->fetch_array(MYSQLI_ASSOC))
           {
-            echo "<tr>";
+            echo "<div class='post-wrapper'>";
             
-            echo "<td>{$post['post_name']}</td>";
-            echo "<td>{$post['post_time']}</td>";
-            echo "<td>{$post['post_content']}</td>";
+            echo "<div class='post-author'>".($post['user_ID'] != null ? $post['user_fname']." ".$post['user_lname'] : "Walker")."</div>";
+            echo "<div class='post-time'>{$post['post_time']}</div>";
+            echo "<div class='post-content'>{$post['post_content']}</div>";
             
-            echo "</tr>";
+            echo "</div>";
           }
           
-          echo "</table>";
+          echo "</div>";
           
-          echo "<form name='input' action='thread.php' method='get'>";
-          echo "<input type='textarea' name='content' />";
+          echo "<form class='new-post' name='input' action='thread.php' method='get'>";
+          echo "<textarea name='content' rows='5' cols='35'></textarea>";
           echo "<input type='hidden' name='threadID' value='{$currentThread}' />";
           echo "<input type='submit' value='Post' />";
           echo "</form>";
