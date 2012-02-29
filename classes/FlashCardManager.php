@@ -4,43 +4,51 @@
   
   class FlashCardManager {
     private $courseID;
+	private $userID;
 	private $cardArray;
 	private $cardTitleArray;
-    global $db;
+    
 	
-    function __construct($fcmCourseID){
-      $this->CourseID = $fcmCourseID;
+    function __construct($fcmCourseID, $fcmUserID){
+      $this->courseID = $fcmCourseID;
+	  $this->userID = $fcmUserID;
 	  $this->getCardTitle();	
 	}
 	
 	function getCard($id){
-      $rs = $db->query("SELECT * FROM sfflashcard WHERE flashcard_id = '{$id}'");
+      $rs = $db->query("CALL sf.get_card('{$id}')");
       $row = $rs->fetch_array(MYSQLI_ASSOC);
 	  return $flash = new FlashCard($id, $row['card_title'], $row['card_answer'],$row['card_question']);
 	}
     
 	function getCardTitle(){
-		$rs = $db->query("SELECT flashcard_title FROM sfflashcard WHERE course_id = '{$this->courseID}'");
+		$rs = $db->query("CALL sf.get_cardTitles('{$this->courseID}')");
 		$this->cardTitleArray = $rs->fetch_array(MYSQLI_ASSOC);
 	}
 
-	function makeDeck($titleArray){
-		foreach($title as $titleArray){
-			$rs = $db->query("SELECT * FROM sfflashcard WHERE flashcard_title = '{$this->title}' AND course_id = '{$this->courseID}'");
-			$result = $rs->fetch_array(MYSQLI_ASSOC);
-			foreach($result as $row){
-				$holder = new FlashCard($row['flashcard_id'],$row['flashcard_title'],$row['flashcard_question'],$row['flashcard_answer']);
-				array_push($this->cardArray;, $holder);
+	public static function makeDeck($titleArray){
+		global $db;
+		$cardArray;
+		//foreach($titleArray as $title){
+			$rs = $db->query("SELECT * FROM flashcard WHERE card_title = '{$titleArray}'");
+			while($row = $rs->fetch_array(MYSQLI_ASSOC))
+			{
+				$holder = array(
+								'title' => $row['card_title'],
+								'question' => $row['card_question'],
+								'answer' => $row['card_answer']);
+				$cardArray[]= $holder;
 			}
-		}
+		//}
+		return json_encode($cardArray);
 	}
-	
+	/*	
     function createCard($title, $question, $answer) {
-		$db->query("INSERT INTO sfflashcard (flashcard_title, flashcard_question, flashcard_answer) VALUES ('{$title}','{$question}','{$answer}')");
+		$db->query("CALL sf.insert_card('{$this->coursID}','{$this->userID}','{$title}','{$question}','{$answer}')");
     }
     
 	function deleteCard($id){
-		$db->query("DELETE FROM sfflashcard WHERE flashcard_id = '{$id}'");
+		$db->query("CALL sf.delete_card('{$id}')");
 	}
    
 	function editCard($id, $title, $question, $answer) {
@@ -51,7 +59,7 @@
 	function randomize(){
 		shuffle($this->cardArray);
 	}
-  
+	*/
   }
   
 ?>

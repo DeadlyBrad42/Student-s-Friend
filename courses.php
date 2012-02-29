@@ -26,7 +26,10 @@
     </div>
     <?php require_once("layout/header.php"); ?>
       <div id="wrapper">
-      
+		<p>
+			<a href='forum.php'>Forum</a> <br />
+			<a href='flashcardselect.php'>Flash Cards</a> 
+		</p>
       </div> 
     <?php require_once("layout/footer.php"); ?>
   </body>
