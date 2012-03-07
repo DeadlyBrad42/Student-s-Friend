@@ -51,6 +51,10 @@ a:hover
   text-align: center;
 }
 
+a.cursorPter
+{
+  cursor: pointer;
+}
 /* ~~~ End General Class Styles ~~~ */
 
 /* ~~~ Specific Styles ~~~ */
@@ -176,4 +180,13 @@ button#logoutBtn
   float: right;
 }
 
+div#imgBox
+{
+  text-align: center;
+}
+
+div#imgBox img
+{
+  display: block;
+}
 /* End Specific Styles */

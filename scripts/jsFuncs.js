@@ -112,3 +112,13 @@ function uploadFile()
 
   dialogue( form, 'Upload A New File' );
 }
+
+function showUploadPic(src, name)
+{
+  var box = $('<div />', {id: 'imgBox'}),
+      img = $('<img />', {src: src, width: '500', height: '500'})
+      btn = $('<button />', {text: 'Close', click: function() {} });
+
+  box.append(img).append(btn);
+  dialogue(box, name);
+}

@@ -17,7 +17,7 @@ class UserStorage {
         $('button#addFile').click(function() {
             uploadFile(); 
               });
-            });
+        });
         </script>";
     }
 
@@ -35,8 +35,17 @@ class UserStorage {
               <div id='currentUploads'><ul>";
         while($row = $rs->fetch_array(MYSQLI_ASSOC))
         {
+          $jpg = strpos($row['item_name'], ".jpg");
+          $png = strpos($row['item_name'], ".png");
+          $gif = strpos($row['item_name'], ".gif");
+          $bmp = strpos($row['item_name'], ".bmp");
+          
           // Construct the list item with dynamic <a> tag
-          echo "<li><a href='" . self::$dir . "/" . $row['item_name'] . "'>" . $row['item_name'] . "</a></li>";
+          if ($jpg !== false || $png !== false || $gif !== false || $bmp !== false )
+            echo "<li><a class='cursorPter' onclick='showUploadPic(\"" . self::$dir . "/" . $row['item_name'] . "\", \"". $row['item_name'] ."\")'>" 
+                  . $row['item_name'] . "</a></li>";
+          else
+            echo "<li><a href='" . self::$dir . "/" . $row['item_name'] . "'>" . $row['item_name'] . "</a></li>";
         }
         echo "</ul></div>";
       }
