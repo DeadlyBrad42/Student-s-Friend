@@ -122,3 +122,44 @@ function showUploadPic(src, name)
   box.append(img).append(btn);
   dialogue(box, name);
 }
+
+
+/*********************************
+*	populate_newsfeed(userID, numFeed)
+*	requirements: Must be a div on the page with id newsfeed
+*	actions: Fills the div with a table containing the (numfeed) most recent updates for user: userID
+*********************************/
+function populate_newsfeed(userID, numfeed) 
+{
+  //document.getElementById("newsfeed").innerHTML = "Div modified by populate_newsfeed()";  //	Debugging code.
+  
+  // Ajax for filling news feed.
+  var xmlhttp = new XMLHttpRequest();
+  
+  xmlhttp.onreadystatechange = function () 
+  {
+    if(xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+	{
+	  document.getElementById("newsfeed").innerHTML = xmlhttp.responseText;
+	}
+  }
+  
+  xmlhttp.open("GET", "getNewsfeed.php?userID=" + userID + "&numfeed=" + numfeed, true);
+  xmlhttp.send();
+  
+  // Sets the function to be called again in (2nd param) milliseconds.
+  setTimeout("populate_newsfeed(" + userID + "," + numfeed + ")", 5000);
+}
+
+/*********************************
+*	postNews(courseID, update)
+*	requirements: Please make sure update actually contains something.
+*	actions: Enters update into the sfupdates table under courseID.
+*********************************/
+function postNews(courseID, update) {
+  var xmlhttp = new XMLHttpRequest();
+  var date = new Date();
+
+  xmlhttp.open("GET", "postNews.php?courseID=" + courseID + "&update=" + update, true);
+  xmlhttp.send();
+}
