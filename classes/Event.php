@@ -79,12 +79,34 @@
     return json_encode($evt);
   }
 
-  public static function changeEvent($id, $dayDiff=0, $minDiff=0) {
+  public static function changeEvent($id, $dayDiff, $minDiff, $isResize) {
     global $db;
-    $db->query("UPDATE sfevent SET event_startTime = DATE_ADD(event_startTime, INTERVAL {$dayDiff} DAY), 
-                event_endTime = DATE_ADD(event_endTime, INTERVAL {$dayDiff} DAY) WHERE event_ID = {$id};");
+    if ($isResize)
+    {
+      // We only care about the event endTime if an event is resized
+      if ($dayDiff != 0)
+      {
+        $db->query("UPDATE sfevent SET event_endTime = DATE_ADD(event_endTime, INTERVAL '{$dayDiff}' DAY) WHERE event_ID = {$id};");
+      }
+      if ($minDiff != 0)
+      {
+        $db->query("UPDATE sfevent SET event_endTime = DATE_ADD(event_endTime, INTERVAL '{$minDiff}' MINUTE) WHERE event_ID = {$id};");
+      }
+    }
+    else
+    {
+      if ($dayDiff != 0)
+      {
+        $db->query("UPDATE sfevent SET event_startTime = DATE_ADD(event_startTime, INTERVAL '{$dayDiff}' DAY), 
+        event_endTime = DATE_ADD(event_endTime, INTERVAL '{$dayDiff}' DAY) WHERE event_ID = {$id};");
+      }
+      if ($minDiff != 0)
+      {
+        $db->query("UPDATE sfevent SET event_startTime = DATE_ADD(event_startTime, INTERVAL '{$minDiff}' MINUTE), 
+        event_endTime = DATE_ADD(event_endTime, INTERVAL '{$minDiff}' MINUTE) WHERE event_ID = {$id};");
+      }
+    }
   }
-
     /* GETTERS */
     
     function get_id() {

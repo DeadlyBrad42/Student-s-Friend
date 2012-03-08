@@ -39,9 +39,13 @@
             },
             editable: true,
             eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-              var url = 'calendar.php?id=' + event.id + '&day=' + dayDelta + '&min=' +minuteDelta;
+              var url = 'calendar.php?id=' + event.id + '&day=' + dayDelta + '&min=' + minuteDelta;
               $.ajax({url: url, dataType: 'json'});
-            }
+             },
+            eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
+              var url = 'calendar.php?id=' + event.id + '&day=' + dayDelta + '&min=' + minuteDelta + '&re=' + 1;
+              $.ajax({url: url, dataType: 'json'});
+             }
           })	
         });
       </script>";

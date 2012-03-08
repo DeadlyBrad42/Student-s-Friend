@@ -10,7 +10,8 @@
     $id = $_GET['id'];
     $day = $_GET['day'];
     $min = $_GET['min'];
-    Event::changeEvent($id, $day, $min);   
+    $res = isset($_GET['re']) ? true : false;
+    Event::changeEvent($id, $day, $min, $res);   
     exit(0);
   }
 ?>
