@@ -166,7 +166,8 @@ function updateFeed(userID) {
 	xmlhttp.onreadystatechange = function () 
     {
       if(xmlhttp.readyState == 4 && xmlhttp.status == 200) 
-	  {		
+	  {	
+        document.getElementById("updateTable").childNodes[0].removeChild(document.getElementById("updateTable").childNodes[0].firstChild);	  
 	    document.getElementById("updateTable").childNodes[0].innerHTML = xmlhttp.responseText + document.getElementById("updateTable").childNodes[0].innerHTML;
 	  
 	    // Sets the function to be called again in (2nd param) milliseconds.
@@ -177,13 +178,12 @@ function updateFeed(userID) {
 	//	Check to see if the tbody of updateTable has any rows.
 	if(document.getElementById("updateTable").childNodes[0].childNodes[0] != null)
 	{
-	  //  Table has rows. Set feedObj.lastUpdateID to the update_ID of the most recent update.
-	  feedObj.lastUpdateID = document.getElementById("updateTable").childNodes[0].childNodes[0].getAttribute("char");
+	  //  Table has rows. Set feedObj.lastUpdateID to the update date of input element containing the date of the latest update.
+	  feedObj.lastUpdateID = document.getElementById("updateTable").childNodes[0].firstChild.childNodes[0].childNodes[0].getAttribute("value");
 	}  else {
 	  //  Table has no rows. Just set feedObj.lastUpdateID to 0 so that the search will search the entire table for updates
-	  feedObj.lastUpdateID = 0;
+	  feedObj.lastUpdateID = "1980-00-00 00:00:00";
 	}
-	
 	
 	xmlhttp.open("GET", "updateFeed.php?userID=" + userID + "&lastUpdateID=" + feedObj.lastUpdateID, true);
     xmlhttp.send();
@@ -202,7 +202,10 @@ function expandFeed(userID) {
 	xmlhttp.onreadystatechange = function () 
     {
       if(xmlhttp.readyState == 4 && xmlhttp.status == 200) 
-	  {		
+	  {	
+        //	Remove the input element which contains the earliest update date from the table.	  
+	    document.getElementById("updateTable").childNodes[0].removeChild(document.getElementById("updateTable").childNodes[0].lastChild);
+		//	Insert the new data from expandFeed.php into the table including a new input element containing the new date of the earliest update in the feed.
 	    document.getElementById("updateTable").childNodes[0].innerHTML = document.getElementById("updateTable").childNodes[0].innerHTML + xmlhttp.responseText;
 	  }
     }
@@ -211,10 +214,10 @@ function expandFeed(userID) {
 	if(document.getElementById("updateTable").childNodes[0].childNodes[0] != null)
 	{	  
 	  //  Table has rows. Set feedObj.firstUpdateID to the update_ID of the most recent update.
-	  feedObj.firstUpdateID = document.getElementById("updateTable").childNodes[0].lastChild.getAttribute("char");
+	  feedObj.firstUpdateID = document.getElementById("updateTable").childNodes[0].lastChild.childNodes[0].childNodes[0].getAttribute("value");
 	}  else {
 	  //  Table has no rows. Just set feedObj.firstUpdateID to 0 so that the search will search the entire table for updates
-	  feedObj.firstUpdateID = -1;
+	  feedObj.firstUpdateID = "1980-00-00 00:00:00";
 	}
 	
 	xmlhttp.open("GET", "expandFeed.php?userID=" + userID + "&firstUpdateID=" + feedObj.firstUpdateID + "&numfeed=" + feedObj.numfeeds, true);
