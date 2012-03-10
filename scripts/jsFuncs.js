@@ -131,7 +131,8 @@ function showUploadPic(src, name)
 *********************************/
 function populate_newsfeed(userID, numfeed) 
 {
-  //document.getElementById("newsfeed").innerHTML = "Div modified by populate_newsfeed()";  //	Debugging code.
+  //Save the number of feeds requested for expandFeed function.
+  feedObj.numfeeds = numfeed;
   
   // Ajax for filling news feed.
   var xmlhttp = new XMLHttpRequest();
@@ -139,17 +140,77 @@ function populate_newsfeed(userID, numfeed)
   xmlhttp.onreadystatechange = function () 
   {
     if(xmlhttp.readyState == 4 && xmlhttp.status == 200) 
-	{
+	{	  
 	  document.getElementById("newsfeed").innerHTML = xmlhttp.responseText;
+	  
+	  feedObj.feedPopulated = true;
+	  
+	  // Sets the function to be called again in (2nd param) milliseconds.
+      setTimeout("updateFeed(" + userID + ")", 5000);
 	}
   }
   
   xmlhttp.open("GET", "getNewsfeed.php?userID=" + userID + "&numfeed=" + numfeed, true);
   xmlhttp.send();
-  
-  // Sets the function to be called again in (2nd param) milliseconds.
-  setTimeout("populate_newsfeed(" + userID + "," + numfeed + ")", 5000);
 }
+
+function updateFeed(userID) {
+  if(feedObj.feedPopulated == true) {
+    var xmlhttp = new XMLHttpRequest();
+  
+	xmlhttp.onreadystatechange = function () 
+    {
+      if(xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+	  {		
+	    document.getElementById("updateTable").childNodes[0].innerHTML = xmlhttp.responseText + document.getElementById("updateTable").childNodes[0].innerHTML;
+	  
+	    // Sets the function to be called again in (2nd param) milliseconds.
+        setTimeout("updateFeed(" + userID + ")", 5000);
+	  }
+    }
+	
+	//	Check to see if the tbody of updateTable has any rows.
+	if(document.getElementById("updateTable").childNodes[0].childNodes[0] != null)
+	{
+	  //  Table has rows. Set feedObj.lastUpdateID to the update_ID of the most recent update.
+	  feedObj.lastUpdateID = document.getElementById("updateTable").childNodes[0].childNodes[0].getAttribute("char");
+	}  else {
+	  //  Table has no rows. Just set feedObj.lastUpdateID to 0 so that the search will search the entire table for updates
+	  feedObj.lastUpdateID = 0;
+	}
+	
+	
+	xmlhttp.open("GET", "updateFeed.php?userID=" + userID + "&lastUpdateID=" + feedObj.lastUpdateID, true);
+    xmlhttp.send();
+  }
+}  
+
+function expandFeed(userID) {
+  if(feedObj.feedPopulated == true) {	//	Sanity check to make sure divs we are expecting to be there will be there.
+    var xmlhttp = new XMLHttpRequest();
+  
+	xmlhttp.onreadystatechange = function () 
+    {
+      if(xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+	  {		
+	    document.getElementById("updateTable").childNodes[0].innerHTML = document.getElementById("updateTable").childNodes[0].innerHTML + xmlhttp.responseText;
+	  }
+    }
+	
+	//	Check to see if the tbody of updateTable has any rows.
+	if(document.getElementById("updateTable").childNodes[0].childNodes[0] != null)
+	{	  
+	  //  Table has rows. Set feedObj.firstUpdateID to the update_ID of the most recent update.
+	  feedObj.firstUpdateID = document.getElementById("updateTable").childNodes[0].lastChild.getAttribute("char");
+	}  else {
+	  //  Table has no rows. Just set feedObj.firstUpdateID to 0 so that the search will search the entire table for updates
+	  feedObj.firstUpdateID = -1;
+	}
+	
+	xmlhttp.open("GET", "expandFeed.php?userID=" + userID + "&firstUpdateID=" + feedObj.firstUpdateID + "&numfeed=" + feedObj.numfeeds, true);
+    xmlhttp.send();
+  }
+}  
 
 /*********************************
 *	postNews(courseID, update)
@@ -158,8 +219,19 @@ function populate_newsfeed(userID, numfeed)
 *********************************/
 function postNews(courseID, update) {
   var xmlhttp = new XMLHttpRequest();
-  var date = new Date();
 
   xmlhttp.open("GET", "postNews.php?courseID=" + courseID + "&update=" + update, true);
   xmlhttp.send();
 }
+
+/**********************************
+*	feedObj
+*	Encapsulates all necessary data for the feed.
+***********************************/
+feedObj = new Object();
+feedObj.currTimeOut = 0;
+feedObj.lastUpdateID;
+feedObj.firstUpdateID;
+feedObj.feedPopulated = false;
+feedObj.numfeeds;
+

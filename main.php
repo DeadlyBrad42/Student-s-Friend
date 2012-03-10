@@ -25,7 +25,14 @@
           echo "Hello, {$user->get_fname()}"; 
         ?>
       </p>
-    </div>	
+	  
+	  <div id="newsfeed">
+	  </div>
+    </div>
+
+    <script type="text/javascript">
+      populate_newsfeed(<?php echo $id ?>, 10);
+    </script>	
   <?php require_once("layout/footer.php"); ?>
   
 </body>

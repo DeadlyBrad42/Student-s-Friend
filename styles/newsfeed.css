@@ -1,0 +1,52 @@
+div#newsfeed
+{
+  float:left;
+  border-width:5px;
+  border-style:outset;
+  border-color:DarkRed;
+  background-color:Black;
+  width:17.5%;
+  height:600px;
+  overflow:hidden;
+}
+
+div#newsfeed h1
+{
+  background:#404040;
+  border-style:solid;
+  border-color:#252525;
+}
+
+div#newsfeed h2
+{
+  font-size:10pt;
+}
+
+div#newsfeed td
+{
+  padding:5px;
+}
+
+div#newsfeed p.update
+{
+  color:#FF9000;
+}
+
+div#newsfeed p.date
+{
+  color:Grey;
+}
+
+div#newsfeed button
+{
+  text-align:center;
+}
+
+div#newsfeed div.tableDiv
+{ 
+  max-height:94%;
+  max-width:100%;
+  overflow:auto;
+}
+
+

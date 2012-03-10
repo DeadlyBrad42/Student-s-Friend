@@ -10,6 +10,7 @@
   <meta http-equiv='cache-control' content='no-cache' />
   <meta http-equiv='X-UA-Compatible' content='IE=9' />
   <link rel='stylesheet' type='text/css' href='styles/default.css' />
+  <link rel='stylesheet' type='text/css' href='styles/newsfeed.css' />
 	<link rel='stylesheet' type='text/css' href='styles/fullcalendar.css' />
 	<link rel='stylesheet' type='text/css' href='styles/qtip.css' />
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
