@@ -167,6 +167,7 @@ div#calendarWrap
 {
   width: 650px; 
   margin: 0 auto;
+  float:right;
 }
 /* end calendar styles */
 

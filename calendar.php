@@ -21,6 +21,7 @@
   <head>
 	<?php require_once("layout/headScripts.php"); ?>
 	<?php Calendar::makeCalScript($_SESSION['userID']); ?>
+	<script type="text/javascript">populate_newsfeed(<?php echo $_SESSION['userID'] ?>, 10);</script>
   </head>
   <body>
     <div id="fb-root">
@@ -29,8 +30,9 @@
 	
     <?php require_once("layout/header.php"); ?>
 	  <div id="wrapper">
-      <?php Calendar::makeCalDiv(); ?>
-    </div>
+	    <div id="newsfeed"></div>
+        <?php Calendar::makeCalDiv(); ?>
+      </div>
     <?php require_once("layout/footer.php"); ?>
   </body>
 </html>

@@ -154,6 +154,11 @@ function populate_newsfeed(userID, numfeed)
   xmlhttp.send();
 }
 
+/*********************************
+*	updateFeed(userID)
+*	requirements: Must be a div on the page which has already been populated with updates.
+*	actions: Fills the updates table with any updates that have come about since the table was last filled.
+*********************************/
 function updateFeed(userID) {
   if(feedObj.feedPopulated == true) {
     var xmlhttp = new XMLHttpRequest();
@@ -185,6 +190,11 @@ function updateFeed(userID) {
   }
 }  
 
+/*********************************
+*	expandFeed(userID)
+*	requirements: Must be a div on the page which has already been populated with updates.
+*	actions: Fills the updates table with more updates beyond the earliest one in the user's feed.
+*********************************/
 function expandFeed(userID) {
   if(feedObj.feedPopulated == true) {	//	Sanity check to make sure divs we are expecting to be there will be there.
     var xmlhttp = new XMLHttpRequest();
