@@ -6,8 +6,9 @@
 	*
 	*	Requires: Must be a result set of updates from
 	*		sfupdates table.
-	*	Action: Takes a result set of updates and
-	*		echos them as html table elements.
+	*	Action: Takes a result set of updates, skips $startBuf
+	*		entries echos them as html table elements until
+	*		it reaches the numFeeds (including the skipped feeds).
 	**********************************/
   
     static function echoFeedFromRS($resultSet, $startBuf, $numFeeds) {

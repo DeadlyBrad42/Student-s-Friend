@@ -31,7 +31,7 @@
   
   echo "</table>";
   
-  //	Add button to add more feeds to div.
+  //	Add button for adding earlier feeds to table.
   echo "<div align='center'><button onclick = 'expandFeed(" . $userID . ")'>More</button></div></div>";
   
 ?>

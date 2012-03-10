@@ -141,8 +141,8 @@ function populate_newsfeed(userID, numfeed)
   {
     if(xmlhttp.readyState == 4 && xmlhttp.status == 200) 
 	{	  
+	  // Once response is received put it's contents into newsfeed div and set mark feedObj as being populated.
 	  document.getElementById("newsfeed").innerHTML = xmlhttp.responseText;
-	  
 	  feedObj.feedPopulated = true;
 	  
 	  // Sets the function to be called again in (2nd param) milliseconds.
@@ -167,7 +167,9 @@ function updateFeed(userID) {
     {
       if(xmlhttp.readyState == 4 && xmlhttp.status == 200) 
 	  {	
-        document.getElementById("updateTable").childNodes[0].removeChild(document.getElementById("updateTable").childNodes[0].firstChild);	  
+	    // New set has been successfully received. Remove the input element marking the date of the latest update. 
+        document.getElementById("updateTable").childNodes[0].removeChild(document.getElementById("updateTable").childNodes[0].firstChild);
+		// Add feed to top of update table including new latest update marker.
 	    document.getElementById("updateTable").childNodes[0].innerHTML = xmlhttp.responseText + document.getElementById("updateTable").childNodes[0].innerHTML;
 	  
 	    // Sets the function to be called again in (2nd param) milliseconds.
@@ -178,14 +180,14 @@ function updateFeed(userID) {
 	//	Check to see if the tbody of updateTable has any rows.
 	if(document.getElementById("updateTable").childNodes[0].childNodes[0] != null)
 	{
-	  //  Table has rows. Set feedObj.lastUpdateID to the update date of input element containing the date of the latest update.
-	  feedObj.lastUpdateID = document.getElementById("updateTable").childNodes[0].firstChild.childNodes[0].childNodes[0].getAttribute("value");
+	  //  Table has rows. Set feedObj.topEntryDate to the update date of input element marking the date of the latest update.
+	  feedObj.topEntryDate = document.getElementById("updateTable").childNodes[0].firstChild.childNodes[0].childNodes[0].getAttribute("value");
 	}  else {
-	  //  Table has no rows. Just set feedObj.lastUpdateID to 0 so that the search will search the entire table for updates
-	  feedObj.lastUpdateID = "1980-00-00 00:00:00";
+	  //  Table has no rows. Just set feedObj.topEntryDate to absurdly early date so that the search will search the entire sfupdate table for updates.
+	  feedObj.topEntryDate = "1980-00-00 00:00:00";
 	}
 	
-	xmlhttp.open("GET", "updateFeed.php?userID=" + userID + "&lastUpdateID=" + feedObj.lastUpdateID, true);
+	xmlhttp.open("GET", "updateFeed.php?userID=" + userID + "&topEntryDate=" + feedObj.topEntryDate, true);
     xmlhttp.send();
   }
 }  
@@ -203,7 +205,7 @@ function expandFeed(userID) {
     {
       if(xmlhttp.readyState == 4 && xmlhttp.status == 200) 
 	  {	
-        //	Remove the input element which contains the earliest update date from the table.	  
+        //	Remove the input element which contains the date of the earliest update from the table.	  
 	    document.getElementById("updateTable").childNodes[0].removeChild(document.getElementById("updateTable").childNodes[0].lastChild);
 		//	Insert the new data from expandFeed.php into the table including a new input element containing the new date of the earliest update in the feed.
 	    document.getElementById("updateTable").childNodes[0].innerHTML = document.getElementById("updateTable").childNodes[0].innerHTML + xmlhttp.responseText;
@@ -213,14 +215,14 @@ function expandFeed(userID) {
 	//	Check to see if the tbody of updateTable has any rows.
 	if(document.getElementById("updateTable").childNodes[0].childNodes[0] != null)
 	{	  
-	  //  Table has rows. Set feedObj.firstUpdateID to the update_ID of the most recent update.
-	  feedObj.firstUpdateID = document.getElementById("updateTable").childNodes[0].lastChild.childNodes[0].childNodes[0].getAttribute("value");
+	  //  Table has rows. Set feedObj.lowestEntryDate to the date in input element marker at end of table containing date of earliest update.
+	  feedObj.lowestEntryDate = document.getElementById("updateTable").childNodes[0].lastChild.childNodes[0].childNodes[0].getAttribute("value");
 	}  else {
-	  //  Table has no rows. Just set feedObj.firstUpdateID to 0 so that the search will search the entire table for updates
-	  feedObj.firstUpdateID = "1980-00-00 00:00:00";
+	  //  Table has no rows. Just set feedObj.lowestEntryDate to future so that the search will search the entire sfupdate table for updates
+	  feedObj.lowestEntryDate = "3000-00-00 00:00:00";
 	}
 	
-	xmlhttp.open("GET", "expandFeed.php?userID=" + userID + "&firstUpdateID=" + feedObj.firstUpdateID + "&numfeed=" + feedObj.numfeeds, true);
+	xmlhttp.open("GET", "expandFeed.php?userID=" + userID + "&lowestEntryDate=" + feedObj.lowestEntryDate + "&numfeed=" + feedObj.numfeeds, true);
     xmlhttp.send();
   }
 }  
@@ -243,8 +245,8 @@ function postNews(courseID, update) {
 ***********************************/
 feedObj = new Object();
 feedObj.currTimeOut = 0;
-feedObj.lastUpdateID;
-feedObj.firstUpdateID;
+feedObj.topEntryDate;
+feedObj.lowestEntryDate;
 feedObj.feedPopulated = false;
 feedObj.numfeeds;
 
