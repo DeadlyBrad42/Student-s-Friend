@@ -1,5 +1,6 @@
 <?php
   require_once("classes/Database.php");
+  require_once("classes/NewsFeed.php");
   
   $userID = $_GET["userID"];
   $numfeeds = $_GET["numfeed"];
@@ -17,11 +18,5 @@
 	(SELECT course_ID FROM enrollment WHERE user_ID = '{$userID}') ORDER BY sfupdate.update_time DESC LIMIT {$numfeeds}");
   }
 	
-  while($row = $rs->fetch_array(MYSQLI_ASSOC)) {	
-	echo "<tr char =" . $row['update_ID'] . "> <td>";
-	echo "<h2>" . $row['course_name'] . ":</h2>";
-	echo "<p class='update'>" . $row['update_text'] . "</p>";
-	echo "<p class='date'>" . $row['update_time'] . "</p>";
-	echo "</td></tr>";
-  }
+  NewsFeed::echoFeedFromRS($rs);
 ?>

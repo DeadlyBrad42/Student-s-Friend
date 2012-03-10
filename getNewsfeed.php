@@ -1,5 +1,6 @@
 <?php
   require_once("classes/Database.php");
+  require_once("classes/NewsFeed.php");
   
   $userID = $_GET["userID"];
   $numfeed = $_GET["numfeed"];
@@ -20,16 +21,9 @@
   <table id='updateTable'>";
 
   //	Fill update table.
-  while($row = $rs->fetch_array(MYSQLI_ASSOC)) {	
-	echo "<tr char =" . $row['update_ID'] . "> <td>";
-	echo "<h2>" . $row['course_name'] . ":</h2>";
-	echo "<p class='update'>" . $row['update_text'] . "</p>";
-	echo "<p class='date'>" . $row['update_time'] . "</p>";
-	echo "</td></tr>";
-  } 
+  NewsFeed::echoFeedFromRS($rs);
   
-  echo "</table>
-       ";
+  echo "</table>";
   
   //	Add button to add more feeds to div.
   echo "<div align='center'><button onclick = 'expandFeed(" . $userID . ")'>More</button></div></div>";
