@@ -125,6 +125,10 @@ function showUploadPic(src, name)
 
 
 /*********************************
+*	NEWSFEED FUNCTIONS
+*********************************/
+
+/*********************************
 *	populate_newsfeed(userID, numFeed)
 *	requirements: Must be a div on the page with id newsfeed
 *	actions: Fills the div with a table containing the (numfeed) most recent updates for user: userID
@@ -250,3 +254,27 @@ feedObj.lowestEntryDate;
 feedObj.feedPopulated = false;
 feedObj.numfeeds;
 
+
+/*********************************
+*	END NEWSFEED FUNCTIONS
+*********************************/
+
+
+/*********************************
+*	CALENDAR FUNCTIONS
+*********************************/
+/*********************************
+*	setWidgetDblClick(targetView)
+*	Action: Sets the widgets in div of class
+*	fc-view-(tarvetView) to show eventdialog
+*	on double click;
+*********************************/
+function setWidgetDblClick(targetView) {
+  $("div.fc-view-" + targetView + " td.fc-widget-content").dblclick(function() {
+	if(!$(this).hasClass('fc-other-month')) {
+      eventDialog($('#calendar').fullCalendar('getDate') , function(response) {
+        // do something with response
+      });
+    }
+  });
+}
