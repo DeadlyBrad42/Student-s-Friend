@@ -173,7 +173,7 @@ div#calendarWrap
 ul.evtOptions
 {
   list-style-type: none;
-  font-size: 1em;
+  font-size: 1.15em;
   width: 100%;
 }
 
@@ -185,7 +185,10 @@ ul.evtOptions li:hover
 ul.evtOptions li a
 {
   color: black;
+  cursor: default;
+  text-decoration: none;
 }
+
 /* end calendar styles */
 
 button#loginBtn
