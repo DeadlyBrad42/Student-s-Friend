@@ -179,7 +179,7 @@ ul.evtOptions
 
 ul.evtOptions li:hover
 {
-  background-color: #666666;
+  background-color: #999999;
 }
 
 ul.evtOptions li a
@@ -188,7 +188,6 @@ ul.evtOptions li a
   cursor: default;
   text-decoration: none;
 }
-
 /* end calendar styles */
 
 button#loginBtn

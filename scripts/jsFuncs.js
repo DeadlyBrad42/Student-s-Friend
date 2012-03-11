@@ -59,51 +59,44 @@ function dialogue(content, title) {
 }
 
 // Show Event Dialog
-function eventDialog(date)
+function addEvent(date)
 {
+  var div = $('<div />', {id: 'evtAddForm'});
+  var tbl = $('<table />', {id: 'evtAddTbl'});
+  var labels = ['<td>Title:</td>','<td>Start Date:</td>', '<td>End Date:</td>', '<td>Start Time:</td>', 
+                '<td>End Time:</td>', '<td>Location:</td>', '<td>Description:</td>'];
   var clickedDate = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
   var clickedTime =
     (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":" +
     (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes());
   
   // Content will consist of a question elem and input, with ok/cancel buttons
-  var title_msg = $('<p />', { text: 'Title of event' }),
-      title_tbx = $('<input />', { val: '' }),
-      startdt_msg = $('<p />', { text: 'Start date' }),
-      startdt_tbx = $('<input />', { val: clickedDate }),
-      enddt_msg = $('<p />', { text: 'End date' }),
-      enddt_tbx = $('<input />', { val: clickedDate }),
-      startti_msg = $('<p />', { text: 'Start Time' }),
-      startti_tbx = $('<input />', { val: clickedTime }),
-      endti_msg = $('<p />', { text: 'End Time' }),
-      endti_tbx = $('<input />', { val: clickedTime }),
-      lctn_msg = $('<p />', { text: 'Location' }),
-      lctn_tbx = $('<input />', { val: '' }),
-      desc_msg = $('<p />', { text: 'Description' }),
-      desc_tbx = $('<input />', { val: '' }),
-      save_btn = $('<button />', {text: 'Save', click: createEvent /*function() {callback( input.val() );}*/ }),
-      cncl_btn = $('<button />', {text: 'Cancel', click: function() {} });
+  var inp = new Array(); 
+  inp[0] = $('<input />', {name: 'evtTitle', type: 'text', val: ''});
+  inp[1] = $('<input />', {name: 'evtStartDt', type: 'text', val: clickedDate});
+  inp[2] = $('<input />', {name: 'evtEndDt', type: 'text', val: clickedDate});
+  inp[3] = $('<input />', {name: 'evtStartTi', type: 'text', val: clickedTime});
+  inp[4] = $('<input />', {name: 'evtEndTi', type: 'text', val: clickedTime});
+  inp[5] = $('<input />', {name: 'evtLocation', type: 'text', val: '' });
+  inp[6] = $('<input />', {name: 'evtDescrip', type: 'text', val: '' });
+  
+  saveBtn = $('<button />', {text: 'Save', click: function() {} }),
+  cancelBtn = $('<button />', {text: 'Cancel', click: function() {} });
 
-  dialogue(
-    title_msg.add(title_tbx)
-    .add(startdt_msg).add(startdt_tbx)
-    .add(enddt_msg).add(enddt_tbx)
-    .add(startti_msg).add(startti_tbx)
-    .add(endti_msg).add(endti_tbx)
-    .add(lctn_msg).add(lctn_tbx)
-    .add(desc_msg).add(desc_tbx)
-    .add(save_btn).add(cncl_btn),
-    'New Event' );
+  for (var i=0; i < labels.length; i++)
+  {
+    var row = $('<tr />').append(labels[i]).append($('<td />').append(inp[i]));
+    tbl.append(row);
+  }
+  div.append(tbl);
+  div.append(saveBtn).append(cancelBtn);
+  dialogue(div, 'New Event');
 }
 
-function addEvent()
+function viewEvent(isEdit, date)
 {
-  // Coming soon
-}
-
-function viewEvent(isEdit)
-{
-  // Coming soon
+  $('#calendar').fullCalendar('changeView','agendaDay');
+  $('#calendar').fullCalendar('gotoDate', date);
 }
 
 function deleteEvent()

@@ -8,12 +8,14 @@
       <script type='text/javascript' src='scripts/fullcalendar.js'></script>
       <script type='text/javascript'>
 	    var agendaWeekLoaded = false;
-	    var agendaDayLoaded = false;
+      var agendaDayLoaded = false;
+      var gotoDate;
+      var dateToAdd;
       var menuOptions = {
-        add: '<li><a onclick=\'addEvent()\'>Add Event</a></li>',
+        add: '<li><a onclick=\'addEvent(dateToAdd)\'>Add Event</a></li>',
         delete: '<li><a onclick=\'deleteEvent()\'>Delete</a></li>',
         edit: '<li><a onclick=\'viewEvent(1)\'>Edit Event</a></li>',
-        view: '<li><a onclick=\'viewEvent(0)\'>View Event</a></li>'
+        view: '<li><a onclick=\'viewEvent(0, gotoDate)\'>View Event</a></li>'
       }
 			$(document).ready(function() {
 			// page is now ready, initialize the calendar...
@@ -24,14 +26,31 @@
 					},
 				events: {$evt},
         dayClick: function( date, allDay, jsEvent, view ) {
-			  // If this is a day of another month changing current day to that day will change view. That's totally not cool.
-			  if(!$(this).hasClass('fc-other-month')) 
-				{
-			    $('#calendar').fullCalendar('gotoDate', date);
-			  }
-         },
+			    // If this is a day of another month changing current day to that day will change view. That's totally not cool.
+			    if(!$(this).hasClass('fc-other-month')) 
+				  {
+			      $('#calendar').fullCalendar('gotoDate', date);
+          }
+          dateToAdd = date;
+          $(this).qtip({ 
+            content: '<ul class=\'evtOptions\'>'+menuOptions.add+'</ul>', 
+            position: {
+              at: 'center',
+              my: 'bottom center'
+            },
+            show: {ready: true, event: 'click'},
+            hide: {event: 'unfocus', fixed: true},
+            style: {
+              classes: 'ui-tooltip-blue'
+            },
+            solo: true
+          });
+          },
 			    eventRender: function(event, element) {
-           element.qtip({
+            element.qtip({
+             prerender: true,
+             id: 'evtTip',
+             solo: true,
              overwrite: false,
              content: {
                title: {text: 'Event Options'},
@@ -41,10 +60,13 @@
             target: 'mouse',
             adjust: {mouse: false}
             },
-            show: {event: 'click'},
-            hide: {event: 'mouseleave', fixed: true},
-            style: {classes: 'ui-tooltip-tipped', tip:false}
+            show: {event: 'click', effect: function() {\$(this).slideDown(250);}},
+            hide: {event: 'unfocus'},
+            style: {classes: 'ui-tooltip-tipped', tip: false}
             });
+          },
+          eventClick: function(event, jsEvent, view) {
+            gotoDate = event.start;
           },
           editable: true,
           eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
@@ -73,12 +95,14 @@
          })
           // Calendar automatically loads into month view so set it's widgets now.
           setWidgetDblClick('month');		  
-
+          
+          var bgColorOrg;
           $('td.fc-widget-content').mouseenter(function() {
+            bgColorOrg = $(this).css('background-color');
             $(this).css('background-color', '#666666');
           })
           .mouseleave(function() {
-            $(this).css('background-color', 'transparent');
+            $(this).css('background-color', bgColorOrg);
           });
 				});
       </script>";
