@@ -169,6 +169,23 @@ div#calendarWrap
   margin: 0 auto;
   float:right;
 }
+
+ul.evtOptions
+{
+  list-style-type: none;
+  font-size: 1em;
+  width: 100%;
+}
+
+ul.evtOptions li:hover
+{
+  background-color: #666666;
+}
+
+ul.evtOptions li a
+{
+  color: black;
+}
 /* end calendar styles */
 
 button#loginBtn

@@ -1,4 +1,5 @@
 <?php
+require_once("../classes/Database.php");
 // Constants
 // Having issues with relative pathing, will figure out later -awardi
 define('ABS_PATH', dirname(__FILE__));

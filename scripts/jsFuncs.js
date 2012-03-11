@@ -28,10 +28,6 @@ function populateCourses(crs)
  * as they share very similar styles, but with varying content and titles.
  */
 function dialogue(content, title) {
-  /* 
-   * Since the dialogue isn't really a tooltip as such, we'll use a dummy
-   * out-of-DOM element as our target instead of an actual element like document.body
-   */
   $('<div />').qtip(
   {
     content: {
@@ -63,7 +59,7 @@ function dialogue(content, title) {
 }
 
 // Show Event Dialog
-function eventDialog(date, callback)
+function eventDialog(date)
 {
   var clickedDate = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
   var clickedTime =
@@ -85,8 +81,8 @@ function eventDialog(date, callback)
       lctn_tbx = $('<input />', { val: '' }),
       desc_msg = $('<p />', { text: 'Description' }),
       desc_tbx = $('<input />', { val: '' }),
-      save_btn = $('<button />', {text: 'Save', click: function() {callback( input.val() );} }),
-      cncl_btn = $('<button />', {text: 'Cancel', click: function() { callback(null); } });
+      save_btn = $('<button />', {text: 'Save', click: createEvent /*function() {callback( input.val() );}*/ }),
+      cncl_btn = $('<button />', {text: 'Cancel', click: function() {} });
 
   dialogue(
     title_msg.add(title_tbx)
@@ -98,6 +94,21 @@ function eventDialog(date, callback)
     .add(desc_msg).add(desc_tbx)
     .add(save_btn).add(cncl_btn),
     'New Event' );
+}
+
+function addEvent()
+{
+  // Coming soon
+}
+
+function viewEvent(isEdit)
+{
+  // Coming soon
+}
+
+function deleteEvent()
+{
+  // Coming soon
 }
 
 function uploadFile()
