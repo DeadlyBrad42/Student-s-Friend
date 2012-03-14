@@ -15,6 +15,14 @@
     Event::changeEvent($id, $day, $min, $res);   
     exit(0);
   }
+
+  if(isset($_GET['add']) && $_GET['add'] == 'true' && isset($_GET['event']))
+  {
+    $evt = "{" . $_GET['event'] . "}";
+    $evt = json_decode($evt);
+    Event::createEvent($evt, false);
+    exit(0);
+  }
 ?>
 <!DOCTYPE html>
 <html>

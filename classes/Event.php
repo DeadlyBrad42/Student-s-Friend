@@ -1,7 +1,7 @@
 <?php
   require_once("Database.php");
   
-  class Event{
+  class Event {
   private $id;
 	private $name;
 	private $description;
@@ -26,10 +26,63 @@
     $this->set_privacy($row['privacy']);
   }
     
-	function createEvent(){
-	}
+  // $obj here is a json object that's been decoded
+  public static function createEvent($obj, $isCrs) {
+    global $db;
+    $daysUntilRecur = 0;
+    $event_recurs = 0;
+    $isRecur = 0;
+    $sTime = $obj->sDate . " " . $obj->sTime;
+    $eTime = $obj->eDate . " " . $obj->eTime;
+    switch ($obj->isRecur)
+    {
+      case "Daily":
+        $isRecur = 1;
+        $daysUntilRecur = 1;
+        $event_recurs = 365;
+        break;
+      case "Weekly":
+        $isRecur = 1;
+        $daysUntilRecur = 7;
+        $event_recurs = 52;
+        break;
+      case "Monthly":
+        $isRecur = 1;
+        $daysUntilRecur = 30;
+        $event_recurs = 12;
+        break;
+      case "Yearly":
+        $isRecur = 1;
+        $daysUntilRecur = 365;
+        $event_recurs = 1;
+        break;
+      default:
+        break;
+    }
+
+    if ($isCrs == "true")
+    {
+      $id = $_SESSION['courseID'];
+      if (!$db->query("INSERT INTO sfevent (event_name, event_desc, event_location, event_startTime, event_endTime, event_privacy, user_ID,
+                  course_ID, event_isRecur, event_daysUntilRecur, event_recurs) VALUES('{$obj->name}', '{$obj->descrip}', '{$obj->loc}',
+                  '{$sTime}', '{$eTime}', '0', '0', '{$id}', '{$isRecur}', '{$daysUntilRecur}', '{$event_recurs}')"))
+      {
+        echo "Problem with insert!";
+      }
+    }
+    else
+    {
+      $id = $_SESSION['userID'];
+      if (!$db->query("INSERT INTO sfevent (event_name, event_desc, event_location, event_startTime, event_endTime, event_privacy, user_ID,
+                  course_ID, event_isRecur, event_daysUntilRecur, event_recurs) VALUES('{$obj->name}', '{$obj->descrip}', '{$obj->loc}',
+                  '{$sTime}', '{$eTime}', '0', '{$id}', '0', '{$isRecur}', '{$daysUntilRecur}', '{$event_recurs}' )"))
+      {
+        echo "Problem with insert!";
+      }
+    }
+  }
 	
-	function isRecurring(){
+	public function isRecurring(){
 	}
 	
   public static function getEvents($id, $isCrs=0) {
@@ -59,23 +112,23 @@
 
       $evt[] = $e;
 	  
-	  if($row['event_isRecur']) {
-	    for($i = 0; $i < $row['event_recurs']; $i++) {
-		  $daysToAdd = $row['event_daysUntilRecur'];
+      if($row['event_isRecur']) 
+      {
+        for($i = 0; $i < $row['event_recurs']; $i++) 
+        {
+		      $daysToAdd = $row['event_daysUntilRecur'];
+		      $start = new DateTime($e['start']);
+		      $start->add(new DateInterval("P{$daysToAdd}D"));
+		      $e['start'] = $start->format('Y-m-d H:i:s');
 		  
-		  $start = new DateTime($e['start']);
-		  $start->add(new DateInterval("P{$daysToAdd}D"));
-		  $e['start'] = $start->format('Y-m-d H:i:s');
+		      $end = new DateTime($e['end']);
+		      $end->add(new DateInterval("P{$daysToAdd}D"));
+		      $e['end'] = $end->format('Y-m-d H:i:s');
 		  
-		  $end = new DateTime($e['end']);
-		  $end->add(new DateInterval("P{$daysToAdd}D"));
-		  $e['end'] = $end->format('Y-m-d H:i:s');
-		  
-		  $evt[] = $e;
-	    }
-	  }
+		      $evt[] = $e;
+	      }
+      }
     }
-    
     return json_encode($evt);
   }
 
@@ -107,66 +160,62 @@
       }
     }
   }
-    /* GETTERS */
-    
-    function get_id() {
-      return $this->id;
-    }
+  /* GETTERS */
+  public function get_id() {
+    return $this->id;
+  }
 
-	function get_name() {
-      return $this->name;
-    }
+	public function get_name() {
+    return $this->name;
+  }
 	
-	function get_description() {
-      return $this->description;
-    }
+	public function get_description() {
+    return $this->description;
+  }
 	
-	function get_location() {
-      return $this->location;
-    }
+	public function get_location() {
+    return $this->location;
+  }
 	
-	function get_startTime() {
-      return $this->startTime;
-    }
+	public function get_startTime() {
+    return $this->startTime;
+  }
 	
-	function get_endTime() {
-      return $this->endTime;
-    }
+	public function get_endTime() {
+    return $this->endTime;
+  }
 	
-	function get_privacy() {
-      return $this->privacy;
-    }
- 
+	public function get_privacy() {
+    return $this->privacy;
+  } 
     /* SETTERS */
     
-    function set_id($x) {
-      $this->id = $x;
-    }
+  private function set_id($x) {
+    $this->id = $x;
+  }
 	
-	function set_name($x) {
-      $this->name = $x;
-    }
+	private function set_name($x) {
+    $this->name = $x;
+  }
 	
 	function set_description($x) {
-      $this->description = $x;
-    }
+    $this->description = $x;
+  }
 	
 	function set_location($x) {
-      $this->location = $x;
-    }
+    $this->location = $x;
+  }
 	
 	function set_startTime($x) {
-      $this->startTime = $x;
-    }
+    $this->startTime = $x;
+  }
 	
 	function set_endTime($x) {
-      $this->endTime = $x;
-    }
+    $this->endTime = $x;
+  }
 	
 	function set_privacy($x) {
-      $this->privacy = $x;
-    }
-    
+    $this->privacy = $x;
   }
-  
+}
 ?>

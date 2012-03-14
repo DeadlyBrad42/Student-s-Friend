@@ -12,7 +12,7 @@
       var gotoDate;
       var dateToAdd;
       var menuOptions = {
-        add: '<li><a onclick=\'addEvent(dateToAdd)\'>Add Event</a></li>',
+        add: '<li><a onclick=\'eventDialogue(dateToAdd)\'>Add Event</a></li>',
         delete: '<li><a onclick=\'deleteEvent()\'>Delete</a></li>',
         edit: '<li><a onclick=\'viewEvent(1)\'>Edit Event</a></li>',
         view: '<li><a onclick=\'viewEvent(0, gotoDate)\'>View Event</a></li>'

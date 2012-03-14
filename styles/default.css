@@ -56,6 +56,11 @@ a.cursorPter
 {
   cursor: pointer;
 }
+
+.noDisplay
+{
+  display: none;
+}
 /* ~~~ End General Class Styles ~~~ */
 
 /* ~~~ Specific Styles ~~~ */
@@ -189,6 +194,18 @@ ul.evtOptions li a
   text-decoration: none;
 }
 /* end calendar styles */
+
+/* add event box styles */
+ul#recurList
+{
+  list-style-type: none;
+}
+
+tr#recRow, div#infoLbl
+{
+  display: none;
+}
+/* end add event box styles */
 
 button#loginBtn
 {

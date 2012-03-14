@@ -22,14 +22,10 @@ function populateCourses(crs)
   list.appendChild(ul);
 }
 
-/*
- * Common dialogue() function that creates our dialogue qTip.
- * We'll use this method to create both our prompt and confirm dialogues
- * as they share very similar styles, but with varying content and titles.
- */
-function dialogue(content, title) {
+function dialogue(id, content, title, blur) {
   $('<div />').qtip(
   {
+    id: id,
     content: {
       text: content,
       title: title
@@ -42,15 +38,14 @@ function dialogue(content, title) {
       ready: true, // Show it straight away
       modal: {
         on: true, // Make it modal (darken the rest of the page)...
-        blur: false // ... but don't close the tooltip when clicked
+        blur: blur // parameter will decide whether to let user click out of form
       }
     },
     hide: false, // We'll hide it maunally so disable hide events
     style: 'ui-tooltip-light ui-tooltip-rounded ui-tooltip-dialogue', // Add a few styles
     events: {
-      // Hide the tooltip when any buttons in the dialogue are clicked
       render: function(event, api) {
-        $('button', api.elements.content).click(api.hide);
+        // We'll be hiding our tooltips manually on a close-button to close-button basis
       },
       // Destroy the tooltip once it's hidden as we no longer need it!
       hide: function(event, api) { api.destroy(); }
@@ -58,39 +53,120 @@ function dialogue(content, title) {
   });
 }
 
-// Show Event Dialog
-function addEvent(date)
+// Dynamically Builds and Shows the add event Dialogue
+function eventDialogue(date)
 {
   var div = $('<div />', {id: 'evtAddForm'});
   var tbl = $('<table />', {id: 'evtAddTbl'});
   var labels = ['<td>Title:</td>','<td>Start Date:</td>', '<td>End Date:</td>', '<td>Start Time:</td>', 
-                '<td>End Time:</td>', '<td>Location:</td>', '<td>Description:</td>'];
+                '<td>End Time:</td>', '<td>Location:</td>', '<td>Description:</td>', '<td>Recurrence:</td>'];
   var clickedDate = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
   var clickedTime =
     (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":" +
     (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes());
+  clickedTime = (clickedTime == "00:00" ? "12:00" : clickedTime);
   
-  // Content will consist of a question elem and input, with ok/cancel buttons
+  var isRecur=false;
+  
   var inp = new Array(); 
-  inp[0] = $('<input />', {name: 'evtTitle', type: 'text', val: ''});
-  inp[1] = $('<input />', {name: 'evtStartDt', type: 'text', val: clickedDate});
-  inp[2] = $('<input />', {name: 'evtEndDt', type: 'text', val: clickedDate});
-  inp[3] = $('<input />', {name: 'evtStartTi', type: 'text', val: clickedTime});
-  inp[4] = $('<input />', {name: 'evtEndTi', type: 'text', val: clickedTime});
-  inp[5] = $('<input />', {name: 'evtLocation', type: 'text', val: '' });
-  inp[6] = $('<input />', {name: 'evtDescrip', type: 'text', val: '' });
+  inp[0] = $('<input />', {id: 'evtTitle', name: 'evtTitle', type: 'text', val: ''});
+  inp[1] = $('<input />', {id: 'evtStartDt', name: 'evtStartDt', type: 'text', val: clickedDate});
+  inp[2] = $('<input />', {id: 'evtEndDt', name: 'evtEndDt', type: 'text', val: clickedDate});
+  inp[3] = $('<input />', {id: 'evtStartTi', name: 'evtStartTi', type: 'text', val: clickedTime});
+  inp[4] = $('<input />', {id: 'evtEndTi', name: 'evtEndTi', type: 'text', val: clickedTime});
+  inp[5] = $('<input />', {id: 'evtLocation', name: 'evtLocation', type: 'text', val: '' });
+  inp[6] = $('<input />', {id: 'evtDescrip', name: 'evtDescrip', type: 'text', val: '' });
+  inp[7] = $('<input />', {id: 'evtRecur', name: 'evtRecur', type: 'checkbox', val: 'yes', click: function() {
+      if ($(this).is(':checked'))
+      {
+        $('tr#recRow').css('display','table-row');
+        isRecur = true;
+      }
+      else
+      {
+        $('tr#recRow').css('display','none');
+        isRecur = false;
+      }
+      
+    } 
+  });
+  recurList = $('<ul />', {id: 'recurList'}),
+  recurD = $('<input />', {id: 'recurDaily', type: 'radio', name: 'recur', val: 'Daily', checked: true}),
+  recurW = $('<input />', {id: 'recurWeekly', type: 'radio', name: 'recur', val: 'Weekly'})
+  recurM = $('<input />', {id: 'recurMonthly', type: 'radio', name: 'recur', val: 'Monthly'})
+  recurY = $('<input />', {id: 'recurYearly', type: 'radio', name: 'recur', val: 'Yearly'});
   
-  saveBtn = $('<button />', {text: 'Save', click: function() {} }),
-  cancelBtn = $('<button />', {text: 'Cancel', click: function() {} });
+  
+  recurList.append($('<li />').append(recurD).append('Daily'))
+           .append($('<li />').append(recurW).append('Weekly'))
+           .append($('<li />').append(recurM).append('Monthly'))
+           .append($('<li />').append(recurY).append('Yearly'));
 
+  saveBtn = $('<button />', {text: 'Save', click: function() {
+      if (validate('#evtAddForm input'))
+      {
+        isRecur ? addEvent($('input[name="recur"]').attr('value')) : addEvent('none');
+        console.log('Event Added!');
+        $('#ui-tooltip-evtModal').qtip('hide');
+      }
+      else
+      {
+        $('div#infoLbl').css({display :'block', color: 'red'}).html('Issue with the form!');
+      }
+    } 
+  }),
+  cancelBtn = $('<button />', {text: 'Cancel', click: function() {$('#ui-tooltip-evtModal').qtip('hide');} });
+  
   for (var i=0; i < labels.length; i++)
   {
     var row = $('<tr />').append(labels[i]).append($('<td />').append(inp[i]));
     tbl.append(row);
   }
+  
+  tbl.append($('<tr />', {id: 'recRow'}).append('<td />').append($('<td />').append(recurList)));
   div.append(tbl);
-  div.append(saveBtn).append(cancelBtn);
-  dialogue(div, 'New Event');
+  div.append(saveBtn).append(cancelBtn).append($('<div />', {id: 'infoLbl'}));
+  dialogue('evtModal', div, 'New Event', false);
+}
+
+// simple validation function, just pass in the jquery selector string
+function validate(element)
+{
+  var ok = true;
+  $.each($(element),function(index)
+  {
+    //console.log($(this).attr('value'));
+    if ($(this).attr('value') == null || $(this).attr('value') == '')
+    {
+      ok = false;
+    }
+  });
+  return ok;
+}
+
+// Takes an array of inputs and processes their values
+function addEvent(recurrence)
+{
+  // PHP's json_decode() is expecting a string of json, so we need to
+  // do a join on the array and send it as a string.
+  var event = [
+    '"name":', '"'+$('#evtTitle').attr('value')+'",',
+    '"sDate":', '"'+$('#evtStartDt').attr('value')+'",',
+    '"eDate":', '"'+$('#evtEndDt').attr('value')+'",',
+    '"sTime":', '"'+$('#evtStartTi').attr('value')+'",',
+    '"eTime":', '"'+$('#evtEndTi').attr('value')+'",',
+    '"loc":', '"'+$('#evtLocation').attr('value')+'",',
+    '"descrip":', '"'+$('#evtDescrip').attr('value')+'",',
+    '"isRecur":', recurrence != 'none' ? '"'+recurrence+'"' : '"false"'  
+    ];
+  
+  var jsonStr = event.join('');
+ 
+  var url = 'calendar.php?add=true' + '&event=' + jsonStr;
+  $.ajax({url: url, dataType: 'html', success: function(object) {
+    console.log(object);
+    }
+  });
 }
 
 function viewEvent(isEdit, date)
@@ -111,20 +187,20 @@ function uploadFile()
 
   var input = $('<input />', {type: 'file', name: 'file', id: 'file'}),
       upload_btn = $('<input />', {val: 'Upload', name: 'Upload', type: 'Submit'}),
-      cncl_btn = $('<button />', {text: 'Cancel', click: function() {} });
+      cncl_btn = $('<button />', {text: 'Cancel', click: function() {$('#ui-tooltip-uploadModal').qtip('hide');} });
   form.append(input).append(upload_btn).append(cncl_btn);
 
-  dialogue( form, 'Upload A New File' );
+  dialogue('uploadModal', form, 'Upload A New File', true);
 }
 
 function showUploadPic(src, name)
 {
   var box = $('<div />', {id: 'imgBox'}),
       img = $('<img />', {src: src, width: '500', height: '500'})
-      btn = $('<button />', {text: 'Close', click: function() {} });
+      btn = $('<button />', {text: 'Close', click: function() {$('#ui-tooltip-picModal').qtip('hide');} });
 
   box.append(img).append(btn);
-  dialogue(box, name);
+  dialogue('picModal', box, name, true);
 }
 
 
