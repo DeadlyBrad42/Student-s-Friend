@@ -105,7 +105,7 @@ function eventDialogue(date)
   saveBtn = $('<button />', {text: 'Save', click: function() {
       if (validate('#evtAddForm input'))
       {
-        isRecur ? addEvent($('input[name="recur"]').attr('value')) : addEvent('none');
+        isRecur ? addEvent($('input[name="recur"]:checked').attr('value')) : addEvent('none');
         console.log('Event Added!');
         $('#ui-tooltip-evtModal').qtip('hide');
       }
