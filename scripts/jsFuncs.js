@@ -218,24 +218,19 @@ function populate_newsfeed(userID, numfeed)
   //Save the number of feeds requested for expandFeed function.
   feedObj.numfeeds = numfeed;
   
-  // Ajax for filling news feed.
-  var xmlhttp = new XMLHttpRequest();
+  var url = "getNewsfeed.php?userID=" + userID + "&numfeed=" + numfeed;
   
-  xmlhttp.onreadystatechange = function () 
-  {
-    if(xmlhttp.readyState == 4 && xmlhttp.status == 200) 
-	{	  
-	  // Once response is received put it's contents into newsfeed div and set mark feedObj as being populated.
-	  document.getElementById("newsfeed").innerHTML = xmlhttp.responseText;
+  $.ajax({
+	  url: url, 
+	  success: function(data) {
+        // Once response is received put it's contents into newsfeed div and set mark feedObj as being populated.
+	  document.getElementById("newsfeed").innerHTML = data;
 	  feedObj.feedPopulated = true;
 	  
 	  // Sets the function to be called again in (2nd param) milliseconds.
       setTimeout("updateFeed(" + userID + ")", 5000);
-	}
-  }
-  
-  xmlhttp.open("GET", "getNewsfeed.php?userID=" + userID + "&numfeed=" + numfeed, true);
-  xmlhttp.send();
+	  }
+	})
 }
 
 /*********************************
@@ -245,22 +240,6 @@ function populate_newsfeed(userID, numfeed)
 *********************************/
 function updateFeed(userID) {
   if(feedObj.feedPopulated == true) {
-    var xmlhttp = new XMLHttpRequest();
-  
-	xmlhttp.onreadystatechange = function () 
-    {
-      if(xmlhttp.readyState == 4 && xmlhttp.status == 200) 
-	  {	
-	    // New set has been successfully received. Remove the input element marking the date of the latest update. 
-        document.getElementById("updateTable").childNodes[0].removeChild(document.getElementById("updateTable").childNodes[0].firstChild);
-		// Add feed to top of update table including new latest update marker.
-	    document.getElementById("updateTable").childNodes[0].innerHTML = xmlhttp.responseText + document.getElementById("updateTable").childNodes[0].innerHTML;
-	  
-	    // Sets the function to be called again in (2nd param) milliseconds.
-        setTimeout("updateFeed(" + userID + ")", 5000);
-	  }
-    }
-	
 	//	Check to see if the tbody of updateTable has any rows.
 	if(document.getElementById("updateTable").childNodes[0].childNodes[0] != null)
 	{
@@ -271,8 +250,20 @@ function updateFeed(userID) {
 	  feedObj.topEntryDate = "1980-00-00 00:00:00";
 	}
 	
-	xmlhttp.open("GET", "updateFeed.php?userID=" + userID + "&topEntryDate=" + feedObj.topEntryDate, true);
-    xmlhttp.send();
+	var url = "updateFeed.php?userID=" + userID + "&topEntryDate=" + feedObj.topEntryDate;
+	
+	$.ajax({
+	  url: url, 
+	  success: function(data) {
+        // New set has been successfully received. Remove the input element marking the date of the latest update. 
+        document.getElementById("updateTable").childNodes[0].removeChild(document.getElementById("updateTable").childNodes[0].firstChild);
+		// Add feed to top of update table including new latest update marker.
+	    document.getElementById("updateTable").childNodes[0].innerHTML = data + document.getElementById("updateTable").childNodes[0].innerHTML;
+		
+		// Sets the function to be called again in (2nd param) milliseconds.
+        setTimeout("updateFeed(" + userID + ")", 5000);
+	  }
+	})
   }
 }  
 
@@ -283,18 +274,6 @@ function updateFeed(userID) {
 *********************************/
 function expandFeed(userID) {
   if(feedObj.feedPopulated == true) {	//	Sanity check to make sure divs we are expecting to be there will be there.
-    var xmlhttp = new XMLHttpRequest();
-  
-	xmlhttp.onreadystatechange = function () 
-    {
-      if(xmlhttp.readyState == 4 && xmlhttp.status == 200) 
-	  {	
-        //	Remove the input element which contains the date of the earliest update from the table.	  
-	    document.getElementById("updateTable").childNodes[0].removeChild(document.getElementById("updateTable").childNodes[0].lastChild);
-		//	Insert the new data from expandFeed.php into the table including a new input element containing the new date of the earliest update in the feed.
-	    document.getElementById("updateTable").childNodes[0].innerHTML = document.getElementById("updateTable").childNodes[0].innerHTML + xmlhttp.responseText;
-	  }
-    }
 	
 	//	Check to see if the tbody of updateTable has any rows.
 	if(document.getElementById("updateTable").childNodes[0].childNodes[0] != null)
@@ -306,8 +285,17 @@ function expandFeed(userID) {
 	  feedObj.lowestEntryDate = "3000-00-00 00:00:00";
 	}
 	
-	xmlhttp.open("GET", "expandFeed.php?userID=" + userID + "&lowestEntryDate=" + feedObj.lowestEntryDate + "&numfeed=" + feedObj.numfeeds, true);
-    xmlhttp.send();
+	var url = "expandFeed.php?userID=" + userID + "&lowestEntryDate=" + feedObj.lowestEntryDate + "&numfeed=" + feedObj.numfeeds;
+	
+	$.ajax({
+	  url: url, 
+	  success: function(data) {
+        //	Remove the input element which contains the date of the earliest update from the table.	  
+	    document.getElementById("updateTable").childNodes[0].removeChild(document.getElementById("updateTable").childNodes[0].lastChild);
+		//	Insert the new data from expandFeed.php into the table including a new input element containing the new date of the earliest update in the feed.
+	    document.getElementById("updateTable").childNodes[0].innerHTML = document.getElementById("updateTable").childNodes[0].innerHTML + data;
+	  }
+	})
   }
 }  
 
