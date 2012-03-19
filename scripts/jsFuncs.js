@@ -165,19 +165,41 @@ function addEvent(recurrence)
   var url = 'calendar.php?add=true' + '&event=' + jsonStr;
   $.ajax({url: url, dataType: 'html', success: function(object) {
     console.log(object);
+    $('#calendar').fullCalendar('refetchEvents');
+    $('.addTip').qtip('hide');
     }
   });
 }
 
-function viewEvent(isEdit, date)
+function viewEvent(isEdit, s, e, d, t, l)
 {
+  /*
   $('#calendar').fullCalendar('changeView','agendaDay');
   $('#calendar').fullCalendar('gotoDate', date);
+  */
+  console.log(s);
+  console.log(e);
+  console.log(d);
+  console.log(t);
+  console.log(l);
 }
 
-function deleteEvent()
+function deleteEvent(evtID)
 {
-  // Coming soon
+  var div = $('<div />'),
+      btnY = $('<input />', {type: 'button', val: 'Yes', click: function() {
+        $('#ui-tooltip-deleteEvtConfirm').qtip('hide'); 
+        var url = 'calendar.php?delete=true' + '&eventid=' + evtID;
+        $.ajax({url: url, success: function(data) {
+          $('#calendar').fullCalendar('refetchEvents');
+          }
+        });
+      }
+      }),
+      btnN = $('<input />', {type: 'button', val: 'No', click: function() {$('#ui-tooltip-deleteEvtConfirm').qtip('hide');} });
+
+  div.html("Are you sure you want to permanently delete this event?<br />").append(btnY).append(btnN);
+  dialogue('deleteEvtConfirm', div, 'Event: Deletion', false);
 }
 
 function uploadFile()

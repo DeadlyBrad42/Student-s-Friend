@@ -1,6 +1,5 @@
 <?php 
   require_once("classes/Calendar.php");
-  require_once("classes/Event.php");
 	require_once("classes/Facebook.php");
   session_start(); 
   if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
@@ -21,6 +20,13 @@
     $evt = "{" . $_GET['event'] . "}";
     $evt = json_decode($evt);
     Event::createEvent($evt, false);
+    exit(0);
+  }
+
+  if(isset($_GET['delete']) && $_GET['delete'] == 'true' && isset($_GET['eventid']))
+  {
+    $id = $_GET['eventid'];
+    Event::deleteEvent($id);
     exit(0);
   }
 ?>

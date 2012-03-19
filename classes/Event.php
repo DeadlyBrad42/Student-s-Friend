@@ -63,21 +63,21 @@
     if ($isCrs == "true")
     {
       $id = $_SESSION['courseID'];
-      if (!$db->query("INSERT INTO sfevent (event_name, event_desc, event_location, event_startTime, event_endTime, event_privacy, user_ID,
+      if ($db->query("INSERT INTO sfevent (event_name, event_desc, event_location, event_startTime, event_endTime, event_privacy, user_ID,
                   course_ID, event_isRecur, event_daysUntilRecur, event_recurs) VALUES('{$obj->name}', '{$obj->descrip}', '{$obj->loc}',
                   '{$sTime}', '{$eTime}', '0', '0', '{$id}', '{$isRecur}', '{$daysUntilRecur}', '{$event_recurs}')"))
       {
-        echo "Problem with insert!";
+        echo "insert success!";
       }
     }
     else
     {
       $id = $_SESSION['userID'];
-      if (!$db->query("INSERT INTO sfevent (event_name, event_desc, event_location, event_startTime, event_endTime, event_privacy, user_ID,
+      if ($db->query("INSERT INTO sfevent (event_name, event_desc, event_location, event_startTime, event_endTime, event_privacy, user_ID,
                   course_ID, event_isRecur, event_daysUntilRecur, event_recurs) VALUES('{$obj->name}', '{$obj->descrip}', '{$obj->loc}',
                   '{$sTime}', '{$eTime}', '0', '{$id}', '0', '{$isRecur}', '{$daysUntilRecur}', '{$event_recurs}' )"))
       {
-        echo "Problem with insert!";
+        echo "insert success!";
       }
     }
   }
@@ -160,6 +160,19 @@
       }
     }
   }
+
+  public static function deleteEvent($id) {
+    global $db;
+    if ($db->query("DELETE FROM sfevent WHERE event_ID = {$id}"))
+    {
+      echo "query worked!";
+    }
+    else
+    {
+      echo "query did not work!";
+    } 
+  }
+
   /* GETTERS */
   public function get_id() {
     return $this->id;

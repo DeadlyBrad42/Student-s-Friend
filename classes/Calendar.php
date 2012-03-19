@@ -11,20 +11,21 @@
       var agendaDayLoaded = false;
       var gotoDate;
       var dateToAdd;
+      var eStart, eEnd, eDesc, eTitle, eLoc, eid;
       var menuOptions = {
         add: '<li><a onclick=\'eventDialogue(dateToAdd)\'>Add Event</a></li>',
-        delete: '<li><a onclick=\'deleteEvent()\'>Delete</a></li>',
-        edit: '<li><a onclick=\'viewEvent(1)\'>Edit Event</a></li>',
-        view: '<li><a onclick=\'viewEvent(0, gotoDate)\'>View Event</a></li>'
+        delete: '<li><a onclick=\'deleteEvent(eid)\'>Delete</a></li>',
+        edit: '<li><a onclick=\'viewEvent(1, eStart, eEnd, eDesc, eTitle, eLoc)\'>Edit Event</a></li>',
+        view: '<li><a onclick=\'viewEvent(0, eStart, eEnd, eDesc, eTitle, eLoc)\'>View Event</a></li>'
       }
-			$(document).ready(function() {
+      $(document).ready(function() { 
 			// page is now ready, initialize the calendar...
 			$('#calendar').fullCalendar({
 				header: {
 					left: 'month,agendaWeek,agendaDay',
 					center: 'title'
 					},
-				events: {$evt},
+				eventSources: ['eventFeed.php'],
         dayClick: function( date, allDay, jsEvent, view ) {
 			    // If this is a day of another month changing current day to that day will change view. That's totally not cool.
 			    if(!$(this).hasClass('fc-other-month')) 
@@ -41,7 +42,7 @@
             show: {ready: true, event: 'click'},
             hide: {event: 'unfocus', fixed: true},
             style: {
-              classes: 'ui-tooltip-blue'
+              classes: 'ui-tooltip-blue addTip'
             },
             solo: true
           });
@@ -66,7 +67,12 @@
             });
           },
           eventClick: function(event, jsEvent, view) {
-            gotoDate = event.start;
+            gotoDate = eStart = event.start;
+            eEnd = event.end;
+            eTitle = event.title;
+            eLoc = event.location;
+            eDesc = event.description;
+            eid = event.id;
           },
           editable: true,
           eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
