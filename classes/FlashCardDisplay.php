@@ -20,7 +20,7 @@ class FlashCardDisplay{
 					}
 					if( titles.length != 0 ){
 						if(flag){
-						  $.ajax({url: 'flashcardselect.php?Result=' + titles.toString(), dataType: 'html', success: function(object) {
+						  $.ajax({url: 'flashcardselect.php?ping=' + titles.toString(), dataType: 'html', success: function(object) {
 								$('#f').html(object);}});
 						}
 						else{
@@ -59,7 +59,6 @@ class FlashCardDisplay{
 	
 	public static function makeFlashCardEditScript($titles){
 		$toEdits = FlashCardManager::makeDeck($titles);
-		var_dump($toEdits);
 		$x = "
 			<script type='text/javascript'>		
 				function reSubmitCards(counter){
@@ -72,11 +71,9 @@ class FlashCardDisplay{
 					{
 						if(document.getElementById(i))
 							currentTitle = document.getElementById(i).value;
-						if(document.getElementById(qID.concat(i)).value != '' && 
-						   document.getElementById(aID.concat(i)).value != '' ){
-
-						   results = results+toEdits[i].id+'<>'+currentTitle+'<>'+document.getElementById(qID.concat(i)).value+'<>'+document.getElementById(aID.concat(i)).value+'<>';
-						}
+							
+						results = results+toEdits[i].id+'<>'+currentTitle+'<>'+document.getElementById(qID.concat(i)).value+'<>'+document.getElementById(aID.concat(i)).value+'<>';
+						
 					}
 					$.ajax({url: 'flashcardselect.php?edit=' + results, dataType: 'html', success: function(object) {
 								$('#f').html(object);
@@ -159,7 +156,7 @@ class FlashCardDisplay{
 	public static function makeFlashCardScript($titles) {
 		$deck = FlashCardManager::makeDeck($titles);
 		$x = "
-			<script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>
+			
 			<style type='text/css'>
 				div.pos_set
 				{
@@ -173,7 +170,9 @@ class FlashCardDisplay{
 				var counter = 0;
 				var front = true;
 				var deck = {$deck};
+				
 				$(document).ready(function() {
+					
 					getNew();
 				});
 				
@@ -241,7 +240,7 @@ class FlashCardDisplay{
 					</div>
 
 					<div class='blackPanel'>
-						<div class='first quickFlipCta'><p id='questb'></p><br/><p id='ans'></p></div>
+						<div><br/><br/><p id='questb'></p><br/><p id='ans'></p></div>
 						
 						<div class='pos_set'>
 							<button type='button' id='question' onclick = 'flipCard()'>Question</button>
@@ -260,6 +259,16 @@ class FlashCardDisplay{
 		echo $x;
 	}
 	
+	public static function redo($q){
+		$x = "
+		<script type='text/javascript'>
+				$(document).ready(function() {
+					$.ajax({url: 'flashcardselect.php?Result=' + '{$q}', dataType: 'html', success: function(object) {
+						$('#f').html(object);}});
+						});
+		</script>";
+		echo $x;
+	}
 ///////////////////////////////////////////////////////////	
 //End of Flash Card Page///////////////////////////////////
 ///////////////////////////////////////////////////////////

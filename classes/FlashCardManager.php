@@ -13,8 +13,10 @@
 		global $db;
 		for( $i=0; $i<count($results)-4; $i+=4){
 			$db->query("DELETE FROM flashcard WHERE card_ID= {$results[$i]}");
-			$db->query("INSERT INTO flashcard (course_ID, user_ID, card_title, card_question, card_answer)
+			if( $results[$i+2] != '' && $results[$i+3] != '' ){
+				$db->query("INSERT INTO flashcard (course_ID, user_ID, card_title, card_question, card_answer)
 					VALUES({$cor},'{$uID}','{$results[$i+1]}','{$results[$i+2]}','{$results[$i+3]}')");
+			}
 		}
 		
 	}
@@ -41,7 +43,9 @@
 								'title' => $row['card_title'],
 								'question' => $row['card_question'],
 								'answer' => $row['card_answer'],
-								'id'=> $row['card_ID']);
+								'id'=> $row['card_ID'],
+								'uid'=> $row['user_ID']);
+								
 				$cardArray[]= $holder;
 			}
 		}
