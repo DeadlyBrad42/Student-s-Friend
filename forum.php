@@ -7,9 +7,17 @@
   {
     // Sanatize here
     $content = $_GET['content'];
-    $threadID = $_GET['title'];
+    $title = $_GET['title'];
+    $courseID = 42;
     
-    //$db->query("INSERT INTO post (post_ID, user_ID, post_content, post_time, thread_ID) VALUES (null, '{$_SESSION['userID']}', '{$content}', now(), {$threadID})");
+    // Add a new thread
+    $db->query("INSERT INTO thread (thread_ID, thread_title, course_ID) VALUES (null, '{$title}', {$courseID})");
+    
+    // Get the threadID from the last query
+    $threadID = $db->getLastInsertedID();
+    
+    // Add a new post to the thread that was just created
+    $db->query("INSERT INTO post (post_ID, user_ID, post_content, post_time, thread_ID) VALUES (null, '{$_SESSION['userID']}', '{$content}', now(), {$threadID})");
     
     //exit();
   }
@@ -91,15 +99,32 @@
         
         echo "</div>";
         
-        /*
-        echo "<form class='new-thread' name='input' action='forum.php' method='get'>";
-        echo "<input type='text' name='title' />";
-        echo "<textarea name='content' rows='5' cols='35'></textarea>";
-        echo "<input type='hidden' name='threadID' value='{$currentThread}' />";
-        echo "<input type='submit' value='Post' />";
+        // Form for new posts
+        echo "<form class='new-thread' name='input'>";
+        echo "<input type='text' name='title' id='title' />";
+        echo "<textarea name='content' id='content' rows='5' cols='35'></textarea>";
+        echo "<input type='button' value='Post' onclick='postThread()' />";
         echo "</form>";
-        */
+        
       ?>
+      
+      <script>
+      function postThread()
+      {
+        $.ajax({
+          url: "forum.php?title=" + $("input#title").val() + "&content=" + $("textarea#content").val(),
+          success: function() {
+            // Clear text boxes
+            $("input#title").val("");
+            $("textarea#content").val("");
+            
+            // Reload 
+            $('div#wrapper').load("forum.php div.forum-wrapper");
+          }
+        });
+      }
+      </script>
+
     </div>
     
   </body>

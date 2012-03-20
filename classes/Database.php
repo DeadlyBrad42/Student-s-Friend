@@ -17,8 +17,16 @@
       }
     }
     
+    public function getConn() {
+      return $this->conn;
+    }
+    
     public function query($query) {
       return $this->conn->query($query);
+    }
+    
+    public function getLastInsertedID() {
+      return mysqli_insert_id($this->conn);
     }
   }
   

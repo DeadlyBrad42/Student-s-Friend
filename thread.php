@@ -9,9 +9,10 @@
     $content = $_GET['content'];
     $threadID = $_GET['threadID'];
     
+    // Add a new post
     $db->query("INSERT INTO post (post_ID, user_ID, post_content, post_time, thread_ID) VALUES (null, '{$_SESSION['userID']}', '{$content}', now(), {$threadID})");
     
-    //exit();
+    exit(0);
   }
 ?>
 
@@ -98,10 +99,10 @@
           
           echo "</div>";
           
-          echo "<form class='new-post' name='input' action='thread.php' method='get'>";
-          echo "<textarea name='content' rows='5' cols='35'></textarea>";
-          echo "<input type='hidden' name='threadID' value='{$currentThread}' />";
-          echo "<input type='submit' value='Post' />";
+          echo "<form class='new-post' name='input' id='input' action='thread.php' method='get'>";
+          echo "<textarea name='content' id='content' rows='5' cols='35'></textarea>";
+          echo "<input type='hidden' name='threadID' id='threadID' value='{$currentThread}' />";
+          echo "<input type='button' value='Post' onclick='postPost()' />";
           echo "</form>";
           
         }
@@ -110,6 +111,24 @@
           echo "Error displaying thread.";
         }
       ?>
+      
+      <script>
+      function postPost()
+      {
+        $.ajax({
+          url: "thread.php?content=" + $("textarea#content").val() + "&threadID=" + $("input#threadID").val(),
+          success: function() {
+            // Clear text boxes
+            $("textarea#content").val("");
+            
+            // Add new post to the page
+            var pageurl = "thread.php?threadID=" + $("input#threadID").val() + " div.thread-wrapper";
+            $('div.thread-wrapper').load("thread.php?threadID=" + $("input#threadID").val() + " div.thread-wrapper");
+          }
+        });
+      }
+      </script>
+      
     </div>
     
   </body>
