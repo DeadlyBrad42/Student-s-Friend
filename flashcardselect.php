@@ -13,6 +13,7 @@
 			require_once("layout/headScripts.php");
 				if(isset($_GET['Result'])){
 					$titles= explode(",",$_GET['Result']);
+					echo "<script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>";
 					FlashCardDisplay::makeFlashCardScript($titles);
 				}
 				elseif(isset($_GET['Change'])){
@@ -22,10 +23,10 @@
 				}
 				elseif(isset($_GET['add'])){
 					FlashCardDisplay::addFlashCardScript();}
-				elseif(isset($_GET['ping'])){
-					$titles= explode(",",$_GET['ping']);
-					FlashCardDisplay::makeFlashCardScript($titles);
-					FlashCardDisplay::redo($_GET['ping']);}
+//				elseif(isset($_GET['ping'])){
+//					$titles= explode(",",$_GET['ping']);
+//					FlashCardDisplay::makeFlashCardScript($titles);
+//					FlashCardDisplay::redo($_GET['ping']);}
 				else{
 					if(isset($_GET['edit'])){
 						$edits = explode("<>",$_GET['edit']);

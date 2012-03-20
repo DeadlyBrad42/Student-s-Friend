@@ -20,7 +20,7 @@ class FlashCardDisplay{
 					}
 					if( titles.length != 0 ){
 						if(flag){
-						  $.ajax({url: 'flashcardselect.php?ping=' + titles.toString(), dataType: 'html', success: function(object) {
+						  $.ajax({url: 'flashcardselect.php?Result=' + titles.toString(), dataType: 'html', success: function(object) {
 								$('#f').html(object);}});
 						}
 						else{
@@ -113,6 +113,11 @@ class FlashCardDisplay{
 				var title;
 				var cards = '';
 				
+				function next(){
+					document.getElementById('Q').focus();
+					makeNewCardsArray()
+				}
+				
 				function makeNewCardsArray(){
 					if( document.getElementById('T').value != '' && 
       					document.getElementById('Q').value != '' &&  
@@ -141,7 +146,7 @@ class FlashCardDisplay{
 					Title: <input type='text' id='T'/><br /><br />
 					Q: <input type='text' id='Q'/>
 					A: <input type='text' id='A'/><br /><br />
-					<button type='button' onclick = 'makeNewCardsArray()' >Next Card</button>
+					<button type='button' onclick = 'next()' >Next Card</button>
 					<button type='button' onclick = 'sumitNewCards()' >Submit</button>
 				</form>
 
@@ -165,7 +170,7 @@ class FlashCardDisplay{
 					left:121px;
 				}
 			</style>
-		
+			<script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>
 			<script type='text/javascript'>
 				var counter = 0;
 				var front = true;
@@ -177,11 +182,7 @@ class FlashCardDisplay{
 				});
 				
 				$(function() {
-					$('.quickFlip3').quickFlip({
-						closeSpeed: 15, 
-						vertical: true
-					});
-
+					$('.quickFlip3').quickFlip();
 				});
 								
 				function removeCard() {

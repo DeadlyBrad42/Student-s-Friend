@@ -49,6 +49,7 @@
 				$cardArray[]= $holder;
 			}
 		}
+		shuffle( $cardArray );
 		return json_encode($cardArray);
 	}
 	
