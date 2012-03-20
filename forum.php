@@ -119,7 +119,7 @@
             $("textarea#content").val("");
             
             // Reload 
-            $('div#wrapper').load("forum.php div.forum-wrapper");
+            $('div.forum-wrapper').load("forum.php div.post-wrapper");
           }
         });
       }
