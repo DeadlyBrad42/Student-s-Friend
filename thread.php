@@ -123,7 +123,7 @@
             
             // Add new post to the page
             var pageurl = "thread.php?threadID=" + $("input#threadID").val() + " div.thread-wrapper";
-            $('div.thread-wrapper').load("thread.php?threadID=" + $("input#threadID").val() + " div.thread-wrapper");
+            $('div.thread-wrapper').load("thread.php?threadID=" + $("input#threadID").val() + " div.post-wrapper");
           }
         });
       }
