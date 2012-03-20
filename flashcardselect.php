@@ -11,9 +11,9 @@
   <head>
 		<?php
 			require_once("layout/headScripts.php");
+			echo "<script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>";
 				if(isset($_GET['Result'])){
 					$titles= explode(",",$_GET['Result']);
-					echo "<script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>";
 					FlashCardDisplay::makeFlashCardScript($titles);
 				}
 				elseif(isset($_GET['Change'])){
@@ -58,6 +58,7 @@
 			  document.getElementsByTagName('head')[0].appendChild(e);
 			}());
 		  </script>
+		  <script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>
 		</div>
 		<?php require_once("layout/header.php"); ?>
 		  <div id="wrapper">
