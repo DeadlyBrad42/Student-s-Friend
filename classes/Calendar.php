@@ -14,9 +14,8 @@
       var eStart, eEnd, eDesc, eTitle, eLoc, eid;
       var menuOptions = {
         add: '<li><a onclick=\'eventDialogue(dateToAdd)\'>Add Event</a></li>',
-        delete: '<li><a onclick=\'deleteEvent(eid)\'>Delete</a></li>',
-        edit: '<li><a onclick=\'viewEvent(1, eStart, eEnd, eDesc, eTitle, eLoc)\'>Edit Event</a></li>',
-        view: '<li><a onclick=\'viewEvent(0, eStart, eEnd, eDesc, eTitle, eLoc)\'>View Event</a></li>'
+        delete: '<li><a onclick=\'deleteEvent(eid)\'>Delete Event</a></li>',
+        view: '<li><a onclick=\'viewEvent(eStart, eEnd, eDesc, eTitle, eLoc)\'>View Event</a></li>'
       }
       $(document).ready(function() { 
 			// page is now ready, initialize the calendar...
@@ -55,7 +54,7 @@
              overwrite: false,
              content: {
                title: {text: 'Event Options'},
-               text: '<ul class=\'evtOptions\'>'+menuOptions.delete+menuOptions.edit+menuOptions.view+'</ul>'
+               text: '<ul class=\'evtOptions\'>'+menuOptions.view+menuOptions.delete+'</ul>'
             },
             position: {
             target: 'mouse',

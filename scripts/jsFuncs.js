@@ -171,17 +171,16 @@ function addEvent(recurrence)
   });
 }
 
-function viewEvent(isEdit, s, e, d, t, l)
+function viewEvent(s, e, d, t, l)
 {
-  /*
-  $('#calendar').fullCalendar('changeView','agendaDay');
-  $('#calendar').fullCalendar('gotoDate', date);
-  */
-  console.log(s);
-  console.log(e);
-  console.log(d);
-  console.log(t);
-  console.log(l);
+  var tbl = $('<table />',{id: 'viewEvt'});
+  var txt1 = ["<td>Title:</td>", "<td>Start:</td>", "<td>End:</td>", "<td>Description:</td>", "<td>Location:</td>"];
+  var txt2 = [t,s,e,d,l];
+  for (var i = 0; i < txt1.length; i++)
+  {
+    tbl.append($('<tr />').append(txt1[i]).append($('<td />').append(txt2[i])));
+  }
+  dialogue('viewEvtModal', tbl, 'Event: View', true);
 }
 
 function deleteEvent(evtID)

@@ -207,6 +207,13 @@ tr#recRow, div#infoLbl
 }
 /* end add event box styles */
 
+/* view event box styles */
+table#viewEvt 
+{
+     
+}
+/* end view event box styles */
+
 button#loginBtn
 {
   height: 50px;
