@@ -214,6 +214,34 @@ table#viewEvt
 }
 /* end view event box styles */
 
+/* course page styles */
+div#crsWrap
+{
+  margin-left: 275px;
+}
+
+div#crsContent
+{
+
+}
+
+ul#crsNav
+{
+  list-style-type: none;
+}
+
+ul#crsNav li
+{
+  float: left;
+  margin-right: 15px;
+}
+
+ul#crsNav li a
+{
+
+}
+/* course page styles */
+
 button#loginBtn
 {
   height: 50px;

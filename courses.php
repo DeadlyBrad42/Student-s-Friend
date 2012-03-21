@@ -1,9 +1,34 @@
 <?php 
 	require_once("classes/Facebook.php");
+  require_once("classes/Calendar.php");
   session_start(); 
   $userID = $_SESSION['userID'];
   if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
     header("Location: index.php");
+  
+  if (isset($_GET['view']) && isset($_GET['c']))
+  {
+    $cid = $_GET['c'];
+    $v = $_GET['view'];
+    $content = "";
+    switch($v)
+    {
+      case 0:
+        Calendar::makeCalScript($cid, 1); 
+        Calendar::makeCalDiv();
+        break;
+      case 1:
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+      default:
+        break;
+    }
+
+    exit(0);
+  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,11 +44,14 @@
     </div>
     <?php require_once("layout/header.php"); ?>
       <div id="wrapper">
-	    <div id="newsfeed"></div>
-		<p>
-			<a href='forum.php'>Forum</a> <br />
-			<a href='flashcardselect.php'>Flash Cards</a> 
-		</p>
+      <div id="newsfeed"></div>
+      <?php require_once("layout/courseHeader.php"); ?>
+      <!--
+		  <p>
+			  <a href='forum.php'>Forum</a> <br />
+			  <a href='flashcardselect.php'>Flash Cards</a> 
+      </p>
+      -->
       </div> 
     <?php require_once("layout/footer.php"); ?>
   </body>

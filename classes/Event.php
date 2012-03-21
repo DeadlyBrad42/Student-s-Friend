@@ -91,6 +91,7 @@
     if ($isCrs == 1)
     {
       // Do crap here
+      $rs = $db->query("SELECT * FROM sfevent WHERE course_ID = '{$id}'");
     }
     else
     {

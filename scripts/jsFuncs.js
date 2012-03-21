@@ -12,7 +12,7 @@ function populateCourses(crs)
   {
     li = document.createElement('li');
     a = document.createElement('a');
-    url = 'courses.php?c='+crs[i].name;
+    url = 'courses.php?c='+crs[i].id;
     a.setAttribute('href', url);
     txt = document.createTextNode(crs[i].name);
     a.appendChild(txt);
@@ -364,6 +364,16 @@ function setWidgetDblClick(targetView) {
       eventDialog($('#calendar').fullCalendar('getDate') , function(response) {
         // do something with response
       });
+    }
+  });
+}
+
+function switchCrsView(i)
+{
+  var url = document.location.href + '&view=' + i;
+  console.log(url);
+  $.ajax({url: url, dataType: 'html', success: function(html) {
+      $('div#crsContent').html(html);
     }
   });
 }

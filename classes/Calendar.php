@@ -1,9 +1,20 @@
 <?php
   require_once("Event.php");
   class Calendar {
-    public static function makeCalScript($id) {
-    // Calendar-specific <head> elements here
-      $evt = Event::getEvents($id);
+    public static function makeCalScript($id, $isCrs=0) {
+      // Calendar-specific <head> elements here
+
+      if ($isCrs == 1)
+      {
+        $evtSrc = "{
+                    url: 'eventFeed.php', 
+                    type: 'GET', 
+                    data: { crs: true, id: {$id}} 
+                  }";
+      }
+      else
+        $evtSrc = "'eventFeed.php'";
+
       $x = "	
       <script type='text/javascript' src='scripts/fullcalendar.js'></script>
       <script type='text/javascript'>
@@ -24,7 +35,7 @@
 					left: 'month,agendaWeek,agendaDay',
 					center: 'title'
 					},
-				eventSources: ['eventFeed.php'],
+				eventSources: [{$evtSrc}],
         dayClick: function( date, allDay, jsEvent, view ) {
 			    // If this is a day of another month changing current day to that day will change view. That's totally not cool.
 			    if(!$(this).hasClass('fc-other-month')) 
