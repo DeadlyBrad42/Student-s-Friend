@@ -204,7 +204,7 @@ function deleteEvent(evtID)
 function uploadFile()
 {
   var form = $(document.createElement('form'));
-  form.attr({enctype: 'multipart/form-data', action: 'storage.php', method: 'post'});
+  form.attr({enctype: 'multipart/form-data', action: '', method: 'post'});
 
   var input = $('<input />', {type: 'file', name: 'file', id: 'file'}),
       upload_btn = $('<input />', {val: 'Upload', name: 'Upload', type: 'Submit'}),

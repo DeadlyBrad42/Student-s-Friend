@@ -1,37 +1,14 @@
 <?php 
+  session_start(); 
   require_once("classes/UserStorage.php");
 	require_once("classes/Facebook.php");
-  session_start(); 
+  require_once("scripts/utility.php");
+  
   if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
     header("Location: index.php");
 
-  // Set the physical path inside the storage class
+  global $msg;
   UserStorage::setDir($_SESSION['userID'], 0);
-  if (isset($_POST['Upload']))
-  {
-    $file = $_FILES['file']['name'];
-    $path = UserStorage::getDir() . "/" . $file;
-    if ($_FILES["file"]["error"] > 0)
-    {
-      $msg = "Error Uploading file: " . $_FILES["file"]["error"] . "<br />"; 
-    }
-    else if (file_exists($path))
-    {
-      $msg = "{$file} already exists.<br />";
-    }
-    else
-    {
-      if (is_uploaded_file($_FILES['file']['tmp_name']))
-      {
-        move_uploaded_file($_FILES['file']['tmp_name'], $path);
-        UserStorage::addItem($_SESSION['userID'], $file);
-      }
-
-      $msg = $file . " was successfully uploaded.<br />";
-    }
-  }
-  else
-    $msg = "";
 ?>
 <!DOCTYPE html>
 <html>

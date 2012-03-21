@@ -8,7 +8,6 @@ class UserStorage {
   }
 
   public static function getDir() {
-    echo self::$dir;
     return self::$dir;
   }
 
@@ -22,7 +21,7 @@ class UserStorage {
         </script>";
     }
 
-    public static function makePage($uid, $msg) {
+    public static function makePage($uid, $msg="") {
       global $db;
       $rs= $db->query("CALL getStorageItems('{$uid}')"); 
       $count = $rs->num_rows;
@@ -52,9 +51,9 @@ class UserStorage {
       }
     }
 
-    public static function addItem($uid, $item) {
+    public static function addItem($id, $item) {
      global $db;
-     $rs = $db->query("CALL insertStorageItem('{$uid}', '".self::$dir."', '{$item}')"); 
+     $rs = $db->query("CALL insertStorageItem('{$id}', '".self::$dir."', '{$item}')"); 
     }
 
     public static function makeUploadDir() {
