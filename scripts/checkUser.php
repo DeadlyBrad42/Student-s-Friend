@@ -17,7 +17,6 @@
   
   // Dubugging
   // echo "{$userID}, {$fname}, {$lname}";
-  echo "Before returnIdIfExists<br />";
   $rs = $db->query("CALL returnIdIfExists('{$userID}', @id)");
   $rs = $db->query("SELECT @id");
   $num = $rs->fetch_array(MYSQLI_NUM);
@@ -25,8 +24,9 @@
   if($num[0] == 0)
   {
     $db->query("CALL insertNewUser('{$userID}', '{$fname}', '{$lname}')");
-    UserStorage::setDir($userID);
-    UserStorage::makeUserDir();
+    UserStorage::setDir($userID, 0);
+    UserStorage::getDir();
+    UserStorage::makeUploadDir();
     // Debugging
     // echo "Inserted new user.";
   }

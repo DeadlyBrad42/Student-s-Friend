@@ -3,11 +3,12 @@ require_once("Database.php");
 class UserStorage {
   private static $dir;
 
-  public static function setDir($uid) {
-    self::$dir = "uploads/{$uid}";
+  public static function setDir($id, $isCrs=0) {
+    self::$dir = $isCrs == 1 ? "uploads/Courses/{$id}" : "uploads/Users/{$id}";
   }
 
   public static function getDir() {
+    echo self::$dir;
     return self::$dir;
   }
 
@@ -56,7 +57,7 @@ class UserStorage {
      $rs = $db->query("CALL insertStorageItem('{$uid}', '".self::$dir."', '{$item}')"); 
     }
 
-    public static function makeUserDir() {
+    public static function makeUploadDir() {
       $path = "../".self::$dir;
       if (!file_exists($path))
       {

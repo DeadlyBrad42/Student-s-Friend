@@ -6,7 +6,7 @@
     header("Location: index.php");
 
   // Set the physical path inside the storage class
-  UserStorage::setDir($_SESSION['userID']);
+  UserStorage::setDir($_SESSION['userID'], 0);
   if (isset($_POST['Upload']))
   {
     $file = $_FILES['file']['name'];
