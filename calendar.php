@@ -15,11 +15,11 @@
     exit(0);
   }
 
-  if(isset($_GET['add']) && $_GET['add'] == 'true' && isset($_GET['event']))
+  if(isset($_GET['add']) && $_GET['courseID'] && $_GET['add'] == 'true' && isset($_GET['event']))
   {
     $evt = "{" . $_GET['event'] . "}";
     $evt = json_decode($evt);
-    Event::createEvent($evt, false);
+    Event::createEvent($evt, $_GET['courseID']);
     exit(0);
   }
 

@@ -27,7 +27,7 @@
   }
     
   // $obj here is a json object that's been decoded
-  public static function createEvent($obj, $isCrs) {
+  public static function createEvent($obj, $courseID) {
     global $db;
     $daysUntilRecur = 0;
     $event_recurs = 0;
@@ -60,12 +60,12 @@
         break;
     }
 
-    if ($isCrs == "true")
+	//	If courseID is anything other than user we are adding event under course, otherwise we are adding it under user.
+    if ($courseID != 0)
     {
-      $id = $_SESSION['courseID'];
       if ($db->query("INSERT INTO sfevent (event_name, event_desc, event_location, event_startTime, event_endTime, event_privacy, user_ID,
                   course_ID, event_isRecur, event_daysUntilRecur, event_recurs) VALUES('{$obj->name}', '{$obj->descrip}', '{$obj->loc}',
-                  '{$sTime}', '{$eTime}', '0', '0', '{$id}', '{$isRecur}', '{$daysUntilRecur}', '{$event_recurs}')"))
+                  '{$sTime}', '{$eTime}', '0', '0', {$courseID}, '{$isRecur}', '{$daysUntilRecur}', '{$event_recurs}')"))
       {
         echo "insert success!";
       }

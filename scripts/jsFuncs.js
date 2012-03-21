@@ -54,7 +54,7 @@ function dialogue(id, content, title, blur) {
 }
 
 // Dynamically Builds and Shows the add event Dialogue
-function eventDialogue(date)
+function eventDialogue(date, course_id)
 {
   var div = $('<div />', {id: 'evtAddForm'});
   var tbl = $('<table />', {id: 'evtAddTbl'});
@@ -105,7 +105,7 @@ function eventDialogue(date)
   saveBtn = $('<button />', {text: 'Save', click: function() {
       if (validate('#evtAddForm input'))
       {
-        isRecur ? addEvent($('input[name="recur"]:checked').attr('value')) : addEvent('none');
+        isRecur ? addEvent($('input[name="recur"]:checked').attr('value'), course_id) : addEvent('none', course_id);
         console.log('Event Added!');
         $('#ui-tooltip-evtModal').qtip('hide');
       }
@@ -145,7 +145,7 @@ function validate(element)
 }
 
 // Takes an array of inputs and processes their values
-function addEvent(recurrence)
+function addEvent(recurrence, course_id)
 {
   // PHP's json_decode() is expecting a string of json, so we need to
   // do a join on the array and send it as a string.
@@ -162,7 +162,7 @@ function addEvent(recurrence)
   
   var jsonStr = event.join('');
  
-  var url = 'calendar.php?add=true' + '&event=' + jsonStr;
+  var url = 'calendar.php?add=true' + '&event=' + jsonStr + '&courseID=' + course_id;
   $.ajax({url: url, dataType: 'html', success: function(object) {
     console.log(object);
     $('#calendar').fullCalendar('refetchEvents');

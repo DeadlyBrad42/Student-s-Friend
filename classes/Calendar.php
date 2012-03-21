@@ -11,9 +11,15 @@
                     type: 'GET', 
                     data: { crs: true, id: {$id}} 
                   }";
+		//	We know we are in a course page so $id is the courseID not the user ID.
+		$crsID = $id;
       }
       else
+	  {
         $evtSrc = "'eventFeed.php'";
+		//	Not a course page, set crsID to zero so javascript functions know that.
+		$crsID = 0;	
+	  }
 
       $x = "	
       <script type='text/javascript' src='scripts/fullcalendar.js'></script>
@@ -24,7 +30,7 @@
       var dateToAdd;
       var eStart, eEnd, eDesc, eTitle, eLoc, eid;
       var menuOptions = {
-        add: '<li><a onclick=\'eventDialogue(dateToAdd)\'>Add Event</a></li>',
+        add: '<li><a onclick=\'eventDialogue(dateToAdd, {$crsID})\'>Add Event</a></li>',
         delete: '<li><a onclick=\'deleteEvent(eid)\'>Delete Event</a></li>',
         view: '<li><a onclick=\'viewEvent(eStart, eEnd, eDesc, eTitle, eLoc)\'>View Event</a></li>'
       }
