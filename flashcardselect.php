@@ -4,33 +4,37 @@
 	session_start(); 
 	if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
 	header("Location: index.php");
-	
 ?>
 <!DOCTYPE html>
 <html>
   <head>
 		<?php
-			require_once("layout/headScripts.php");
-			echo "<script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>";
+				require_once("layout/headScripts.php");
 				if(isset($_GET['Result'])){
+					require_once("layout/header.php");
 					$titles= explode(",",$_GET['Result']);
 					FlashCardDisplay::makeFlashCardScript($titles);
+					exit(0);
 				}
 				elseif(isset($_GET['Change'])){
+					require_once("layout/header.php");
 					$h=$_GET['Change'];
 					$titles= explode(",",$h);
 					FlashCardDisplay::makeFlashCardEditScript($titles);
+					FlashCardDisplay::makeFlashCardEditBody($titles, $_SESSION['userID']);
+					exit(0);
 				}
 				elseif(isset($_GET['add'])){
-					FlashCardDisplay::addFlashCardScript();}
-//				elseif(isset($_GET['ping'])){
-//					$titles= explode(",",$_GET['ping']);
-//					FlashCardDisplay::makeFlashCardScript($titles);
-//					FlashCardDisplay::redo($_GET['ping']);}
+					require_once("layout/header.php");
+					$titles= $_GET['add'];
+					FlashCardDisplay::addFlashCardScript($titles);
+					exit(0);
+				}
 				else{
 					if(isset($_GET['edit'])){
 						$edits = explode("<>",$_GET['edit']);
 						FlashCardManager::flashCardEdit($edits, 49, $_SESSION['userID']);
+						
 					}
 					elseif(isset($_GET['inst'])){
 						$in = explode("<>",$_GET['inst']);
@@ -42,8 +46,9 @@
 			
 		 ?>
   </head>
+  
   <body>
-	<div id ='f'>
+		<div id ='f'>
 		<div id="fb-root">
 		  <script type="text/javascript">
 			window.fbAsyncInit = function() {
@@ -58,27 +63,17 @@
 			  document.getElementsByTagName('head')[0].appendChild(e);
 			}());
 		  </script>
-		  <script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>
 		</div>
-		<?php require_once("layout/header.php"); ?>
-		  <div id="wrapper">
-			<p>
-				<?php
-				if(isset($_GET['Result']))
-					FlashCardDisplay::makeFlashCardBody();
-				elseif(isset($_GET['Change'])){
-					$h=$_GET['Change'];
-					$titles= explode(",",$h);
-					FlashCardDisplay::makeFlashCardEditBody($titles);
-				}
-				elseif(isset($_GET['add']))
-					FlashCardDisplay::addFlashCardBody();
-				else
-					FlashCardDisplay::flashCardSelectBody(49);	
-				?>
-			</p>
-		  </div>
-		<?php //require_once("layout/footer.php"); ?>
-	</div>
-  </body>
+		
+				<?php require_once("layout/header.php"); ?>
+				  <div id="wrapper">
+					<p>
+						<?php
+							FlashCardDisplay::flashCardSelectBody(49);	
+						?>
+					</p>
+		</div>
+		</div>
+	</body>
+  
 </html>

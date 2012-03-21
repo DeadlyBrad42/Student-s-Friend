@@ -21,18 +21,24 @@ class FlashCardDisplay{
 					if( titles.length != 0 ){
 						if(flag){
 						  $.ajax({url: 'flashcardselect.php?Result=' + titles.toString(), dataType: 'html', success: function(object) {
-								$('#f').html(object);}});
+								$('#f').html(object);}, asyc: false});
 						}
 						else{
 						$.ajax({url: 'flashcardselect.php?Change=' + titles.toString(), dataType: 'html', success: function(object) {
-								$('#f').html(object);}});
+								$('#f').html(object);}, asyc: false});
 						}
 					}
 				}
 				
-				function addCards(){
-					$.ajax({url: 'flashcardselect.php?add=true', dataType: 'html', success: function(object) {
-								$('#f').html(object);}});
+				function addCards(counter){
+					var all = new Array();
+					
+					for (i=0;i<counter;i++){
+						all[i] = document.getElementById(i).value;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+					}
+					
+					$.ajax({url: 'flashcardselect.php?add='+all.toString(), dataType: 'html', success: function(object) {
+								$('#f').html(object);}, asyc: false});
 				}
 			</script>
 			";
@@ -49,7 +55,7 @@ class FlashCardDisplay{
 
 		$x = $x."<br /><input type='button' onclick='validateMyForm({$counter}, true);' value='Submit' />
 				 <input type='button' onclick='validateMyForm({$counter}, false);' value='Edit' />
-				 <input type='button' onclick='addCards();' value='Add Cards' /></form><div id ='f'>";
+				 <input type='button' onclick='addCards({$counter});' value='Add Cards' />";
 		echo $x;
 	}
 
@@ -77,27 +83,30 @@ class FlashCardDisplay{
 					}
 					$.ajax({url: 'flashcardselect.php?edit=' + results, dataType: 'html', success: function(object) {
 								$('#f').html(object);
-								}
+								}, asyc: false
 							  });
 				}
 			</script>";
 		echo $x;
 	}
 	
-	public static function makeFlashCardEditBody($titles){
+	public static function makeFlashCardEditBody($titles, $userID){
 		$toEdits = json_decode(FlashCardManager::makeDeck($titles));
 		$counter = count($toEdits);
 		$x = "<p>Edit cards:</p> <form>";
 		$tHolder = "";
 		for($i = 0; $i < $counter; $i++){
+			if($userID == $toEdits[$i]->uid)
+			{
 			if($tHolder != $toEdits[$i]->title){
 				$tHolder = $toEdits[$i]->title;
 				$x = $x."Title: <input type='text' id='{$i}' value='{$toEdits[$i]->title}'/><br /><br />";
 			}
-			$q = "Q".$i;
-			$a = "A".$i;
-			$x = $x."Q: <input type='text' id='{$q}' value='{$toEdits[$i]->question}'/>
-					 A: <input type='text' id='{$a}' value='{$toEdits[$i]->answer}'/><br /><br />";			
+				$q = "Q".$i;
+				$a = "A".$i;
+				$x = $x."Q: <input type='text' id='{$q}' value='{$toEdits[$i]->question}'/>
+						 A: <input type='text' id='{$a}' value='{$toEdits[$i]->answer}'/><br /><br />";			
+			}
 		}
 		$x = $x."<br /><input type='button' onclick='reSubmitCards({$counter})' value='Submit' /></form>";
 		echo $x;
@@ -107,11 +116,31 @@ class FlashCardDisplay{
 // Add Flashcard Page /////////////////////////////////////
 ///////////////////////////////////////////////////////////	
 	
-	public static function addFlashCardScript(){
+	public static function addFlashCardScript($titles){
+		var_dump($titles);
 		$x = "
 			<script type='text/javascript'>		
-				var title;
+				var t = '{$titles}';
 				var cards = '';
+				var title = new Array();
+				var i = 0;
+				var hold = '';
+				
+				$(document).ready(function() {
+					for (i=0;i<=t.length-1;i++)
+					{
+						if(t[i] != ','){
+							hold = hold + t[i];
+						}
+						else{
+							title.push(hold);
+							hold = '';
+						}
+					}
+					title.push(hold);					
+					
+				});
+
 				
 				function next(){
 					document.getElementById('Q').focus();
@@ -128,32 +157,48 @@ class FlashCardDisplay{
 					document.getElementById('A').value = ''; 
 				}
 				
+				function checkTitle(){
+					var flag = true;
+					for (i=0;i<=title.length-1;i++)
+					{
+						if( document.getElementById('T').value == title[i] ){
+							var r=confirm('The title you entered already exists, if you would like to add cards to this title press OK.');
+							if (r==false){
+								document.getElementById('T').value = '';
+								flag = false;
+							}
+							else
+								document.getElementById('T').disabled=true;
+						}
+					}
+					
+					if(flag && document.getElementById('T').value != '')
+						document.getElementById('T').disabled=true;
+				}
+				
 				function sumitNewCards(){
 					makeNewCardsArray();
 					$.ajax({url: 'flashcardselect.php?inst='+cards, dataType: 'html', success: function(object) {
-								$('#f').html(object);}});					
+								$('#f').html(object);}, asyc: false});					
 				}
 			</script>
-			";
-		
-		echo $x;
-	}
-	
-	public static function addFlashCardBody(){
-			$x = "
-				<p>Edit cards:</p> 
+			<html>
+			<body>  
+				<p>Add cards:</p> 
 				<form>
-					Title: <input type='text' id='T'/><br /><br />
+					Title: <input type='text' id='T' onblur='checkTitle()'/><br /><br />
 					Q: <input type='text' id='Q'/>
 					A: <input type='text' id='A'/><br /><br />
 					<button type='button' onclick = 'next()' >Next Card</button>
 					<button type='button' onclick = 'sumitNewCards()' >Submit</button>
 				</form>
-
+			</body>
+			</html>
 			";
+		
 		echo $x;
 	}
-	
+		
 ///////////////////////////////////////////////////////////
 // Flash Card Page ////////////////////////////////////////
 ///////////////////////////////////////////////////////////
@@ -161,41 +206,39 @@ class FlashCardDisplay{
 	public static function makeFlashCardScript($titles) {
 		$deck = FlashCardManager::makeDeck($titles);
 		$x = "
-			
-			<style type='text/css'>
-				div.pos_set
-				{
-					position:absolute;
-					bottom:10px;
-					left:121px;
-				}
-			</style>
 			<script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>
 			<script type='text/javascript'>
 				var counter = 0;
 				var front = true;
 				var deck = {$deck};
 				
+
+
+
+				
 				$(document).ready(function() {
+					$(function() {
+						console.log('GOT HERE!!!!!!');
+						$('.quickFlip3').quickFlip();
+					},
+					function flipCard() {
+						$('.quickFlip3').quickFlipper();
+						front = !front;
+					}
 					
+				);
+				
+				
+				
 					getNew();
 				});
-				
-				$(function() {
-					$('.quickFlip3').quickFlip();
-				});
-								
+												
 				function removeCard() {
 					if(deck.length > 1 ){
 						counter--;
 						deck.splice(counter, 1);
 						getNew();
 					}
-				}
-
-				function flipCard() {
-					$('.quickFlip3').quickFlipper();
-					front = !front;
 				}
 
 				function getNew() {
@@ -215,18 +258,12 @@ class FlashCardDisplay{
 				function returnToSelect(){
 					$.ajax({url: 'flashcardselect.php', dataType: 'html', success: function(object) {
 						$('#f').html(object);
-						}
+						}, asyc: false
 					  });
 				}
 
 			</script>
 			<link rel='stylesheet' type='text/css' href='styles/basic-quickflips.css' />
-			";
-		echo $x;		
-	}
-	
-	public static function makeFlashCardBody() {
-		$x = "
 			<html>
 			<body>    
 				<br class='clear' />
@@ -256,20 +293,11 @@ class FlashCardDisplay{
 				<button type='button' onclick = 'returnToSelect()' >Select Different Cards</button>
 
 			</body>
-			</html>";
-		echo $x;
+			</html>
+			";
+		echo $x;		
 	}
-	
-	public static function redo($q){
-		$x = "
-		<script type='text/javascript'>
-				$(document).ready(function() {
-					$.ajax({url: 'flashcardselect.php?Result=' + '{$q}', dataType: 'html', success: function(object) {
-						$('#f').html(object);}});
-						});
-		</script>";
-		echo $x;
-	}
+		
 ///////////////////////////////////////////////////////////	
 //End of Flash Card Page///////////////////////////////////
 ///////////////////////////////////////////////////////////
