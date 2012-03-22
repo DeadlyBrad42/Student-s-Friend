@@ -21,6 +21,8 @@
       $(document).ready(function() {  
         var x = {$crs};  
         populateCourses(x);
+        // Utilise delegate so we don't have to rebind for every qTip!
+        $(document).delegate('.qtip.jgrowl', 'mouseenter mouseleave', timer); 
       });
   </script>
   ";

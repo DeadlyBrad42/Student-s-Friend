@@ -39,6 +39,10 @@
       if (UserStorage::getCrsStatus() == 1)
         echo "window.top.window.switchCrsView(1);";
       else
-        echo "window.top.window.ajaxLoad('div#uploadContent', 'scripts/utility.php?action=refreshUserUp');";
+      {
+        echo "window.top.window.ajaxLoad('div#uploadContent', 'scripts/utility.php?action=refreshUserUp&uid={$ownerID}');";
+      }
+
+      echo "window.top.window.toastMessage('".$msg."');";
     ?>
 </script>

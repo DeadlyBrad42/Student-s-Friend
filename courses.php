@@ -21,10 +21,9 @@
         Calendar::makeCalDiv();
         break;
       case 1:
-        global $msg;
         UserStorage::setDir($cid, 1);
         UserStorage::makeStoreScript($cid);
-        UserStorage::makePage($cid, $msg);
+        UserStorage::makePage($cid);
         break;
       case 2:
         include("forum.php");
@@ -49,6 +48,7 @@
 		</script>
   </head>
   <body>
+    <div id="ajaxLoader"></div>
     <div id="fb-root">
 		 <?php Facebook::makeBodyScript(); ?>
     </div>

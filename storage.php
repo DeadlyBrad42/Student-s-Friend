@@ -6,7 +6,6 @@
   if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
     header("Location: index.php");
 
-  global $msg;
   UserStorage::setDir($_SESSION['userID'], 0);
 ?>
 <!DOCTYPE html>
@@ -19,6 +18,7 @@
 	</script>
   </head>
   <body>
+    <div id="ajaxLoader"></div>
     <div id="fb-root">
 		<?php Facebook::makeBodyScript(); ?>
     </div>
@@ -26,7 +26,7 @@
       <div id="wrapper">
       <div id="newsfeed"></div>
       <div id="uploadContent"> <!-- Placed here for ajax refreshing -->
-        <?php UserStorage::makePage($_SESSION['userID'], $msg); ?>
+        <?php UserStorage::makePage($_SESSION['userID']); ?>
       </div>
       </div> 
     <?php require_once("layout/footer.php"); ?>

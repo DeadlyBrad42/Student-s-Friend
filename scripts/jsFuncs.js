@@ -206,15 +206,17 @@ function uploadFile(isCrs, id)
   console.log("is course = " + isCrs + "id = " + id);
   var form = $(document.createElement('form'));
   var actionUrl = isCrs == 1 ? 'scripts/upload.php?cid='+id : 'scripts/upload.php'; 
-  form.attr({enctype: 'multipart/form-data', action: actionUrl, method: 'post', target: 'uploadFrame'});
+  form.attr({enctype: 'multipart/form-data', action: actionUrl, method: 'post', target: 'uploadFrame', onsubmit: 'toggleAjaxLoader(1)'});
 
   var input = $('<input />', {type: 'file', name: 'file', id: 'file'}),
       upload_btn = $('<input />', {val: 'Upload', name: 'Upload', type: 'Submit', click: function() {$('#ui-tooltip-uploadModal').qtip('hide');}} ),
-      cncl_btn = $('<button />', {text: 'Cancel', click: function() {$('#ui-tooltip-uploadModal').qtip('hide');} });
+      cncl_btn = $('<input />', {val: 'Cancel', type: 'button', click: function() {$('#ui-tooltip-uploadModal').qtip('hide');} });
   form.append(input).append(upload_btn).append(cncl_btn);
 
   dialogue('uploadModal', form, 'Upload A New File', true);
 }
+
+
 
 function showUploadPic(src, name)
 {
@@ -226,10 +228,38 @@ function showUploadPic(src, name)
   dialogue('picModal', box, name, true);
 }
 
-function refreshUploadPage()
+function switchCrsView(i)
 {
-  $.ajax({url: document.location.href });
+  var url = document.location.href + '&view=' + i;
+  console.log(url);
+  $.ajax({url: url, dataType: 'html', success: function(html) {
+      $('div#crsContent').html(html);
+      toggleAjaxLoader(0); // if loader is showing, hide it
+    }
+  });
 }
+
+function toggleAjaxLoader(option)
+{
+  // Option is a number, where 1 is showing and 0 is not showing
+  if (option == 1)
+  {
+    $('div#ajaxLoader').css('display', 'block');
+  }
+  else
+  {
+    $('div#ajaxLoader').css('display', 'none');
+  }
+  
+}
+
+function ajaxLoad(target, url)
+{
+  $(target).load(url, function() {
+    toggleAjaxLoader(0);
+  });
+}
+
 
 /*********************************
 *	NEWSFEED FUNCTIONS
@@ -374,17 +404,95 @@ function setWidgetDblClick(targetView) {
   });
 }
 
-function switchCrsView(i)
+/** Messaging functions and messaging helper functions **/
+window.toastMessage = function(msg)
 {
-  var url = document.location.href + '&view=' + i;
-  console.log(url);
-  $.ajax({url: url, dataType: 'html', success: function(html) {
-      $('div#crsContent').html(html);
-    }
-  });
+  var target = $('.qtip.jgrowl:visible:last');
+  $(document.body).qtip({
+    content: {
+        title: {
+          text: 'NOTICE',
+          button: true
+        },
+        text: msg
+    },
+    position: {
+      my: 'top right',
+      at: (target.length ? 'bottom' : 'top') + ' right',
+      target: target.length ? target : $(window),
+      adjust: { y : 5 },
+      effect: function(api, newPos) {
+          // Animate as usual if the window element is the target
+          $(this).animate(newPos, {
+            duration: 200,
+            queue: false
+        });
+      }
+    },
+    show: {
+      event: false,
+      ready: true,
+      effect: function() {
+        $(this).stop(0, 1).fadeIn(400);
+      },
+      delay: 0
+    },
+    hide: {
+      event: false,
+      // Don't hide it on a regular event
+      effect: function(api) {
+          // Do a regular fadeOut, but add some spice!
+          $(this).stop(0, 1).fadeOut(400).queue(function() {
+          // Destroy this tooltip after fading out
+          api.destroy();
+          updateGrowls();
+          })
+        }
+      },
+      style: {
+        classes: 'jgrowl ui-tooltip-tipped ui-tooltip-rounded',
+        // Some nice visual classes
+        tip: false // No tips for this one (optional ofcourse)
+      },
+      events: {
+        render: function(event, api) {
+          timer.call(api.elements.tooltip, event);
+        }
+      }
+  }).removeData('qtip');
 }
 
-function ajaxLoad(target, url)
-{
-  $(target).load(url);
+// Make it a window property see we can call it outside via updateGrowls() at any point
+window.updateGrowls = function() {
+    // Loop over each jGrowl qTip
+    var each = $('.qtip.jgrowl'),
+        width = each.outerWidth(),
+        height = each.outerHeight(),
+        gap = each.eq(0).qtip('option', 'position.adjust.y'),
+        pos;
+
+    each.each(function(i) {
+        var api = $(this).data('qtip');
+
+        // Set target to window for first or calculate manually for subsequent growls
+        api.options.position.target = !i ? $(window) : [
+            pos.left + width, pos.top + (height * i) + Math.abs(gap * (i-1))
+        ];
+        api.set('position.at', 'top right');
+        
+        // If this is the first element, store its finak animation position
+        // so we can calculate the position of subsequent growls above
+        if(!i) { pos = api.cache.finalPos; }
+    });
+};
+
+function timer(event) {
+    var api = $(this).data('qtip'),
+    lifespan = 5000; // 5 second lifespan
+
+    // Otherwise, start/clear the timer depending on event type
+    clearTimeout(api.timer);
+    if (event.type !== 'mouseover') {
+        api.timer = setTimeout(api.hide, lifespan);
+    }
 }

@@ -12,10 +12,13 @@ if (isset($_REQUEST['action']) && !empty($_REQUEST['action']))
       doLogout();
       break;
     case "refreshCourseUp":
-      doRefresh();
+      refreshCourseStorageDiv();
       break;
     case "refreshUserUp":
-      doRefresh();
+      if (isset($_REQUEST['uid']))
+      {
+        refreshUserStorageDiv($_REQUEST['uid']);
+      }
       break;
   }
 }
@@ -31,8 +34,15 @@ function doLogout()
   echo "logout success!";
 }
 
-function doRefresh()
+function refreshCourseStorageDiv()
 {
+
+}
+
+function refreshUserStorageDiv($uid)
+{
+  UserStorage::setDir($uid, 0);
+  UserStorage::makeStoreScript($uid);
   UserStorage::makePage($_SESSION['userID']);
 }
 

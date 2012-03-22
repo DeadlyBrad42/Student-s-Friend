@@ -34,18 +34,17 @@ class UserStorage {
         </script>";
     }
 
-    public static function makePage($uid, $msg="") {
+    public static function makePage($uid) {
       global $db;
       $rs= $db->query("CALL getStorageItems('{$uid}')"); 
       $count = $rs->num_rows;
-      echo $msg;
       echo "<button id='addFile'>Add a new file</button>";
       if ($count < 1)
         echo "<p>You currently have no files uploaded. Click the button above to upload something.</p>";
       else
       {
         echo "<p>Listed below are the files you've uploaded. Click a file to view it or download it to your local machine.</p>
-              <div id='currentUploads'><span>{$msg}</span><ul>";
+              <div id='currentUploads'><ul>";
         while($row = $rs->fetch_array(MYSQLI_ASSOC))
         {
           $jpg = strpos($row['item_name'], ".jpg");
