@@ -8,7 +8,8 @@ class FlashCardDisplay{
 
 	public static function flashCardSelectScript() {
 		$x = "
-			<script type='text/javascript'>		
+			<script type='text/javascript'>	
+/*			
 				function validateMyForm(counter, flag){
 					var titles = new Array();
 					var j = 0;
@@ -29,6 +30,7 @@ class FlashCardDisplay{
 						}
 					}
 				}
+				*/
 				
 				function addCards(counter){
 					var all = new Array();
@@ -49,13 +51,13 @@ class FlashCardDisplay{
 	public static function flashCardSelectBody($cID) {
 		$titles = json_decode(FlashCardManager::getCardTitle($cID));
 		$counter = count($titles);
-		$x = "<br /><div id ='f'><p>Select the titles you would like to study:</p> <form>";
+		$x = "<p>Select the titles you would like to study:</p> <form>";
 		for($i = 0; $i < $counter; $i++)
 			$x = $x."<input type='checkbox' id='{$i}' value='{$titles[$i]->title}' /> {$titles[$i]->title}<br />";
 
 		$x = $x."<br /><input type='button' onclick='validateMyForm({$counter}, true);' value='Submit' />
 				 <input type='button' onclick='validateMyForm({$counter}, false);' value='Edit' />
-				 <input type='button' onclick='addCards({$counter});' value='Add Cards' /></div>";
+				 <input type='button' onclick='addCards({$counter});' value='Add Cards' />";
 		echo $x;
 	}
 
@@ -91,24 +93,29 @@ class FlashCardDisplay{
 	}
 	
 	public static function makeFlashCardEditBody($titles, $userID){
-		$toEdits = json_decode(FlashCardManager::makeDeck($titles));
+		$deck = FlashCardManager::makeDeck($titles);
+		
+		$toEdits = json_decode($deck);
 		$counter = count($toEdits);
-		$x = "<p>Edit cards:</p> <form>";
+		$x = "<div id = 'deck'>{$deck}</div>";
+		$x = $x."<div id = 'outputContent'>";
+		$x = $x."<p>Edit cards:</p> <form>";
 		$tHolder = "";
 		for($i = 0; $i < $counter; $i++){
 			if($userID == $toEdits[$i]->uid)
 			{
-			if($tHolder != $toEdits[$i]->title){
-				$tHolder = $toEdits[$i]->title;
-				$x = $x."Title: <input type='text' id='{$i}' value='{$toEdits[$i]->title}'/><br /><br />";
-			}
+				if($tHolder != $toEdits[$i]->title){
+					$tHolder = $toEdits[$i]->title;
+					$x = $x."Title: <input type='text' id='{$i}' value='{$toEdits[$i]->title}'/><br /><br />";
+				}
 				$q = "Q".$i;
 				$a = "A".$i;
 				$x = $x."Q: <input type='text' id='{$q}' value='{$toEdits[$i]->question}'/>
 						 A: <input type='text' id='{$a}' value='{$toEdits[$i]->answer}'/><br /><br />";			
 			}
 		}
-		$x = $x."<br /><input type='button' onclick='reSubmitCards({$counter})' value='Submit' /></form>";
+		$x = $x."<br /><input type='button' onclick='reSubmitCards({$counter})' value='Submit' /></form>
+			</div>";
 		echo $x;
 	}
 
@@ -118,6 +125,7 @@ class FlashCardDisplay{
 	
 	public static function addFlashCardScript($titles){
 		$x = "
+		<!--
 			<script type='text/javascript'>		
 				var t = '{$titles}';
 				var cards = '';
@@ -181,18 +189,15 @@ class FlashCardDisplay{
 								$('#f').html(object);}, asyc: false});					
 				}
 			</script>
-			<html>
-			<body>  
-				<p>Add cards:</p> 
-				<form>
-					Title: <input type='text' id='T' onblur='checkTitle()'/><br /><br />
-					Q: <input type='text' id='Q'/>
-					A: <input type='text' id='A'/><br /><br />
-					<button type='button' onclick = 'next()' >Next Card</button>
-					<button type='button' onclick = 'sumitNewCards()' >Submit</button>
-				</form>
-			</body>
-			</html>
+			-->
+			<p>Add cards:</p> 
+			<form>
+				Title: <input type='text' id='T' onblur='checkTitle()'/><br /><br />
+				Q: <input type='text' id='Q'/>
+				A: <input type='text' id='A'/><br /><br />
+				<button type='button' onclick = 'next()' >Next Card</button>
+				<button type='button' onclick = 'sumitNewCards()' >Submit</button>
+			</form>
 			";
 		
 		echo $x;
@@ -205,14 +210,7 @@ class FlashCardDisplay{
 	public static function makeFlashCardScript($titles) {
 		$deck = FlashCardManager::makeDeck($titles);
 		$x = "
-			<style type='text/css'>
-				div.pos_set
-				{
-					position:absolute;
-					bottom:10px;
-					left:121px;
-				}
-			</style>
+		<!--
 			<script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>
 			<script type='text/javascript'>
 				var counter = 0;
@@ -248,41 +246,41 @@ class FlashCardDisplay{
 				}
 				
 				function returnToSelect(){
-					$.ajax({url: 'flashcardselect.php?returner='+ true, dataType: 'html', success: function(object) {
+					$.ajax({url: 'flashcardselect.php', dataType: 'html', success: function(object) {
 						$('#f').html(object);
 						}, asyc: false
 					  });
 				}
 
 			</script>
-			<link rel='stylesheet' type='text/css' href='styles/basic-quickflips.css' />
-   
-				<br class='clear' />
-			<div class='half-col'>	
-				
-				<div class='quickFlip3'>
-					<div class='redPanel'>
-						<div class='panel-content'><br/><br/><br/><p id='questf'></p></div>     
-						<div class='pos_set'>
-							<button type='button' id='answer' class = 'quickFlipCta'>Answer</button>
+			-->
+			
+			<div id = 'deck'>{$deck}</div> 
+			<div id = 'outputContent'>
+				<div class='half-col'>	
+					
+					<div class='quickFlip3'>
+						<div class='redPanel'>
+							<div class='panel-content'><br/><br/><br/><p id='questf'></p></div>     
+							<div class='pos_set'>
+								<button type='button' id='answer' class = 'quickFlipCta'>Answer</button>
+							</div>
 						</div>
-					</div>
 
-					<div class='blackPanel'>
-						<div><br/><br/><p id='questb'></p><br/><p id='ans'></p></div>
-						
-						<div class='pos_set'>
-							<button type='button' id='question' class = 'quickFlipCta' onclick = 'getNew()'>Next Question</button>
+						<div class='blackPanel'>
+							<div><br/><br/><p id='questb'></p><br/><p id='ans'></p></div>
+							
+							<div class='pos_set'>
+								<button type='button' id='question' class = 'quickFlipCta' onclick = 'getNew()'>Next Question</button>
+							</div>
 						</div>
 					</div>
 				</div>
+
+				<button type='button' id='removeCard' onclick = 'removeCard()' >Remove Card</button>
+				<br />
+				<button type='button' onclick = 'returnToSelect()' >Select Different Cards</button>
 			</div>
-
-			<button type='button' id='removeCard' onclick = 'removeCard()' >Remove Card</button>
-			<br />
-			<button type='button' onclick = 'returnToSelect()' >Select Different Cards</button>
-
-
 			";
 		echo $x;		
 	}
