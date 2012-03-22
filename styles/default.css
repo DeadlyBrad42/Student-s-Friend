@@ -240,6 +240,14 @@ ul#crsNav li a
 {
 
 }
+
+iframe#uploadFrame
+{
+  width: 0;
+  height: 0;
+  border: 0px none;
+  display: none;
+}
 /* course page styles */
 
 button#loginBtn
