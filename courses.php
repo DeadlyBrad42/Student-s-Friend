@@ -29,7 +29,7 @@
         include("forum.php");
         break;
       case 3:
-			FlashCardDisplay::flashCardSelectScript();
+			//FlashCardDisplay::flashCardSelectScript();
 			FlashCardDisplay::flashCardSelectBody(49);		
         break;
       default:
@@ -42,7 +42,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-		<?php require_once("layout/headScripts.php"); ?>
+	<?php require_once("layout/headScripts.php"); ?>
+	<script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>
+	<script type='text/javascript' src='scripts/flipFuncs.js'></script>
+	<!--<link rel='stylesheet' type='text/css' href='styles/basic-quickflips.css' />
+	<link rel='stylesheet' type='text/css' href='styles/flashcard.css' />-->
 		<script type="text/javascript">
       populate_newsfeed(<?php echo $userID ?>, 10);
 		</script>

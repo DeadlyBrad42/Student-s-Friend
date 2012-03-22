@@ -285,7 +285,7 @@ function populate_newsfeed(userID, numfeed)
 	  feedObj.feedPopulated = true;
 	  
 	  // Sets the function to be called again in (2nd param) milliseconds.
-      setTimeout("updateFeed(" + userID + ")", 5000);
+      setTimeout("updateFeed(" + userID + ")", feedObj.currTimeOut);
 	  }
 	})
 }
@@ -318,7 +318,7 @@ function updateFeed(userID) {
 	    document.getElementById("updateTable").childNodes[0].innerHTML = data + document.getElementById("updateTable").childNodes[0].innerHTML;
 		
 		// Sets the function to be called again in (2nd param) milliseconds.
-        setTimeout("updateFeed(" + userID + ")", 5000);
+        setTimeout("updateFeed(" + userID + ")", feedObj.currTimeOut);
 	  }
 	})
   }
@@ -373,7 +373,7 @@ function postNews(courseID, update) {
 *	Encapsulates all necessary data for the feed.
 ***********************************/
 feedObj = new Object();
-feedObj.currTimeOut = 0;
+feedObj.currTimeOut = 45000;
 feedObj.topEntryDate;
 feedObj.lowestEntryDate;
 feedObj.feedPopulated = false;

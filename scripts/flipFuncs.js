@@ -53,7 +53,7 @@ function validateMyForm(counter, flag){
 				//	Set quickflip function and get new card.
 				$('.quickFlip3').quickFlip();
 				getNew();
-			}, asyc: true});
+			}, asyc: false});
 		}
 		
 		else{
