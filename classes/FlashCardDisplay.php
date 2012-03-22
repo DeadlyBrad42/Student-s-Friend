@@ -51,13 +51,15 @@ class FlashCardDisplay{
 	public static function flashCardSelectBody($cID) {
 		$titles = json_decode(FlashCardManager::getCardTitle($cID));
 		$counter = count($titles);
-		$x = "<p>Select the titles you would like to study:</p> <form>";
+		$x = "<div id ='f'>";
+		$x = $x."<p>Select the titles you would like to study:</p> <form>";
 		for($i = 0; $i < $counter; $i++)
 			$x = $x."<input type='checkbox' id='{$i}' value='{$titles[$i]->title}' /> {$titles[$i]->title}<br />";
 
 		$x = $x."<br /><input type='button' onclick='validateMyForm({$counter}, true);' value='Submit' />
 				 <input type='button' onclick='validateMyForm({$counter}, false);' value='Edit' />
 				 <input type='button' onclick='addCards({$counter});' value='Add Cards' />";
+		$x = $x."</div>";
 		echo $x;
 	}
 

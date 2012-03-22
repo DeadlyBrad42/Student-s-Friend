@@ -7,6 +7,7 @@ body {
 .quickFlip, .quickFlip3 {
     height: 216px;
     width: 322px;
+	padding:5px;
 }
 
 .quickFlip2 {
@@ -18,7 +19,7 @@ body {
 
 /* the rest of this is irrelevent */
 
-H1, H2 {
+div#f H1, div#f H2 {
     float: left;
     padding-right: 15px;
     line-height: 32px;
