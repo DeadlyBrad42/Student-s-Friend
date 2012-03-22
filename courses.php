@@ -3,6 +3,8 @@
 	require_once("classes/Facebook.php");
   require_once("classes/Calendar.php");
   require_once("classes/UserStorage.php");
+  	require_once("classes/FlashCardManager.php"); 
+	require_once("classes/FlashCardDisplay.php");
   require_once("scripts/utility.php");
   $userID = $_SESSION['userID'];
   if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
@@ -28,8 +30,10 @@
       case 2:
         include("forum.php");
         break;
-      case 3:
-        break;
+      case 3://==============================================================================================
+			FlashCardDisplay::flashCardSelectScript();
+			FlashCardDisplay::flashCardSelectBody(49);		
+        break;//==============================================================================================
       default:
         break;
     }
