@@ -201,13 +201,15 @@ function deleteEvent(evtID)
   dialogue('deleteEvtConfirm', div, 'Event: Deletion', false);
 }
 
-function uploadFile()
+function uploadFile(isCrs, id)
 {
+  console.log("is course = " + isCrs + "id = " + id);
   var form = $(document.createElement('form'));
-  form.attr({enctype: 'multipart/form-data', action: '', method: 'post'});
+  var actionUrl = isCrs == 1 ? 'scripts/upload.php?cid='+id : 'scripts/upload.php'; 
+  form.attr({enctype: 'multipart/form-data', action: actionUrl, method: 'post', target: 'uploadFrame'});
 
   var input = $('<input />', {type: 'file', name: 'file', id: 'file'}),
-      upload_btn = $('<input />', {val: 'Upload', name: 'Upload', type: 'Submit'}),
+      upload_btn = $('<input />', {val: 'Upload', name: 'Upload', type: 'Submit', click: function() {$('#ui-tooltip-uploadModal').qtip('hide');}} ),
       cncl_btn = $('<button />', {text: 'Cancel', click: function() {$('#ui-tooltip-uploadModal').qtip('hide');} });
   form.append(input).append(upload_btn).append(cncl_btn);
 
@@ -224,6 +226,10 @@ function showUploadPic(src, name)
   dialogue('picModal', box, name, true);
 }
 
+function refreshUploadPage()
+{
+  $.ajax({url: document.location.href });
+}
 
 /*********************************
 *	NEWSFEED FUNCTIONS
@@ -376,4 +382,9 @@ function switchCrsView(i)
       $('div#crsContent').html(html);
     }
   });
+}
+
+function ajaxLoad(target, url)
+{
+  $(target).load(url);
 }

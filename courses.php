@@ -3,9 +3,8 @@
 	require_once("classes/Facebook.php");
   require_once("classes/Calendar.php");
   require_once("classes/UserStorage.php");
-  	require_once("classes/FlashCardManager.php"); 
+  require_once("classes/FlashCardManager.php"); 
 	require_once("classes/FlashCardDisplay.php");
-  require_once("scripts/utility.php");
   $userID = $_SESSION['userID'];
   if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
     header("Location: index.php");
@@ -23,17 +22,17 @@
         break;
       case 1:
         global $msg;
-        UserStorage::makeStoreScript();
         UserStorage::setDir($cid, 1);
+        UserStorage::makeStoreScript($cid);
         UserStorage::makePage($cid, $msg);
         break;
       case 2:
         include("forum.php");
         break;
-      case 3://==============================================================================================
+      case 3:
 			FlashCardDisplay::flashCardSelectScript();
 			FlashCardDisplay::flashCardSelectBody(49);		
-        break;//==============================================================================================
+        break;
       default:
         break;
     }
@@ -46,7 +45,7 @@
   <head>
 		<?php require_once("layout/headScripts.php"); ?>
 		<script type="text/javascript">
-		  populate_newsfeed(<?php echo $userID ?>, 10);
+      populate_newsfeed(<?php echo $userID ?>, 10);
 		</script>
   </head>
   <body>

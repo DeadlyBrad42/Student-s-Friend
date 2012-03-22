@@ -24,9 +24,6 @@
   if($num[0] == 0)
   {
     $db->query("CALL insertNewUser('{$userID}', '{$fname}', '{$lname}')");
-    UserStorage::setDir($userID, 0);
-    UserStorage::getDir();
-    UserStorage::makeUploadDir();
     // Debugging
     // echo "Inserted new user.";
   }

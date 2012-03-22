@@ -2,7 +2,6 @@
   session_start(); 
   require_once("classes/UserStorage.php");
 	require_once("classes/Facebook.php");
-  require_once("scripts/utility.php");
   
   if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
     header("Location: index.php");
@@ -25,8 +24,10 @@
     </div>
     <?php require_once("layout/header.php"); ?>
       <div id="wrapper">
-	  <div id="newsfeed"></div>
-      <?php UserStorage::makePage($_SESSION['userID'], $msg); ?>
+      <div id="newsfeed"></div>
+      <div id="uploadContent"> <!-- Placed here for ajax refreshing -->
+        <?php UserStorage::makePage($_SESSION['userID'], $msg); ?>
+      </div>
       </div> 
     <?php require_once("layout/footer.php"); ?>
   </body>
