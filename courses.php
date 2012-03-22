@@ -26,6 +26,7 @@
         UserStorage::makePage($cid, $msg);
         break;
       case 2:
+        include("forum.php");
         break;
       case 3:
         break;
