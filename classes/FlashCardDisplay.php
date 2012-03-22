@@ -206,30 +206,26 @@ class FlashCardDisplay{
 	public static function makeFlashCardScript($titles) {
 		$deck = FlashCardManager::makeDeck($titles);
 		$x = "
+			<style type='text/css'>
+				div.pos_set
+				{
+					position:absolute;
+					bottom:10px;
+					left:121px;
+				}
+			</style>
 			<script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>
 			<script type='text/javascript'>
 				var counter = 0;
 				var front = true;
 				var deck = {$deck};
 				
-
-
-
-				
 				$(document).ready(function() {
 					$(function() {
 						console.log('GOT HERE!!!!!!');
 						$('.quickFlip3').quickFlip();
-					},
-					function flipCard() {
-						$('.quickFlip3').quickFlipper();
-						front = !front;
-					}
-					
+					}					
 				);
-				
-				
-				
 					getNew();
 				});
 												
@@ -242,9 +238,6 @@ class FlashCardDisplay{
 				}
 
 				function getNew() {
-					if (!front) {
-						flipCard();
-					}
 					if (counter == deck.length) {
 						counter = 0;
 					}
@@ -264,7 +257,6 @@ class FlashCardDisplay{
 
 			</script>
 			<link rel='stylesheet' type='text/css' href='styles/basic-quickflips.css' />
-			<html>
 			<body>    
 				<br class='clear' />
 			<div class='half-col'>	
@@ -273,7 +265,7 @@ class FlashCardDisplay{
 					<div class='redPanel'>
 						<div class='panel-content'><br/><br/><br/><p id='questf'></p></div>     
 						<div class='pos_set'>
-							<button type='button' id='answer' onclick = 'flipCard()'>Answer</button>
+							<button type='button' id='answer' class = 'quickFlipCta'>Answer</button>
 						</div>
 					</div>
 
@@ -281,19 +273,17 @@ class FlashCardDisplay{
 						<div><br/><br/><p id='questb'></p><br/><p id='ans'></p></div>
 						
 						<div class='pos_set'>
-							<button type='button' id='question' onclick = 'flipCard()'>Question</button>
+							<button type='button' id='question' class = 'quickFlipCta' onclick = 'getNew()'>Next Question</button>
 						</div>
 					</div>
 				</div>
 			</div>
 
-				<button type='button' id='new' onclick = 'getNew()' >Get New Question</button>
-				<button type='button' id='removeCard' onclick = 'removeCard()' >Remove Card</button>
-				<br />
-				<button type='button' onclick = 'returnToSelect()' >Select Different Cards</button>
+			<button type='button' id='removeCard' onclick = 'removeCard()' >Remove Card</button>
+			<br />
+			<button type='button' onclick = 'returnToSelect()' >Select Different Cards</button>
 
 			</body>
-			</html>
 			";
 		echo $x;		
 	}

@@ -17,7 +17,6 @@
   <script type='text/javascript' src='scripts/jquery-ui-1.8.17.custom.min.js'></script>
   <script type='text/javascript' src='scripts/jsFuncs.js'></script>
   <script type='text/javascript' src='scripts/qtip.min.js'></script>
-  <script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>
   <script type='text/javascript'>
       $(document).ready(function() {  
         var x = {$crs};  
