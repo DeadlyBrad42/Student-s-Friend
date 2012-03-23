@@ -62,7 +62,7 @@ class UserStorage {
         echo "</ul></div>";
       }
 
-      echo "<iframe id='uploadFrame' src='#' name='uploadFrame'></iframe>"; // We want the iframe on the page in either case
+        echo "<iframe id='uploadFrame' src='#' name='uploadFrame'></iframe>"; // We want the iframe on the page in either case
     }
 
     public static function addItem($id, $item) {

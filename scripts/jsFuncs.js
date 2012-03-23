@@ -203,20 +203,25 @@ function deleteEvent(evtID)
 
 function uploadFile(isCrs, id)
 {
-  console.log("is course = " + isCrs + "id = " + id);
   var form = $(document.createElement('form'));
   var actionUrl = isCrs == 1 ? 'scripts/upload.php?cid='+id : 'scripts/upload.php'; 
-  form.attr({enctype: 'multipart/form-data', action: actionUrl, method: 'post', target: 'uploadFrame', onsubmit: 'toggleAjaxLoader(1)'});
+  form.attr({enctype: 'multipart/form-data', action: actionUrl, method: 'post', target: 'uploadFrame', onsubmit: 'toggleAjaxLoader(1);'});
 
   var input = $('<input />', {type: 'file', name: 'file', id: 'file'}),
-      upload_btn = $('<input />', {val: 'Upload', name: 'Upload', type: 'Submit', click: function() {$('#ui-tooltip-uploadModal').qtip('hide');}} ),
-      cncl_btn = $('<input />', {val: 'Cancel', type: 'button', click: function() {$('#ui-tooltip-uploadModal').qtip('hide');} });
+      upload_btn = $('<input />', {val: 'Upload', name: 'Upload', type: 'Submit', click: function() {
+        $('#ui-tooltip-uploadModal').css('display', 'none');
+        $('#qtip-overlay').css('display', 'none');
+        }
+      }),
+      cncl_btn = $('<input />', {val: 'Cancel', type: 'button', click: function() { $('#ui-tooltip-uploadModal').qtip('hide'); } });
   form.append(input).append(upload_btn).append(cncl_btn);
-
   dialogue('uploadModal', form, 'Upload A New File', true);
 }
 
-
+function destroyUpTip()
+{
+  $('#ui-tooltip-uploadModal').qtip('destroy');
+}
 
 function showUploadPic(src, name)
 {
@@ -231,7 +236,6 @@ function showUploadPic(src, name)
 function switchCrsView(i)
 {
   var url = document.location.href + '&view=' + i;
-  console.log(url);
   $.ajax({url: url, dataType: 'html', success: function(html) {
       $('div#crsContent').html(html);
       toggleAjaxLoader(0); // if loader is showing, hide it
@@ -255,6 +259,7 @@ function toggleAjaxLoader(option)
 
 function ajaxLoad(target, url)
 {
+  console.log("in ajax load");
   $(target).load(url, function() {
     toggleAjaxLoader(0);
   });
