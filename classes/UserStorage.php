@@ -34,9 +34,9 @@ class UserStorage {
         </script>";
     }
 
-    public static function makePage($uid) {
+    public static function makePage($id) {
       global $db;
-      $rs= $db->query("CALL getStorageItems('{$uid}')"); 
+      $rs= $db->query("CALL getStorageItems('{$id}')"); 
       $count = $rs->num_rows;
       echo "<button id='addFile'>Add a new file</button>";
       if ($count < 1)
@@ -44,22 +44,35 @@ class UserStorage {
       else
       {
         echo "<p>Listed below are the files you've uploaded. Click a file to view it or download it to your local machine.</p>
-              <div id='currentUploads'><ul>";
+              <div id='currentUploads'>";
         while($row = $rs->fetch_array(MYSQLI_ASSOC))
         {
           $jpg = strpos($row['item_name'], ".jpg");
+          $jpeg = strpos($row['item_name'], ".jpeg");
           $png = strpos($row['item_name'], ".png");
           $gif = strpos($row['item_name'], ".gif");
           $bmp = strpos($row['item_name'], ".bmp");
           
+          $sid = $row['storage_ID'];
+          echo "<ul class='storageItem'>";
           // Construct the list item with dynamic <a> tag
-          if ($jpg !== false || $png !== false || $gif !== false || $bmp !== false )
-            echo "<li><a class='cursorPter' onclick='showUploadPic(\"" . self::$dir . "/" . $row['item_name'] . "\", \"". $row['item_name'] ."\")'>" 
-                  . $row['item_name'] . "</a></li>";
+          if ($jpg !== false || $jpeg !== false ||  $png !== false || $gif !== false || $bmp !== false )
+					{
+						$img = "<img height='50' width='50' src='". self::$dir . "/" . $row['item_name'] . "' />";
+						$viewClick = "showUploadPic('".self::$dir."/".$row['item_name']."','".$row['item_name']."')";
+            echo "<li>{$img}</li>";
+          }
           else
+					{
+						$viewClick = "";
             echo "<li><a href='" . self::$dir . "/" . $row['item_name'] . "'>" . $row['item_name'] . "</a></li>";
+					}
+
+					$delClick = "deleteStorageItem('{$sid}','{$id}',".self::$isCourse.")";
+					echo "<li><a class='cursorPter' onclick={$viewClick}>View</a></li><li><a class='cursorPter' onclick={$delClick}>Delete</a></li>";
+          echo "</ul>";
         }
-        echo "</ul></div>";
+        echo "</div>";
       }
 
         echo "<iframe id='uploadFrame' src='#' name='uploadFrame'></iframe>"; // We want the iframe on the page in either case
@@ -69,5 +82,13 @@ class UserStorage {
      global $db;
      $rs = $db->query("CALL insertStorageItem('{$id}', '".self::$dir."', '{$item}')"); 
     }
+
+    public static function deleteItem($path) {
+    	$path = $_SERVER['DOCUMENT_ROOT'] . "sf/" . $path;
+    	if (file_exists($path))
+			{
+				unlink($path);	
+			}
+		}
   }
 ?>

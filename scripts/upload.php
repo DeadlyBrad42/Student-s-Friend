@@ -28,6 +28,7 @@
     if (is_uploaded_file($_FILES['file']['tmp_name']))
     {
       move_uploaded_file($_FILES['file']['tmp_name'], $path);
+      chmod($path, 0666);
       UserStorage::addItem($ownerID, $file);
     }
 
@@ -46,4 +47,4 @@
       echo "window.top.window.destroyUpTip();";
       echo "window.top.window.toastMessage('".$msg."');";
     ?>
-</script>
+  </script>

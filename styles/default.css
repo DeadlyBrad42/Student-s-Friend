@@ -114,12 +114,12 @@ div#footer
   padding-bottom: 25px;
 }
 
-ul#nav
+ul#nav, ul.storageItem
 {
   list-style-type: none;
 }
 
-ul#nav li
+ul#nav li, ul.storageItem li
 {
   float: left;
   margin-right: 15px;
@@ -268,7 +268,7 @@ iframe#uploadFrame
   border: 0px none;
   display: none;
 }
-/* course page styles */
+/* end course page styles */
 
 button#loginBtn
 {

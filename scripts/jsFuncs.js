@@ -233,6 +233,24 @@ function showUploadPic(src, name)
   dialogue('picModal', box, name, true);
 }
 
+function deleteStorageItem(sid, id, isCrs)
+{
+	if (isCrs == 1)
+	{
+		var url = 'scripts/utility.php?action=deleteStorage&storeID='+sid+'&id='+id+'&isCrs=1';
+		$.ajax({url: url, dataType: 'html', success: function() { switchCrsView(1); }});
+	}
+	else
+	{
+		var url = 'scripts/utility.php?action=deleteStorage&storeID='+sid+'&id='+id+'&isCrs=0';
+		//ajaxLoad('div#uploadContent', url);
+		$.ajax({url: url, dataType: 'html', success: function(html) {	
+				$('div#uploadContent').html(html);
+			}
+		});
+	}
+}
+
 function switchCrsView(i)
 {
   var url = document.location.href + '&view=' + i;
