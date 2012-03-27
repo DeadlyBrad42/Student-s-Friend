@@ -13,15 +13,13 @@
 		FlashCardDisplay::makeFlashCardScript($titles);
 		exit(0);
 	}
-	elseif(isset($_GET['Change'])){
-		
+	elseif(isset($_GET['Change'])){		
 		$h=$_GET['Change'];
 		$titles= explode(",",$h);
 		FlashCardDisplay::makeFlashCardEditBody($titles, $_SESSION['userID']);
 		exit(0);
 	}
 	elseif(isset($_GET['add'])){
-		
 		$titles= $_GET['add'];
 		FlashCardDisplay::addFlashCardScript($titles);
 		exit(0);

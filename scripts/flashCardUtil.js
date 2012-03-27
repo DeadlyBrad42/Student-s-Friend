@@ -54,16 +54,24 @@ function reSubmitCards(counter){
 	var aID = 'A';
 	var currentTitle;
 	var toEdits = {$toEdits};
-	for(i=0; i < counter; i++)
+	for(i=0; i < counter-1; i++)
 	{
-		if(document.getElementById(i))
-			currentTitle = document.getElementById(i).value;
+		alert(qID.concat(i));
+		//if(document.getElementById(i))
+		//	currentTitle = document.getElementById(i).value;
 			
-		results = results+toEdits[i].id+'<>'+currentTitle+'<>'+document.getElementById(qID.concat(i)).value+'<>'+document.getElementById(aID.concat(i)).value+'<>';
+		//results = results+toEdits[i].id+'<>'+currentTitle+'<>'+document.getElementById(qID.concat(i)).value+'<>'+document.getElementById(aID.concat(i)).value+'<>';
 		
 	}
 	$.ajax({url: 'flashcardselect.php?edit=' + results, dataType: 'html', success: function(object) {
 				$('#f').html(object);
 		}
 	});
+}
+
+function returnToSelect(){
+	$.ajax({url: 'flashcardselect.php', dataType: 'html', success: function(object) {
+		$('#f').html(object);
+		}, asyc: false
+	  });
 }

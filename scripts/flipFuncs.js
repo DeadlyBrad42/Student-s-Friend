@@ -93,11 +93,12 @@ function reSubmitCards(counter){
 	$.ajax({url: 'flashcardselect.php?edit=' + results, dataType: 'html', success: function(object) {
 		$('#f').html(object);
 		}, asyc: true
-	  });
+	 });
 }
 
 function addCards(counter){
 	t = new Array();
+	
 	
 	for (i=0;i<counter;i++){
 		t[i] = document.getElementById(i).value;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
@@ -154,11 +155,12 @@ function makeNewCardsArray(){
 
 function checkTitle(){
 	var flag = true;
-	for (i=0;i<=title.length-1;i++)
+	for (i=0;i<=t.length-1;i++)
 	{
-		if( document.getElementById('T').value == title[i] ){
+		if( document.getElementById('T').value == t[i] ){
 			var r=confirm('The title you entered already exists, if you would like to add cards to this title press OK.');
 			if (r==false){
+				document.getElementById('T').focus();
 				document.getElementById('T').value = '';
 				flag = false;
 			}
@@ -169,10 +171,16 @@ function checkTitle(){
 	
 	if(flag && document.getElementById('T').value != '')
 		document.getElementById('T').disabled=true;
+		
 }
 
 function sumitNewCards(){
 	makeNewCardsArray();
 	$.ajax({url: 'flashcardselect.php?inst='+cards, dataType: 'html', success: function(object) {
 				$('#f').html(object);}, asyc: false});					
+}
+
+function clearFeild(i){
+	document.getElementById('Q'+i).value = '';
+	document.getElementById('A'+i).value = ''; 
 }
