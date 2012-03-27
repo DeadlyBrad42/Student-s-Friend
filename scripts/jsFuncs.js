@@ -106,7 +106,6 @@ function eventDialogue(date, course_id)
       if (validate('#evtAddForm input'))
       {
         isRecur ? addEvent($('input[name="recur"]:checked').attr('value'), course_id) : addEvent('none', course_id);
-        console.log('Event Added!');
         $('#ui-tooltip-evtModal').qtip('hide');
       }
       else
@@ -163,10 +162,13 @@ function addEvent(recurrence, course_id)
   var jsonStr = event.join('');
  
   var url = 'calendar.php?add=true' + '&event=' + jsonStr + '&courseID=' + course_id;
-  $.ajax({url: url, dataType: 'html', success: function(object) {
-    console.log(object);
-    $('#calendar').fullCalendar('refetchEvents');
-    $('.addTip').qtip('hide');
+  $.ajax({
+  	url: url, 
+  	dataType: 'html', 
+  	success: function(object) {
+    	console.log(object);
+    	$('#calendar').fullCalendar('refetchEvents');
+    	$('.addTip').qtip('hide');
     }
   });
 }
@@ -189,8 +191,10 @@ function deleteEvent(evtID)
       btnY = $('<input />', {type: 'button', val: 'Yes', click: function() {
         $('#ui-tooltip-deleteEvtConfirm').qtip('hide'); 
         var url = 'calendar.php?delete=true' + '&eventid=' + evtID;
-        $.ajax({url: url, success: function(data) {
-          $('#calendar').fullCalendar('refetchEvents');
+        $.ajax({
+        	url: url,
+        	success: function(data) {
+          	$('#calendar').fullCalendar('refetchEvents');
           }
         });
       }
@@ -233,6 +237,21 @@ function showUploadPic(src, name)
   dialogue('picModal', box, name, true);
 }
 
+
+function deleteStorageDialogue(sid, id, isCrs)
+{
+	var box = $('<div />', {id: 'deleteStorageBox'}),
+			btn1 = $('<button />', {text: 'Yes', click: function() { 
+				$('#ui-tooltip-deleteStoreModal').qtip('hide');
+				deleteStorageItem(sid, id, isCrs);} 
+			}),
+			btn2 = $('<button />', {text: 'No', click: function() { $('#ui-tooltip-deleteStoreModal').qtip('hide');} });
+
+	box.append(btn1).append(btn2);
+	dialogue('deleteStoreModal', box, "Are you sure you want to delete this item?", false);
+}
+
+
 function deleteStorageItem(sid, id, isCrs)
 {
 	toggleAjaxLoader(1);
@@ -268,7 +287,7 @@ function switchCrsView(i)
   });
 }
 
-function toggleAjaxLoader(option)
+window.toggleAjaxLoader = function(option)
 {
   // Option is a number, where 1 is showing and 0 is not showing
   if (option == 1)

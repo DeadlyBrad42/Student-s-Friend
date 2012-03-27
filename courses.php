@@ -8,7 +8,7 @@
   $userID = $_SESSION['userID'];
   if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
     header("Location: index.php");
-  
+
   if (isset($_GET['view']) && isset($_GET['c']))
   {
     $cid = $_GET['c'];
@@ -38,6 +38,10 @@
 
     exit(0);
   }
+  else if (!isset($_GET['c']))
+	{
+
+	}
 ?>
 <!DOCTYPE html>
 <html>

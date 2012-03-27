@@ -63,7 +63,6 @@ function deleteStorageItem($sid, $id, $isCrs)
 	$row = $rs->fetch_array(MYSQLI_ASSOC);
 	// Piece together the path to the item, and delete it
 	$path = $row['dir'] ."/". $row['name'];
-	echo $path;
 	if (!$db->query("CALL deleteStorageItem({$sid})"))
 	{
 		echo $db->error();	

@@ -1,25 +1,25 @@
 <?php
+	session_start();
   require_once("Event.php");
   class Calendar {
     public static function makeCalScript($id, $isCrs=0) {
       // Calendar-specific <head> elements here
-
-      if ($isCrs == 1)
+    	if ($isCrs == 1)
       {
-        $evtSrc = "{
+      	$evtSrc = "{
                     url: 'eventFeed.php', 
                     type: 'GET', 
                     data: { crs: true, id: {$id}} 
                   }";
-		//	We know we are in a course page so $id is the courseID not the user ID.
-		$crsID = $id;
+				//	We know we are in a course page so $id is the courseID not the user ID.
+				$crsID = $id;
       }
       else
-	  {
+	  	{
         $evtSrc = "'eventFeed.php'";
-		//	Not a course page, set crsID to zero so javascript functions know that.
-		$crsID = 0;	
-	  }
+				//	Not a course page, set crsID to zero so javascript functions know that.
+				$crsID = 0;	
+	  	}
 
       $x = "	
       <script type='text/javascript' src='scripts/fullcalendar.js'></script>
@@ -62,6 +62,10 @@
             },
             solo: true
           });
+          },
+          loading: function(isLoading, view) { 
+          	if (isLoading == true) { window.toggleAjaxLoader(1); }
+          	if (isLoading == false) { window.toggleAjaxLoader(0); }
           },
 			    eventRender: function(event, element) {
             element.qtip({

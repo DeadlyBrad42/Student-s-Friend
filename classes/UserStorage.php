@@ -68,7 +68,7 @@ class UserStorage {
             echo "<li><a href='" . self::$dir . "/" . $row['item_name'] . "'>" . $row['item_name'] . "</a></li>";
 					}
 
-					$delClick = "deleteStorageItem('{$sid}','{$id}',".self::$isCourse.")";
+					$delClick = "deleteStorageDialogue('{$sid}','{$id}',".self::$isCourse.")";
 					echo "<li><a class='cursorPter' onclick={$viewClick}>View</a></li><li><a class='cursorPter' onclick={$delClick}>Delete</a></li>";
           echo "</ul>";
         }

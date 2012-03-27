@@ -15,7 +15,7 @@
     exit(0);
   }
 
-  if(isset($_GET['add']) && $_GET['courseID'] && $_GET['add'] == 'true' && isset($_GET['event']))
+  if(isset($_GET['add']) && isset($_GET['courseID']) && $_GET['add'] == 'true' && isset($_GET['event']))
   {
     $evt = "{" . $_GET['event'] . "}";
     $evt = json_decode($evt);
@@ -40,6 +40,7 @@
 	</script>
   </head>
   <body>
+  	<div id="ajaxLoader"></div>
     <div id="fb-root">
 			<?php Facebook::makeBodyScript(); ?>
     </div>
