@@ -235,17 +235,24 @@ function showUploadPic(src, name)
 
 function deleteStorageItem(sid, id, isCrs)
 {
+	toggleAjaxLoader(1);
 	if (isCrs == 1)
 	{
 		var url = 'scripts/utility.php?action=deleteStorage&storeID='+sid+'&id='+id+'&isCrs=1';
-		$.ajax({url: url, dataType: 'html', success: function() { switchCrsView(1); }});
+		$.ajax({url: url, dataType: 'html', success: function() { 
+			switchCrsView(1); 
+			toastMessage("Item successfully deleted!");
+			toggleAjaxLoader(0);
+			}
+		});
 	}
 	else
 	{
 		var url = 'scripts/utility.php?action=deleteStorage&storeID='+sid+'&id='+id+'&isCrs=0';
-		//ajaxLoad('div#uploadContent', url);
 		$.ajax({url: url, dataType: 'html', success: function(html) {	
 				$('div#uploadContent').html(html);
+				toastMessage("Item successfully deleted!");
+				toggleAjaxLoader(0);
 			}
 		});
 	}

@@ -58,13 +58,17 @@ function refreshUserStorageDiv($uid)
 function deleteStorageItem($sid, $id, $isCrs)
 {
 	global $db;
-	$rs = $db->query("SELECT storage_directory, item_name FROM sfstorage WHERE storage_ID={$sid}");
+	$rs = $db->query("CALL getStorageItemPath('{$sid}', @sd, @itm)");
+	$rs = $db->query("SELECT @sd as dir, @itm as name");
 	$row = $rs->fetch_array(MYSQLI_ASSOC);
 	// Piece together the path to the item, and delete it
-	$path = $row['storage_directory'] ."/". $row['item_name'];
-	$db->query("DELETE FROM sfstorage WHERE storage_ID={$sid}");
+	$path = $row['dir'] ."/". $row['name'];
+	echo $path;
+	if (!$db->query("CALL deleteStorageItem({$sid})"))
+	{
+		echo $db->error();	
+	}
 	UserStorage::deleteItem($path);
-
 	// if it's a user item, refresh the storage.php div
 	if ($isCrs == 0)
 	{

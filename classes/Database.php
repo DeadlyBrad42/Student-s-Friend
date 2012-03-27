@@ -24,7 +24,11 @@
     public function query($query) {
       return $this->conn->query($query);
     }
-    
+
+    public function error() {
+			return mysqli_error($this->conn);
+		}
+
     public function getLastInsertedID() {
       return mysqli_insert_id($this->conn);
     }
