@@ -15,7 +15,7 @@ class Course {
   
   function getALL($courseID) {
     global $db;
-    $rs = $db->query("SELECT * FROM course");
+    $rs = $db->query("SELECT * FROM course WHERE course_ID = '{$courseID}'");
     $row = $rs->fetch_array(MYSQLI_ASSOC);
 	  
 	$this->set_courseID($row['course_ID']);

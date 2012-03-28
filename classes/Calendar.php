@@ -1,11 +1,22 @@
 <?php
 	session_start();
   require_once("Event.php");
+  require_once("Course.php");
   class Calendar {
     public static function makeCalScript($id, $isCrs=0) {
       // Calendar-specific <head> elements here
+	  $editAccess = 'true';
+	  
     	if ($isCrs == 1)
-      {
+	  {
+		$course = new Course($id);
+		
+		//	If the user viewing this is not the instructor we want to lock them out of editing the calendar
+		if($course->get_instructorID() != $_SESSION['userID']) 
+		{
+			$editAccess = 'false';
+		}
+	  
       	$evtSrc = "{
                     url: 'eventFeed.php', 
                     type: 'GET', 
@@ -49,7 +60,11 @@
 			      $('#calendar').fullCalendar('gotoDate', date);
           }
           dateToAdd = date;
-          $(this).qtip({ 
+		  ";
+		  
+		  //	In place to prevent users from modifying or creating events on course calendars
+		  if($editAccess == 'true') {
+			$x = $x."$(this).qtip({ 
             content: '<ul class=\'evtOptions\'>'+menuOptions.add+'</ul>', 
             position: {
               at: 'center',
@@ -62,20 +77,30 @@
             },
             solo: true
           });
-          },
+		  ";
+		  }
+		  
+          $x = $x."},
           loading: function(isLoading, view) { 
           	if (isLoading == true) { window.toggleAjaxLoader(1); }
           	if (isLoading == false) { window.toggleAjaxLoader(0); }
           },
-			    eventRender: function(event, element) {
-            element.qtip({
+			eventRender: function(event, element) {
+				element.qtip({
              prerender: true,
              id: 'evtTip',
              solo: true,
              overwrite: false,
              content: {
                title: {text: 'Event Options'},
-               text: '<ul class=\'evtOptions\'>'+menuOptions.view+menuOptions.delete+'</ul>'
+               text: '<ul class=\'evtOptions\'>'+menuOptions.view
+		  ";
+		  //	In place to prevent students from deleting course events
+		  if($editAccess == 'true') {
+		  $x = $x."+menuOptions.delete";
+			}
+			
+          $x = $x."+'</ul>'
             },
             position: {
             target: 'mouse',
@@ -85,7 +110,7 @@
             hide: {event: 'unfocus'},
             style: {classes: 'ui-tooltip-tipped', tip: false}
             });
-          },
+			},
           eventClick: function(event, jsEvent, view) {
             gotoDate = eStart = event.start;
             eEnd = event.end;
@@ -94,7 +119,7 @@
             eDesc = event.description;
             eid = event.id;
           },
-          editable: true,
+          editable: {$editAccess},
           eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
             var url = 'calendar.php?id=' + event.id + '&day=' + dayDelta + '&min=' + minuteDelta;
             $.ajax({url: url, dataType: 'json'});
