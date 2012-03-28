@@ -48,6 +48,7 @@ $.ajax({url: 'flashcardselect.php?add=true', dataType: 'html', success: function
 			$('#f').html(object);}});
 }
 
+/*
 function reSubmitCards(counter){
 	var results = '';
 	var qID = 'Q';
@@ -57,10 +58,10 @@ function reSubmitCards(counter){
 	for(i=0; i < counter-1; i++)
 	{
 		alert(qID.concat(i));
-		//if(document.getElementById(i))
-		//	currentTitle = document.getElementById(i).value;
+		if(document.getElementById(i))
+			currentTitle = document.getElementById(i).value;
 			
-		//results = results+toEdits[i].id+'<>'+currentTitle+'<>'+document.getElementById(qID.concat(i)).value+'<>'+document.getElementById(aID.concat(i)).value+'<>';
+		results = results+toEdits[i].id+'<>'+currentTitle+'<>'+document.getElementById(qID.concat(i)).value+'<>'+document.getElementById(aID.concat(i)).value+'<>';
 		
 	}
 	$.ajax({url: 'flashcardselect.php?edit=' + results, dataType: 'html', success: function(object) {
@@ -68,6 +69,7 @@ function reSubmitCards(counter){
 		}
 	});
 }
+*/
 
 function returnToSelect(){
 	$.ajax({url: 'flashcardselect.php', dataType: 'html', success: function(object) {

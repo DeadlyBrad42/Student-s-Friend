@@ -7,7 +7,6 @@
 ?>
 
 <?php
-	
 	if(isset($_GET['Result'])){
 		$titles= explode(",",$_GET['Result']);
 		FlashCardDisplay::makeFlashCardScript($titles);

@@ -96,10 +96,19 @@ function reSubmitCards(counter){
 	 });
 }
 
+function deleteCards(counter){
+	var qID = 'Q';
+	var aID = 'A';
+	for(i=0; i < counter; i++)
+	{
+		document.getElementById(qID.concat(i)).value = "";
+		document.getElementById(aID.concat(i)).value = "";
+	}
+	reSubmitCards(counter);
+}
+
 function addCards(counter){
-	t = new Array();
-	
-	
+	t = new Array();	
 	for (i=0;i<counter;i++){
 		t[i] = document.getElementById(i).value;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 	}
@@ -110,17 +119,24 @@ function addCards(counter){
 				
 				asyc: false});
 }
-
 								
 function removeCard() {
 	if(deck.length > 1 ){
 		counter--;
 		deck.splice(counter, 1);
+		if(!front){
+			$('.quickFlip3').quickFlipper();
+		}
 		getNew();
 	}
 }
 
+function toBack(){
+	front = false;
+}
+
 function getNew() {
+	front = true;
 	if (counter == deck.length) {
 		counter = 0;
 	}

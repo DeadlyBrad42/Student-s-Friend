@@ -4,3 +4,10 @@ div.pos_set
 	bottom:10px;
 	left:121px;
 }
+
+div.under
+{
+	position:relative;
+	top:50px;
+	left:188px;
+}

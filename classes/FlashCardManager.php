@@ -34,7 +34,7 @@
 		global $db;
 		$cardArray;
 		for($i = 0; $i < count($titleArray); $i++){
-			$rs = $db->query("CALL get_cards('{$titleArray[$i]}')");
+			$rs = $db->query("SELECT * FROM flashcard WHERE card_title = '{$titleArray[$i]}'");
 			while($row = $rs->fetch_array(MYSQLI_ASSOC))
 			{
 				$holder = array(
@@ -53,5 +53,5 @@
 	}
 	
   }
-  
+
 ?>
