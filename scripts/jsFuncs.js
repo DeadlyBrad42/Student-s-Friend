@@ -545,3 +545,28 @@ function timer(event) {
         api.timer = setTimeout(api.hide, lifespan);
     }
 }
+
+
+function makeCrsLanding(list, target) {
+	for(var i=0; i<list.length; i++)
+	{
+		var tbl = $('<table />', {class: 'crsLanding'}),r1 = $('<th />'),
+				r2 = $('<tr />'), d2 = $('<td />'), 
+				r3 = $('<tr />'), d3 = $('<td />'),
+				r4 = $('<tr />'), d4 = $('<td />'), 
+				r5 = $('<tr />'), d5 = $('<td />');
+		
+		// Form the rows
+		r1.append($('<a />', {text: list[i].name, href: 'courses.php?c='+list[i].id}));
+		r2.append('<td>Description:</td>').append(d2.append(list[i].descrip)); 
+		r3.append('<td>Location:</td>').append(d3.append(list[i].location));
+		r4.append('<td>Time:</td>').append(d4.append(list[i].time));
+		r5.append('<td>Instructor:</td>').append(d5.append(list[i].insFirst +' '+ list[i].insLast));
+
+		// Append each row to the table
+		tbl.append(r1).append(r2).append(r3).append(r4).append(r5);
+
+		// Append each table to our target
+		target.append(tbl);
+	}
+}

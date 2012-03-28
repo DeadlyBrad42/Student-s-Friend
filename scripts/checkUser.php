@@ -14,6 +14,7 @@
   Populate session with user's values
   */
   $_SESSION["userID"] = $userID;
+  $_SESSION["userName"] = $fname;
   
   // Dubugging
   // echo "{$userID}, {$fname}, {$lname}";
@@ -46,14 +47,16 @@
         $descrip = $row['course_description'];
         $time = $row['course_time'];
         $location = $row['course_location'];
-        $eventID = $row['sfevent_ID'];
+        $instructFN = $row['ins_fname'];
+        $instructLN = $row['ins_lname'];
         
         $c = array('id' => "{$id}", 
                    'name' => "{$name}",
                    'descrip' => "{$descrip}",
                   'time' => "{$time}",
                   'location' => "{$location}",
-                  'eventID' => "{$eventID}");
+                  'insFirst' => "{$instructFN}",
+                  'insLast' => "{$instructLN}");
         
         $courses[] = $c;
       }

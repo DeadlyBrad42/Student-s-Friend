@@ -1,5 +1,4 @@
 <?php 
-  session_start(); 
 	require_once("classes/Facebook.php");
   require_once("classes/Calendar.php");
   require_once("classes/UserStorage.php");

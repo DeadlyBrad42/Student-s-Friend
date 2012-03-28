@@ -1,7 +1,6 @@
 <?php 
   require_once("classes/Calendar.php");
 	require_once("classes/Facebook.php");
-  session_start(); 
   if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
     header("Location: index.php");
 

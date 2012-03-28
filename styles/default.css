@@ -268,6 +268,13 @@ iframe#uploadFrame
   border: 0px none;
   display: none;
 }
+
+table.crsLanding
+{
+	text-align: left;
+	margin-bottom: 10px;
+	border: 1px solid white;
+}
 /* end course page styles */
 
 button#loginBtn

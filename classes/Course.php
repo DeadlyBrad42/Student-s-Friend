@@ -10,20 +10,19 @@ class Course {
   private $instructor_ID;
 
   function __construct($courseID) {
-	$this->getALL($courseID);
+		$this->getALL($courseID);
   }
   
   function getALL($courseID) {
     global $db;
     $rs = $db->query("SELECT * FROM course WHERE course_ID = '{$courseID}'");
     $row = $rs->fetch_array(MYSQLI_ASSOC);
-	  
-	$this->set_courseID($row['course_ID']);
-    $this->set_name($row['course_name']);
-	$this->set_descrip($row['course_description']);
-	$this->set_time($row['course_time']);
-	$this->set_location($row['course_location']);
-	$this->set_instructorID($row['instructor_ID']);
+		$this->set_courseID($row['course_ID']);
+		$this->set_name($row['course_name']);
+		$this->set_descrip($row['course_description']);
+		$this->set_time($row['course_time']);
+		$this->set_location($row['course_location']);
+		$this->set_instructorID($row['instructor_ID']);
   }
 
   /* Getters */

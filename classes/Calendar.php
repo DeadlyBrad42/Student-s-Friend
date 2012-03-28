@@ -1,4 +1,5 @@
 <?php
+	session_start();
   require_once("Event.php");
   require_once("Course.php");
   class Calendar {
