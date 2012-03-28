@@ -1,60 +1,79 @@
 <?php
-/* These pages don't exist yet
-  require_once("Forum.php");
-  require_once("Calendar.php");
-*/
+require_once("Database.php");
+
 class Course {
   private $id;
   private $name;
   private $descrip;
-  private $time;
+  private $class_time;
   private $location;
-  private $calendar;
-  private $forum;
-  private $groupID;
+  private $instructor_ID;
 
-  public __construct() {
-    // Don't know yet
+  function __construct($courseID) {
+	$this->getALL($courseID);
+  }
+  
+  function getALL($courseID) {
+    global $db;
+    $rs = $db->query("SELECT * FROM course");
+    $row = $rs->fetch_array(MYSQLI_ASSOC);
+	  
+	$this->set_courseID($row['course_ID']);
+    $this->set_name($row['course_name']);
+	$this->set_descrip($row['course_description']);
+	$this->set_time($row['course_time']);
+	$this->set_location($row['course_location']);
+	$this->set_instructorID($row['instructor_ID']);
   }
 
   /* Getters */
-  public getName() {
+  function get_courseID() {
+    return $this->id;
+  }
+  
+  function get_name() {
     return $this->name;
   }
 
-  public getDescrip() {
+  function get_descrip() {
     return $this->descrip;
   }
 
-  public getTime() {
-    return $this->time;
+  function get_time() {
+    return $this->class_time;
   }
 
-  public getLocation() {
+  function get_location() {
     return $this->location;
   }
-
-  public getCourses() {
-    // Not sure yet
+  
+  function get_instructorID() {
+	return $this->instructor_ID;
   }
 
   /* Setters */
-  public setName($x) {
+  function set_courseID($x) {
+    $this->id = $x;
+  }
+  
+  function set_name($x) {
     $this->name = $x;
   }
 
-  public setDescrip($x) {
+  function set_descrip($x) {
     $this->descrip = $x;
   }
 
-  public setTime($x) {
-    $this->time = $x;
+  function set_time($x) {
+    $this->class_time = $x;
   }
 
-  public setLocation($x) {
+  function set_location($x) {
     $this->location = $x;
   }
+  
+  function set_instructorID($x) {
+    $this->instructor_ID = $x;
+  }
 }
-
-$course = new Course();
 ?>
