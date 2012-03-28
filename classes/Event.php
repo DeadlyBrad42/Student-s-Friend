@@ -1,5 +1,6 @@
 <?php
   require_once("Database.php");
+  require_once("NewsFeed.php");
   
   class Event {
   private $id;
@@ -69,6 +70,8 @@
       {
         echo "insert success!";
       }
+	  
+	  NewsFeed::postUpdate($courseID, "New event {$obj->name} added on {$sTime}");
     }
     else
     {
@@ -160,13 +163,24 @@
         event_endTime = DATE_ADD(event_endTime, INTERVAL '{$minDiff}' MINUTE) WHERE event_ID = {$id};");
       }
     }
+	
+	$rs = $db->query("SELECT course_ID, event_name, event_startTime FROM sfevent WHERE event_ID = {$id}");
+	$row = $rs->fetch_array(MYSQLI_ASSOC);
+	
+	NewsFeed::postUpdate($row['course_ID'], "Event {$row['event_name']} rescheduled to {$row['event_startTime']}.");
   }
 
   public static function deleteEvent($id) {
     global $db;
+	
+	$rs = $db->query("SELECT course_ID, event_name FROM sfevent WHERE event_ID = {$id}");
+	$row = $rs->fetch_array(MYSQLI_ASSOC);
+	
     if ($db->query("DELETE FROM sfevent WHERE event_ID = {$id}"))
     {
       echo "query worked!";
+	  
+	  NewsFeed::postUpdate($row['course_ID'], "Event {$row['event_name']} was deleted from calendar.");
     }
     else
     {

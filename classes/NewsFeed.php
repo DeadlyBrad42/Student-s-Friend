@@ -1,4 +1,5 @@
 <?php
+	require_once("Database.php");
   
   class NewsFeed {
     /*********************************
@@ -55,6 +56,15 @@
       $resultSet->data_seek($resultSet->num_rows - 1);
       $lastRow = $resultSet->fetch_array(MYSQLI_ASSOC);
       echo "<tr><td><input type='hidden' value='" . $lastRow['date'] . "'></td></tr>";
+	}
+	
+	/***********************************
+	*
+	***********************************/
+	static function postUpdate($course_id, $update) {
+		global $db;
+		$db->query("INSERT INTO sfupdate (course_ID, update_text, update_time)
+			VALUES ('{$course_id}', '{$update}', NOW());");
 	}
   }
 ?>
