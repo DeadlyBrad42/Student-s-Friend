@@ -29,7 +29,7 @@
         break;
       case 3:
 			//FlashCardDisplay::flashCardSelectScript();
-			FlashCardDisplay::flashCardSelectBody(49);		
+			FlashCardDisplay::flashCardSelectBody($cid);		
         break;
       default:
         break;

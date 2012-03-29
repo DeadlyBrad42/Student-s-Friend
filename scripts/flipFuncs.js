@@ -49,7 +49,7 @@ function validateMyForm(counter, flag){
 		if(flag){
 		
 		    $.ajax({
-			url: 'flashcardselect.php?Result=' + titles.toString(), 
+			url: 'flashcardselect.php?Result=' + titles.toString()+'&c='+document.getElementById('f').title, 
 			dataType: 'html', 
 			success: 
 				function(object) {
@@ -65,7 +65,7 @@ function validateMyForm(counter, flag){
 		
 		else{
 			
-			$.ajax({url: 'flashcardselect.php?Change=' + titles.toString(), dataType: 'html', 
+			$.ajax({url: 'flashcardselect.php?Change=' + titles.toString()+'&c='+document.getElementById('f').title, dataType: 'html', 
 			
 			success: function(object) {
 				deck = loadDeckAndPostOutput(object);
@@ -90,7 +90,7 @@ function reSubmitCards(counter){
 		results = results+toEdits[i].id+'<>'+currentTitle+'<>'+document.getElementById(qID.concat(i)).value+'<>'+document.getElementById(aID.concat(i)).value+'<>';
 		
 	}
-	$.ajax({url: 'flashcardselect.php?edit=' + results, dataType: 'html', success: function(object) {
+	$.ajax({url: 'flashcardselect.php?edit=' + results+'&c='+document.getElementById('f').title, dataType: 'html', success: function(object) {
 		$('#f').html(object);
 		}, asyc: true
 	 });
@@ -113,7 +113,7 @@ function addCards(counter){
 		t[i] = document.getElementById(i).value;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 	}
 	
-	$.ajax({url: 'flashcardselect.php?add='+t.toString(), dataType: 'html', 
+	$.ajax({url: 'flashcardselect.php?add='+t.toString()+'&c='+document.getElementById('f').title, dataType: 'html', 
 		success: function(object) {
 				$('#f').html(object);}, 
 				
@@ -148,7 +148,7 @@ function getNew() {
 }
 
 function returnToSelect(){
-	$.ajax({url: 'flashcardselect.php?return=1', dataType: 'html', success: function(object) {
+	$.ajax({url: 'flashcardselect.php?return=1'+'&c='+document.getElementById('f').title, dataType: 'html', success: function(object) {
 		$('#f').html(object);
 		}, asyc: false
 	  });
@@ -192,7 +192,7 @@ function checkTitle(){
 
 function sumitNewCards(){
 	makeNewCardsArray();
-	$.ajax({url: 'flashcardselect.php?inst='+cards, dataType: 'html', success: function(object) {
+	$.ajax({url: 'flashcardselect.php?inst='+cards+'&c='+document.getElementById('f').title, dataType: 'html', success: function(object) {
 				$('#f').html(object);}, asyc: false});					
 }
 

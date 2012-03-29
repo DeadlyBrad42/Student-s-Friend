@@ -7,6 +7,11 @@
 ?>
 
 <?php
+	$cID = null;
+	if(isset($_GET['c']))
+	{
+		$cID = $_GET['c'];
+	}
 	if(isset($_GET['Result'])){
 		$titles= explode(",",$_GET['Result']);
 		FlashCardDisplay::makeFlashCardScript($titles);
@@ -26,14 +31,15 @@
 	elseif(isset($_GET['edit']) || isset($_GET['inst']) || isset($_GET['return'])){
 		if(isset($_GET['edit'])){
 			$edits = explode("<>",$_GET['edit']);
-			FlashCardManager::flashCardEdit($edits, 49, $_SESSION['userID']);	
+			for( $i=0; $i<count($edits)-4; $i+=4)
+				FlashCardManager::flashCardEdit($cID, $_SESSION['userID'], $edits[$i], $edits[$i+1], $edits[$i+2], $edits[$i+3] );	
 		}
 		elseif(isset($_GET['inst'])){
 			$in = explode("<>",$_GET['inst']);
 			for( $i=0; $i<count($in)-3; $i+=3)
-				FlashCardManager::insertFlashCards(49, $_SESSION['userID'], $in[$i], $in[$i+1], $in[$i+2]);
+				FlashCardManager::insertFlashCards($cID, $_SESSION['userID'], $in[$i], $in[$i+1], $in[$i+2]);
 		}
-		FlashCardDisplay::flashCardSelectBody(49);
+		FlashCardDisplay::flashCardSelectBody($cID);
 		exit(0);
 	}
 
@@ -74,14 +80,12 @@
 		</div>
 		
 		<div id="wrapper">
-			<div id ='f'>
 				<p>
 					<?php
-						FlashCardDisplay::flashCardSelectBody(49);	
+						FlashCardDisplay::flashCardSelectBody($cID);	
 					?>
 					
 				</p>
-			</div>
 		</div>
 	</body>
   

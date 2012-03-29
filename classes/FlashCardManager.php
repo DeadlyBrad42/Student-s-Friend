@@ -8,14 +8,13 @@
 		$db->query("CALL insert_card({$cor},'{$uID}','{$t}','{$q}','{$a}')");
 	}
 	
-	public static function flashCardEdit($results, $cor, $uID){
+	public static function flashCardEdit($cor, $uID, $cardID, $t, $q, $a){
 		global $db;
-		for( $i=0; $i<count($results)-4; $i+=4){
-			$db->query("CALL delete_card({$results[$i]})");
-			if( $results[$i+2] != '' && $results[$i+3] != '' ){
-				$db->query("CALL insert_card({$cor},'{$uID}','{$results[$i+1]}','{$results[$i+2]}','{$results[$i+3]}')");
+			$db->query("CALL delete_card({$cardID})");
+			if( $q != '' && $a != '' ){
+				$db->query("CALL insert_card({$cor},'{$uID}','{$t}','{$q}','{$a}')");
 			}
-		}
+
 		
 	}
 	
