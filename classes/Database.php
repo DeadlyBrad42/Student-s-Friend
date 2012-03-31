@@ -30,7 +30,10 @@
 		}
 
 		public function next_result() {
-			return mysqli_next_result($this->conn);
+			if (mysqli_more_results($this->conn))
+				return mysqli_next_result($this->conn);
+			else
+				return false;
 		}
 
     public function getLastInsertedID() {
