@@ -548,7 +548,7 @@ function timer(event) {
 
 
 function makeCrsLanding(list, target) {
-	for(var i=0; i<list.length; i++)
+	for(var i=0; i<(list.length-1); i++)
 	{
 		var tbl = $('<table />', {class: 'crsLanding'}),r1 = $('<th />'),
 				r2 = $('<tr />'), d2 = $('<td />'), 

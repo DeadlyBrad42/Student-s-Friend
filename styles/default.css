@@ -275,6 +275,11 @@ table.crsLanding
 	margin-bottom: 10px;
 	border: 1px solid white;
 }
+
+div#unApprUploads
+{
+	padding-top: 25px;	
+}
 /* end course page styles */
 
 button#loginBtn

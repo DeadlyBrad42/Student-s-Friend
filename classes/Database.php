@@ -29,6 +29,10 @@
 			return mysqli_error($this->conn);
 		}
 
+		public function next_result() {
+			return mysqli_next_result($this->conn);
+		}
+
     public function getLastInsertedID() {
       return mysqli_insert_id($this->conn);
     }

@@ -1,5 +1,6 @@
 <?php
 require_once("Database.php");
+require_once("Course.php");
 class UserStorage {
   private static $dir;
   private static $isCourse;
@@ -37,15 +38,21 @@ class UserStorage {
 
     public static function makePage($id) {
       global $db;
-      $rs= $db->query("CALL getStorageItems('{$id}')"); 
+      $rs= $db->query("CALL getStorageItems('{$id}',1)"); 
       $count = $rs->num_rows;
       echo "<button id='addFile'>Add a new file</button>";
       if ($count < 1)
         echo "<p>You currently have no files uploaded. Click the button above to upload something.</p>";
       else
       {
-        echo "<p>Listed below are the files you've uploaded. Click a file to view it or download it to your local machine.</p>
-              <div id='currentUploads'>";
+      	if (self::$isCourse == 1)
+				{
+        	echo "<p>Listed below are the approved uploads for this course. You may download files by right clicking and \"Saving As\"</p>";				
+        }		
+        else
+        	echo "<p>Listed below are the files you've uploaded to your personal space.</p>";
+
+        echo "<div id='currentUploads'>";
         while($row = $rs->fetch_array(MYSQLI_ASSOC))
         {
           $jpg = strpos($row['item_name'], ".jpg");
@@ -74,14 +81,23 @@ class UserStorage {
           echo "</ul>";
         }
         echo "</div>";
-      }
 
+       	$rs->close(); // Close the current result set 
+       	$db->next_result(); // Make way for the next stored procedure
+
+				if (self::$isCourse == 1)
+				{
+					$crs = new Course($id);	
+      		if ($crs->get_instructorID() == $_SESSION['userID'])
+      			echo self::getItemsNeedingApproval($id);
+				}
+      }
         echo "<iframe id='uploadFrame' src='#' name='uploadFrame'></iframe>"; // We want the iframe on the page in either case
     }
 
-    public static function addItem($id, $item) {
+    public static function addItem($id, $item, $approved) {
      global $db;
-     $rs = $db->query("CALL insertStorageItem('{$id}', '".self::$dir."', '{$item}')"); 
+     $rs = $db->query("CALL insertStorageItem('{$id}', '".self::$dir."', '{$item}', {$approved})"); 
     }
 
     public static function deleteItem($path) {
@@ -90,6 +106,51 @@ class UserStorage {
 			{
 				unlink($path);	
 			}
+		}
+
+		public static function getItemsNeedingApproval($id) {
+			global $db;
+			$rs = $db->query("CALL getStorageItems('$id', 0)");
+			$count = $rs->num_rows;
+			if ($count > 0)
+			{
+				echo "<br /><p>Pending File Submissions:</p>";
+				echo "<div id='unApprUploads'>";
+				while($row = $rs->fetch_array(MYSQLI_ASSOC))
+				{
+					$jpg = strpos($row['item_name'], ".jpg");
+					$jpeg = strpos($row['item_name'], ".jpeg");
+					$png = strpos($row['item_name'], ".png");
+					$gif = strpos($row['item_name'], ".gif");
+					$bmp = strpos($row['item_name'], ".bmp");
+					
+					$sid = $row['storage_ID'];
+					echo "<ul class='storageItem'>";
+					// Construct the list item with dynamic <a> tag
+					if ($jpg !== false || $jpeg !== false ||  $png !== false || $gif !== false || $bmp !== false )
+					{
+						$img = "<img height='50' width='50' src='". self::$dir . "/" . $row['item_name'] . "' />";
+						$viewClick = "showUploadPic('".self::$dir."/".$row['item_name']."','".$row['item_name']."')";
+						echo "<li>{$img}</li>";
+					}
+					else
+					{
+						$viewClick = "";
+						echo "<li><a href='" . self::$dir . "/" . $row['item_name'] . "'>" . $row['item_name'] . "</a></li>";
+					}
+
+					$delClick = "deleteStorageDialogue('{$sid}','{$id}',".self::$isCourse.")";
+					$appClick = "approveStorageDialogue('{$sid}','{$id}')";
+					echo "<li><a class='cursorPter' onclick={$viewClick}>View</a></li>
+								<li><a class='cursorPter' onclick={$delClick}>Delete</a></li>
+								<li><a class='cursorPter' onclick={$appClick}>Approve</a></li>
+								";
+					echo "</ul>";
+				}
+				echo "</div>";
+			}
+			else
+				echo "";
 		}
   }
 ?>
