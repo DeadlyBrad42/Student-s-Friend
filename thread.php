@@ -33,10 +33,10 @@
     
     // Print the thread title
     $result = $db->query("SELECT * FROM thread WHERE thread_ID={$currentThread}")->fetch_array(MYSQLI_ASSOC);
-    echo "<h1 class='thread-title'>{$result['thread_title']}</h1>";
+    echo "<h1 class='thread-title'>".urldecode($result['thread_title'])."</h1>";
     
     echo "<div class='thread-wrapper'>";
-    echo "<a onclick='viewForum()'>Back to forum</a>";
+    //echo "<a onclick='viewForum()'>Back to forum</a>";
     
     // Print each post in the specified thread
     $result = $db->query("SELECT * FROM post LEFT JOIN sfuser ON post.user_ID=sfuser.user_ID WHERE thread_ID={$currentThread} ORDER BY post_time ASC");
@@ -50,7 +50,7 @@
       
       echo "<div class='post-time'>{$post['post_time']}</div>";
       
-      echo "<div class='post-content'>{$post['post_content']}</div>";
+      echo "<div class='post-content'>".urldecode($post['post_content'])."</div>";
       
       echo "</div>";
     }
@@ -77,7 +77,7 @@ var cid = "<?php echo "{$courseID}"; ?>";
 function postPost()
 {
   $.ajax({
-    url: "thread.php?content=" + $("textarea#content").val() + "&threadID=" + $("input#threadID").val(),
+    url: "thread.php?content=" + escape($("textarea#content").val()) + "&threadID=" + $("input#threadID").val(),
     success: function() {
       // Clear text boxes
       $("textarea#content").val("");

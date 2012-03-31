@@ -63,11 +63,11 @@
       echo "<div class='thread-wrapper'>";
       
       echo "<div class='thread-title'>";
-      echo "<a onclick=\"viewThread('{$post['thread_ID']}')\">{$post['thread_title']}</a>";
+      echo "<a onclick=\"viewThread('{$post['thread_ID']}')\">".urldecode($post['thread_title'])."</a>";
       echo "</div>";
       
       echo "<div class='thread-author'>";
-      echo ($post['user_ID'] != null ? $post['user_fname']." ".$post['user_lname'] : "Walker");
+      echo ($post['user_ID'] != null ? $post['user_fname']." ".$post['user_lname'] : "Anonymous");
       echo "</div>";
       
       echo "<div class='thread-postdate'>{$post['post_time']}</div>";
@@ -93,7 +93,7 @@ var cid = "<?php echo "{$courseID}"; ?>";
 function postThread()
 {
   $.ajax({
-    url: "forum.php?title=" + $("input#title").val() + "&content=" + $("textarea#content").val() + "&c=" + cid,
+    url: "forum.php?title=" + escape($("input#title").val()) + "&content=" + escape($("textarea#content").val()) + "&c=" + cid,
     success: function() {
       // Clear text boxes
       $("input#title").val("");
