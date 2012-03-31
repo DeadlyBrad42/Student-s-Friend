@@ -570,3 +570,19 @@ function makeCrsLanding(list, target) {
 		target.append(tbl);
 	}
 }
+
+function processString(s){
+	s=s.replace(/\$/g,"%24");
+	s=s.replace(/\+/g,"%2B");
+	s=s.replace(/\&/g,"%26");
+	s=s.replace(/\?/g,"%3F");
+	s=s.replace(/\!/g,"%21");
+	s=s.replace(/\@/g,"%40");
+	s=s.replace(/\#/g,"%23");
+	s=s.replace(/\%/g,"%25");
+	s=s.replace(/\^/g,"%5E");
+	s=s.replace(/\*/g,"%2A");
+	s=s.replace(/\(/g,"%28");
+	s=s.replace(/\)/g,"%29");
+	return s;
+}
