@@ -28,7 +28,6 @@
         include("forum.php");
         break;
       case 3:
-			//FlashCardDisplay::flashCardSelectScript();
 			FlashCardDisplay::flashCardSelectBody($cid);		
         break;
       default:

@@ -9,7 +9,8 @@ class FlashCardDisplay{
 	public static function flashCardSelectBody($cID) {
 		$titles = json_decode(FlashCardManager::getCardTitle($cID));
 		$counter = count($titles);
-		$x = "<div id ='f' title = {$cID}>";
+		$x = "<input id ='cID' type='hidden' value='{$cID}' />";
+		$x .= "<div id ='f'>";
 		$x = $x."<p>Select the titles you would like to study:</p> <form>";
 		for($i = 0; $i < $counter; $i++)
 			$x = $x."<input type='checkbox' id='{$i}' value='{$titles[$i]->title}' /> {$titles[$i]->title}<br />";
@@ -24,8 +25,10 @@ class FlashCardDisplay{
 ///////////////////////////////////////////////////////////
 // Flash Card Edit Page ///////////////////////////////////
 ///////////////////////////////////////////////////////////	
-	public static function makeFlashCardEditBody($titles, $userID){
+	public static function makeFlashCardEditBody($titles, $userID, $cID){
 		$deck = FlashCardManager::makeDeck($titles);
+		$instructor = FlashCardManager::getInstruct($cID);
+		echo $instructor;
 		$toEdits = json_decode($deck);
 		$counter = count($toEdits);
 		$x = "<div id = 'deck'>{$deck}</div>";
@@ -34,11 +37,8 @@ class FlashCardDisplay{
 		$tHolder = "";
 		$y = $counter;
 		for($i = 0; $i < $y; $i++){
-			if($userID != $toEdits[$i]->uid)
+			if($userID == $toEdits[$i]->uid || $userID == $instructor)
 			{
-				$counter--;
-			}
-			else{
 				if($tHolder != $toEdits[$i]->title){
 					$tHolder = $toEdits[$i]->title;
 					$x = $x."Title: <input type='text' id='{$i}' value='{$toEdits[$i]->title}'/><br /><br />";
@@ -47,8 +47,10 @@ class FlashCardDisplay{
 				$a = "A".$i;
 				$x = $x."Q: <input type='text' id='{$q}' value='{$toEdits[$i]->question}'/>
 						 A: <input type='text' id='{$a}' value='{$toEdits[$i]->answer}'/>
-						 <button type='button' onclick = 'clearFeild({$i})' >Clear</button><br /><br />";		
-
+						 <button type='button' onclick = 'clearFeild({$i})' >Clear</button><br /><br />";	
+			}
+			else{
+				$counter--;
 			}
 		}
 		$x = $x."<br /><input type='button' onclick='reSubmitCards({$counter})' value='Submit' />
