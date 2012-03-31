@@ -17,6 +17,13 @@
 
 		
 	}
+
+	public static function getInstruct($cID){
+		global $db;
+		$rs = $db->query("SELECT instructor_ID FROM course WHERE course_ID = {$cID}");
+		$row = $rs->fetch_array(MYSQLI_ASSOC);
+		return $row['instructor_ID'];
+	}
 	
 	public static function getCardTitle($courseID){
 		global $db;

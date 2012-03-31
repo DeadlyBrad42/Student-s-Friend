@@ -1,6 +1,7 @@
 <?php
 	require_once("classes/FlashCardManager.php"); 
 	require_once("classes/FlashCardDisplay.php"); 
+	require_once("classes/NewsFeed.php");
 	session_start(); 
 	if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
 	header("Location: index.php");
@@ -20,7 +21,7 @@
 	elseif(isset($_GET['Change'])){		
 		$h=$_GET['Change'];
 		$titles= explode(",",$h);
-		FlashCardDisplay::makeFlashCardEditBody($titles, $_SESSION['userID']);
+		FlashCardDisplay::makeFlashCardEditBody($titles, $_SESSION['userID'], $cID);
 		exit(0);
 	}
 	elseif(isset($_GET['add'])){
@@ -30,12 +31,32 @@
 	}
 	elseif(isset($_GET['edit']) || isset($_GET['inst']) || isset($_GET['return'])){
 		if(isset($_GET['edit'])){
+			$tHolder = "";
+			$news= "The ";
+			$t;
 			$edits = explode("<>",$_GET['edit']);
-			for( $i=0; $i<count($edits)-4; $i+=4)
-				FlashCardManager::flashCardEdit($cID, $_SESSION['userID'], $edits[$i], $edits[$i+1], $edits[$i+2], $edits[$i+3] );	
+			for( $i=0; $i<count($edits)-4; $i+=4){
+				if($tHolder != $edits[$i+1]){
+					$tHolder = $edits[$i+1];
+					$t[] = $edits[$i+1];
+				}
+				FlashCardManager::flashCardEdit($cID, $_SESSION['userID'], $edits[$i], $edits[$i+1], $edits[$i+2], $edits[$i+3] );
+			}
+			if( count($t) > 1 ){
+				for( $i=0; $i<count($t)-1; $i++){
+					$news .= $t[$i].", ";
+				}	
+				$news .= "and ".$tHolder." card groups were edited.";
+			}
+			else
+			{
+				$news .= $t[0]." card group was edited.";
+			}
+			NewsFeed::postUpdate($cID, $news);
 		}
 		elseif(isset($_GET['inst'])){
 			$in = explode("<>",$_GET['inst']);
+			NewsFeed::postUpdate($cID, "{$in[0]} card group was added to flashcards.");
 			for( $i=0; $i<count($in)-3; $i+=3)
 				FlashCardManager::insertFlashCards($cID, $_SESSION['userID'], $in[$i], $in[$i+1], $in[$i+2]);
 		}
