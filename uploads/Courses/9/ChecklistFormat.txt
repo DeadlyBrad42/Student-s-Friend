@@ -1,0 +1,9 @@
+Punchlist Format
+
+column 1 - date
+
+column 2 - action
+
+column 3 - effort ... may be hours, days, or ...
+
+column 4 - actor ... first name
