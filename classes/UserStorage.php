@@ -12,6 +12,7 @@ class UserStorage {
     if (!file_exists($path))
     {
       mkdir($path, 0777);
+      chmod($path, 0777); // Used to make sure the mkdir call doesn't default to 0755
     }
   }
 

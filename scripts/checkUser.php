@@ -61,6 +61,9 @@
         $courses[] = $c;
       }
 
+      // Finally, place the Add course link to the json obj
+			$c = array('name' => 'Add');
+			$courses[] = $c;
       $_SESSION['courses'] = json_encode($courses);
     }  
     // Debugging

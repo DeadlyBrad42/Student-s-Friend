@@ -28,7 +28,7 @@
     if (is_uploaded_file($_FILES['file']['tmp_name']))
     {
       move_uploaded_file($_FILES['file']['tmp_name'], $path);
-      chmod($path, 0666);
+      chmod($path, 0777);
       UserStorage::addItem($ownerID, $file);
     }
 

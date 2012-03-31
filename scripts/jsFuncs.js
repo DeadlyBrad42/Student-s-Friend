@@ -12,7 +12,7 @@ function populateCourses(crs)
   {
     li = document.createElement('li');
     a = document.createElement('a');
-    url = 'courses.php?c='+crs[i].id;
+    url = (crs[i].name == 'Add') ? 'coursebuilder.php' : 'courses.php?c='+crs[i].id;
     a.setAttribute('href', url);
     txt = document.createTextNode(crs[i].name);
     a.appendChild(txt);
