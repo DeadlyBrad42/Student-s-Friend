@@ -29,17 +29,18 @@ class FlashCardDisplay{
 	public static function makeFlashCardEditBody($titles, $userID, $cID){
 		$deck = FlashCardManager::makeDeck($titles);
 		$instructor = FlashCardManager::getInstruct($cID);
-		echo $instructor;
 		$toEdits = json_decode($deck);
 		$counter = count($toEdits);
 		$x = "<div id = 'deck'>{$deck}</div>";
 		$x = $x."<div id = 'outputContent'>";
 		$x = $x."<br /><p>Edit cards:</p> <form>";
 		$tHolder = "";
+		$flag = true;
 		$y = $counter;
 		for($i = 0; $i < $y; $i++){
 			if($userID == $toEdits[$i]->uid || $userID == $instructor)
 			{
+				$flag = false;
 				if($tHolder != $toEdits[$i]->title){
 					$tHolder = $toEdits[$i]->title;
 					$x = $x."Title: <input type='text' id='{$i}' value='{$toEdits[$i]->title}'/><br /><br />";
@@ -54,10 +55,16 @@ class FlashCardDisplay{
 				$counter--;
 			}
 		}
+		if($flag){
+			$x .= "	<p>You can only edit cards tha belong to you.</p><br />
+					<button type='button' onclick = 'returnToSelect()' >Select Different Cards</button></div>";
+		}
+		else{
 		$x = $x."<br /><input type='button' onclick='reSubmitCards({$counter})' value='Submit' />
 			<input type='button' onclick='deleteCards({$counter})' value='Delete All Cards' /></form><br />
 			<button type='button' onclick = 'returnToSelect()' >Select Different Cards</button>
 			</div>";
+		}
 		echo $x;
 	}
 
