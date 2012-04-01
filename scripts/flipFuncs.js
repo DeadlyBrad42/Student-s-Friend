@@ -40,7 +40,7 @@ function processString(s){
 	s=s.replace(/\&/g,"%26");
 	s=s.replace(/\?/g,"%3F");
 	s=s.replace(/\!/g,"%21");
-	s=s.replace(/'/g,"%92");
+	s=s.replace(/'/g,"%22");
 	s=s.replace(/\"/g,"%22");
 	return s;
 }
