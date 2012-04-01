@@ -139,7 +139,7 @@ function deletePost(postID)
     url: "thread.php?del=1&postID=" + postID + "&threadID=" + $("input#threadID").val(),
     success: function() {
       // Reload the page
-      reloadPage();
+      viewForum();
     }
   });
 }
