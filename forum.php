@@ -21,6 +21,12 @@
     // Sanatize here
     $content = $_GET['content'];
     $title = $_GET['title'];
+
+  	//News feed update.
+	$rs = $db->query("SELECT * FROM sfuser WHERE user_ID = '{$_SESSION['userID']}'");
+	$row = $rs->fetch_array(MYSQLI_ASSOC);
+	$news = "The ".$title." thread was started in the forum section by ".$row['user_fname']." ".$row['user_lname'].".";
+	NewsFeed::postUpdate($courseID, $news);
     
     echo "recieved {$content} and {$title}.";
     
