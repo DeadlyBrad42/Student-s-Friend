@@ -26,6 +26,12 @@ class Course {
 		$rs->close(); // Close current result set
 		$db->next_result(); // Make way for the next stored procedure
   }
+  
+  static function createCourse($id, $name, $location, $description) {
+	global $db;
+	$db->query("INSERT INTO course (course_name, course_description, course_location, instructor_ID) 
+		VALUES ('{$name}', '{$location}', '{$description}', '{$instructor_ID}');");
+  }
 
   /* Getters */
   function get_courseID() {

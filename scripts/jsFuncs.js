@@ -422,7 +422,7 @@ function postNews(courseID, update) {
 *	Encapsulates all necessary data for the feed.
 ***********************************/
 feedObj = new Object();
-feedObj.currTimeOut = 5000;
+feedObj.currTimeOut = 45000;
 feedObj.topEntryDate;
 feedObj.lowestEntryDate;
 feedObj.feedPopulated = false;
