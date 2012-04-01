@@ -6,7 +6,7 @@
 		header("Location: index.php");
 	$userID = $_SESSION['userID'];
 	
-	if (isset($_POST['courseID']) && !isset($_POST['disenrolling']))
+	if (isset($_POST['courseID']) && !isset($_POST['action']))
 	{
 		//echo "post was set";
 		$output = Course::requestEnrollWithCheck($userID, $_POST['courseID']);
@@ -14,8 +14,14 @@
 		Course::echoStudentCourseMenu($userID);
 		
 		exit(0);
-	} else if(isset($_POST['courseID']) && isset($_POST['disenrolling'])) {
+	} else if((isset($_POST['courseID']) && isset($_POST['action'])) && ($_POST['action'] == 'disenroll')) {
 		Course::disenrollStudent($userID, $_POST['courseID']);
+		
+		Course::echoStudentCourseMenu($userID);
+		
+		exit(0);
+	} else if((isset($_POST['courseID']) && isset($_POST['action'])) && ($_POST['action'] == 'cancel')) {
+		Course::cancelEnroll($userID, $_POST['courseID']);
 		
 		Course::echoStudentCourseMenu($userID);
 		

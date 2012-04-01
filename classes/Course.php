@@ -43,6 +43,7 @@ class Course {
 	}
 	
 	static function requestEnrollWithCheck($userID, $CourseID) {
+		global $db;
 		$returnValue;
 	
 		$rs = $db->query("SELECT * FROM enrollmentrequests WHERE user_ID = '{$userID}' AND course_ID = '{$CourseID}';");
@@ -120,7 +121,7 @@ class Course {
 				
 		while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
 			echo "<tr><td>{$row['course_name']}<br/>
-				<button type = 'button' onclick = 'okDisenroll({$row['course_ID']})'>Disenroll</button>
+				<button type = 'button' onclick = 'okCancelEnroll({$row['course_ID']})'>Cancel Request</button>
 				</td></tr>";
 		}
 		
@@ -131,6 +132,12 @@ class Course {
 		global $db;
 		
 		$db->query("DELETE FROM enrollment WHERE user_ID = {$userID} AND course_ID = {$courseID}");
+	}
+	
+	static function cancelEnroll($userID, $courseID) {
+		global $db;
+		
+		$db->query("DELETE FROM enrollmentrequests WHERE user_ID = {$userID} AND course_ID = {$courseID}");
 	}
 
   /* Getters */

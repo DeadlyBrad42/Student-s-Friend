@@ -72,7 +72,27 @@ function okDisenroll(courseID) {
 		$.ajax({url: url, dataType: 'html', 
 			data: {
 				courseID:courseID,
-				disenrolling:'true'
+				action:'disenroll'
+			},
+			
+			type:'post',
+			
+			success: function(data) {
+				$('#coursesDisplay').html(data);
+			}
+		});
+	}
+}
+
+function okCancelEnroll(courseID) {
+	var confirmed = confirm("You are cancelling request.");
+
+	if(confirmed) {
+		var url = "courseAdd.php";
+		$.ajax({url: url, dataType: 'html', 
+			data: {
+				courseID:courseID,
+				action:'cancel'
 			},
 			
 			type:'post',
