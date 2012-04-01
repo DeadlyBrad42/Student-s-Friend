@@ -30,11 +30,15 @@
   // $obj here is a json object that's been decoded
   public static function createEvent($obj, $courseID) {
     global $db;
+    $orgFormat = "n-j-Y h:i a";
+    $dbFormat = "Y-m-d H:i:s";
     $daysUntilRecur = 0;
     $event_recurs = 0;
     $isRecur = 0;
-    $sTime = $obj->sDate . " " . $obj->sTime;
-    $eTime = $obj->eDate . " " . $obj->eTime;
+    $start = $obj->sDate . " " . $obj->sTime;
+    $end = $obj->eDate . " " . $obj->eTime;
+    $sTime = DateTime::createFromFormat($orgFormat, $start);
+    $eTime = DateTime::createFromFormat($orgFormat, $end);
     switch ($obj->isRecur)
     {
       case "Daily":
@@ -64,27 +68,20 @@
 	//	If courseID is anything other than user we are adding event under course, otherwise we are adding it under user.
     if ($courseID != 0)
     {
-      if ($db->query("INSERT INTO sfevent (event_name, event_desc, event_location, event_startTime, event_endTime, event_privacy, user_ID,
-                  course_ID, event_isRecur, event_daysUntilRecur, event_recurs) VALUES('{$obj->name}', '{$obj->descrip}', '{$obj->loc}',
-                  '{$sTime}', '{$eTime}', '0', '0', {$courseID}, '{$isRecur}', '{$daysUntilRecur}', '{$event_recurs}')"))
-      {
-        echo "insert success!";
-      }
+      if(!$db->query("CALL createEvent('{$obj->name}', '{$obj->descrip}', '{$obj->loc}', '".$sTime->format($dbFormat)."','".$eTime->format($dbFormat)."', 0, '0', '{$courseID}', {$isRecur}, {$daysUntilRecur}, {$event_recurs})"));
+      	echo $db->error();
 	  
-	  NewsFeed::postUpdate($courseID, "New event {$obj->name} added on {$sTime}");
+	  NewsFeed::postUpdate($courseID, "New event {$obj->name} added on ".$sTime->format('n-j-Y'));
     }
     else
     {
       $id = $_SESSION['userID'];
-      if ($db->query("INSERT INTO sfevent (event_name, event_desc, event_location, event_startTime, event_endTime, event_privacy, user_ID,
-                  course_ID, event_isRecur, event_daysUntilRecur, event_recurs) VALUES('{$obj->name}', '{$obj->descrip}', '{$obj->loc}',
-                  '{$sTime}', '{$eTime}', '0', '{$id}', '0', '{$isRecur}', '{$daysUntilRecur}', '{$event_recurs}' )"))
-      {
-        echo "insert success!";
-      }
+				
+      if(!$db->query("CALL createEvent('{$obj->name}', '{$obj->descrip}', '{$obj->loc}', '".$sTime->format($dbFormat)."','".$eTime->format($dbFormat)."', 0, '{$id}', '0', {$isRecur}, {$daysUntilRecur}, {$event_recurs})"));
+      	echo $db->error();
     }
   }
-	
+
 	public function isRecurring(){
 	}
 	

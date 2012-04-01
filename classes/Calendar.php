@@ -53,6 +53,7 @@
 					center: 'title'
 					},
 				eventSources: [{$evtSrc}],
+				timeFormat:'h:mmtt{ - h:mmtt}',
         dayClick: function( date, allDay, jsEvent, view ) {
 			    // If this is a day of another month changing current day to that day will change view. That's totally not cool.
 			    if(!$(this).hasClass('fc-other-month')) 

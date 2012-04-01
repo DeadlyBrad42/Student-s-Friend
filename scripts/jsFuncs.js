@@ -53,18 +53,24 @@ function dialogue(id, content, title, blur) {
 // Dynamically Builds and Shows the add event Dialogue
 function eventDialogue(date, course_id)
 {
+  var isRecur=false;
+  var isPM=false;
+  var clickedTime;
   var div = $('<div />', {id: 'evtAddForm'});
   var tbl = $('<table />', {id: 'evtAddTbl'});
   var labels = ['<td>Title:</td>','<td>Start Date:</td>', '<td>End Date:</td>', '<td>Start Time:</td>', 
                 '<td>End Time:</td>', '<td>Location:</td>', '<td>Description:</td>', '<td>Recurrence:</td>'];
-  var clickedDate = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
-  var clickedTime =
-    (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":" +
-    (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes());
-  clickedTime = (clickedTime == "00:00" ? "12:00" : clickedTime);
-  
-  var isRecur=false;
-  
+  var clickedDate = (date.getMonth()+1) + "-" + date.getDate() + "-" + date.getFullYear();
+  if (date.getHours() > 12)
+	{
+		isPM=true;
+  	clickedTime = date.getHours()-12 + ":" + (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes());
+	}
+	else
+  	clickedTime = (date.getHours() < 10 ? '0'+date.getHours() : date.getHours()) + ":" 
+  	+ (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes());
+
+	clickedTime = (clickedTime == "00:00") ? "12:00" : clickedTime;  
   var inp = new Array(); 
   inp[0] = $('<input />', {id: 'evtTitle', name: 'evtTitle', type: 'text', val: ''});
   inp[1] = $('<input />', {id: 'evtStartDt', name: 'evtStartDt', type: 'text', val: clickedDate});
@@ -115,7 +121,16 @@ function eventDialogue(date, course_id)
   
   for (var i=0; i < labels.length; i++)
   {
-    var row = $('<tr />').append(labels[i]).append($('<td />').append(inp[i]));
+    if (i == 3 || i == 4)
+		{
+  		var amPmSelect = $('<select />',{class: 'evtAMPM', name: 'evtAMPM'});
+  		amPmSelect.append($('<option />',{val: 'am', text: 'AM'})).append($('<option />',{val: 'pm', text: 'PM'}));
+			if (isPM) {amPmSelect.prop('selectedIndex', 1);}
+    	var row = $('<tr />').append(labels[i]).append($('<td />').append(inp[i])).append($('<td />').append(amPmSelect));
+		}
+		else
+    	var row = $('<tr />').append(labels[i]).append($('<td />').append(inp[i]));
+
     tbl.append(row);
   }
   
@@ -145,12 +160,14 @@ function addEvent(recurrence, course_id)
 {
   // PHP's json_decode() is expecting a string of json, so we need to
   // do a join on the array and send it as a string.
+	var sTime = $('#evtStartTi').attr('value') +' '+$('.evtAMPM:eq(0) option:selected').text();
+	var eTime = $('#evtEndTi').attr('value') +' '+$('.evtAMPM:eq(1) option:selected').text()
   var event = [
     '"name":', '"'+$('#evtTitle').attr('value')+'",',
     '"sDate":', '"'+$('#evtStartDt').attr('value')+'",',
     '"eDate":', '"'+$('#evtEndDt').attr('value')+'",',
-    '"sTime":', '"'+$('#evtStartTi').attr('value')+'",',
-    '"eTime":', '"'+$('#evtEndTi').attr('value')+'",',
+    '"sTime":', '"'+sTime+'",',
+    '"eTime":', '"'+eTime+'",',
     '"loc":', '"'+$('#evtLocation').attr('value')+'",',
     '"descrip":', '"'+$('#evtDescrip').attr('value')+'",',
     '"isRecur":', recurrence != 'none' ? '"'+recurrence+'"' : '"false"'  
