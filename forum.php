@@ -66,9 +66,7 @@
       echo "<a onclick=\"viewThread('{$post['thread_ID']}')\">".urldecode($post['thread_title'])."</a>";
       echo "</div>";
       
-      echo "<div class='thread-author'>";
-      echo ($post['user_ID'] != null ? $post['user_fname']." ".$post['user_lname'] : "Anonymous");
-      echo "</div>";
+      echo "<div class='thread-author'>".($post['user_ID'] != null ? "{$post['user_fname']} {$post['user_lname']}" : "Anonymous")."</div>";
       
       echo "<div class='thread-postdate'>{$post['post_time']}</div>";
       
@@ -100,13 +98,15 @@ function postThread()
       $("textarea#content").val("");
       
       // Reload the page
-      $('div.forum-wrapper').load("forum.php?c=" + cid + " div.forum-wrapper");
+      var pageurl = "forum.php?c=" + cid + " div.forum-wrapper";
+      $('div.forum-wrapper').load(pageurl);
     }
   });
 }
 
 function viewThread(threadID)
 {
-  $("div#crsContent").load("thread.php?threadID=" + threadID + "&c=" + cid);
+  var pageurl = "thread.php?threadID=" + threadID + "&c=" + cid;
+  $("div#crsContent").load(pageurl);
 }
 </script>

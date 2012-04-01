@@ -10,7 +10,7 @@
     $courseID = $_GET['c'];
   }
   
-  // If content & a thread ID were passed, then add the new post to the DB and exit.
+  // If content & a threadID were passed, then add the new post to the DB and exit.
   if(isset($_GET['content']) && isset($_GET['threadID']) && isset($_SESSION['userID']))
   {
     // Sanatize here
@@ -19,6 +19,28 @@
     
     // Add a new post
     $db->query("INSERT INTO post (post_ID, user_ID, post_content, post_time, thread_ID) VALUES (null, '{$_SESSION['userID']}', '{$content}', now(), {$threadID})");
+    
+    exit(0);
+  }
+  
+  // If del, a postID, & a threadID were passed, and userID matches the post author, delete it and exit
+  if(isset($_GET['del']) && isset($_GET['postID']) && isset($_GET['threadID']) && isset($_SESSION['userID']))
+  {
+    // Sanitize here
+    $delete = $_GET['del'];
+    $postID = $_GET['postID'];
+    $threadID = $_GET['threadID'];
+    
+    if($delete)
+    {
+      $db->query("DELETE FROM post WHERE user_ID={$_SESSION['userID']} AND post_ID={$postID}");
+    }
+    
+    // If this makes the thread empty, delete the thread from the database
+    if( $db->query("SELECT * FROM post WHERE thread_ID={$threadID}")->num_rows == 0 )
+    {
+      $db->query("DELETE FROM thread WHERE thread_ID={$threadID}");
+    }
     
     exit(0);
   }
@@ -44,13 +66,16 @@
     {
       echo "<div class='post-wrapper'>";
       
-      echo "<div class='post-author'>";
-      echo ($post['user_ID'] != null ? $post['user_fname']." ".$post['user_lname'] : "Walker");
-      echo "</div>";
+      echo "<div class='post-author'>".($post['user_ID'] != null ? "{$post['user_fname']} {$post['user_lname']}" : "Anonymous")."</div>";
       
       echo "<div class='post-time'>{$post['post_time']}</div>";
       
       echo "<div class='post-content'>".urldecode($post['post_content'])."</div>";
+      
+      if($post['user_ID'] == $_SESSION['userID'])
+      {
+        echo "<div id='post-delete'><a onclick='deletePost({$post['post_ID']})'>Delete</a></div>";
+      }
       
       echo "</div>";
     }
@@ -74,6 +99,12 @@
 <script>
 var cid = "<?php echo "{$courseID}"; ?>";
 
+function reloadPage()
+{
+  var pageurl = "thread.php?threadID=" + $("input#threadID").val() + " div.thread-wrapper";
+  $('div.thread-wrapper').load(pageurl);
+}
+
 function postPost()
 {
   $.ajax({
@@ -83,8 +114,18 @@ function postPost()
       $("textarea#content").val("");
       
       // Reload the page
-      var pageurl = "thread.php?threadID=" + $("input#threadID").val() + " div.thread-wrapper";
-      $('div.thread-wrapper').load("thread.php?threadID=" + $("input#threadID").val() + " div.post-wrapper");
+      reloadPage();
+    }
+  });
+}
+
+function deletePost(postID)
+{
+  $.ajax({
+    url: "thread.php?del=1&postID=" + postID + "&threadID=" + $("input#threadID").val(),
+    success: function() {
+      // Reload the page
+      reloadPage();
     }
   });
 }
