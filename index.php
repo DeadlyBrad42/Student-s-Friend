@@ -43,7 +43,7 @@
           var lname = user.last_name; 
           var url = "scripts/checkUser.php?userID="+uid+"&fname="+fname+"&lname="+lname;
           $.ajax({url: url, success: function() {
-            window.location = "http://localhost/sf/main.php";
+            window.location = "http://localhost/sf/calendar.php";
           }});
 
         }
