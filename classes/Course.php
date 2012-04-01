@@ -27,10 +27,12 @@ class Course {
 		$db->next_result(); // Make way for the next stored procedure
   }
   
-  static function createCourse($id, $name, $location, $description) {
+  static function createCourse($instructor_ID, $name, $location, $description) {
 	global $db;
 	$db->query("INSERT INTO course (course_name, course_description, course_location, instructor_ID) 
 		VALUES ('{$name}', '{$location}', '{$description}', '{$instructor_ID}');");
+	$lastID = $db->getLastInsertedID();
+	$db->query("INSERT INTO enrollment (user_ID, course_ID) VALUES ({$instructor_ID}, {$lastID});");
   }
 
   /* Getters */
