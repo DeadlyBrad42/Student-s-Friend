@@ -1,6 +1,6 @@
 <?php
   require_once("classes/Database.php");
-  
+  require_once("classes/NewsFeed.php");
   session_start();
   
   // Get the specified course by ID
@@ -18,8 +18,9 @@
     $threadID = $_GET['threadID'];
     
     // Add a new post
-    $db->query("INSERT INTO post (post_ID, user_ID, post_content, post_time, thread_ID) VALUES (null, '{$_SESSION['userID']}', '{$content}', now(), {$threadID})");
-    
+	if(strlen($content) > 0){
+		$db->query("INSERT INTO post (post_ID, user_ID, post_content, post_time, thread_ID) VALUES (null, '{$_SESSION['userID']}', '{$content}', now(), {$threadID})");
+    }
     exit(0);
   }
   
@@ -34,12 +35,20 @@
     if($delete)
     {
       $db->query("DELETE FROM post WHERE user_ID={$_SESSION['userID']} AND post_ID={$postID}");
+	  
     }
     
     // If this makes the thread empty, delete the thread from the database
     if( $db->query("SELECT * FROM post WHERE thread_ID={$threadID}")->num_rows == 0 )
     {
-      $db->query("DELETE FROM thread WHERE thread_ID={$threadID}");
+		//News feed update.
+		$rs = $db->query("SELECT * FROM thread WHERE thread_ID={$threadID}");
+		$row = $rs->fetch_array(MYSQLI_ASSOC);
+		$news = "The ".$row['thread_title']." thread was deleted from the forum section.";
+		NewsFeed::postUpdate($row['course_ID'], $news);
+		
+		// delete
+		$db->query("DELETE FROM thread WHERE thread_ID={$threadID}");
     }
     
     exit(0);
@@ -52,13 +61,13 @@
   if(isset($_GET["threadID"]))
   {
     $currentThread = $_GET["threadID"];
-    
+    echo "<div class='all'>";
     // Print the thread title
     $result = $db->query("SELECT * FROM thread WHERE thread_ID={$currentThread}")->fetch_array(MYSQLI_ASSOC);
     echo "<h1 class='thread-title'>".urldecode($result['thread_title'])."</h1>";
     
     echo "<div class='thread-wrapper'>";
-    //echo "<a onclick='viewForum()'>Back to forum</a>";
+    echo "<a onclick='viewForum()'>Back to forum</a>";
     
     // Print each post in the specified thread
     $result = $db->query("SELECT * FROM post LEFT JOIN sfuser ON post.user_ID=sfuser.user_ID WHERE thread_ID={$currentThread} ORDER BY post_time ASC");
@@ -86,7 +95,7 @@
     echo "<textarea name='content' id='content' rows='5' cols='35'></textarea>";
     echo "<input type='hidden' name='threadID' id='threadID' value='{$currentThread}' />";
     echo "<input type='button' value='Post' onclick='postPost()' />";
-    echo "</form>";
+    echo "</form></div>";
     
   }
   else
@@ -117,6 +126,11 @@ function postPost()
       reloadPage();
     }
   });
+}
+
+function viewForum(){
+	var pageurl = 'forum.php?c='+cid;
+	$('div.all').load(pageurl);
 }
 
 function deletePost(postID)

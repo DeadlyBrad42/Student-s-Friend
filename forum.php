@@ -1,6 +1,6 @@
 <?php
   require_once("classes/Database.php");
-  
+  require_once("classes/NewsFeed.php");
   // If the page is being accessed by an AJAX call, the page needs to use the Session to get the UID.
   //  Otherwise, the page is being added indirectly by courses, and the session has already been started.
   if(!isset($_SESSION['userID']))
@@ -21,24 +21,25 @@
     // Sanatize here
     $content = $_GET['content'];
     $title = $_GET['title'];
-
-  	//News feed update.
-	$rs = $db->query("SELECT * FROM sfuser WHERE user_ID = '{$_SESSION['userID']}'");
-	$row = $rs->fetch_array(MYSQLI_ASSOC);
-	$news = "The ".$title." thread was started in the forum section by ".$row['user_fname']." ".$row['user_lname'].".";
-	NewsFeed::postUpdate($courseID, $news);
     
     echo "recieved {$content} and {$title}.";
     
     // Add a new thread
-    $db->query("INSERT INTO thread (thread_ID, thread_title, course_ID) VALUES (null, '{$title}', {$courseID})");
+	if(strlen($title) > 0){
+		//News feed update.
+		$rs = $db->query("SELECT * FROM sfuser WHERE user_ID = '{$_SESSION['userID']}'");
+		$row = $rs->fetch_array(MYSQLI_ASSOC);
+		$news = "The ".$title." thread was started in the forum section by ".$row['user_fname']." ".$row['user_lname'].".";
+		NewsFeed::postUpdate($courseID, $news);
+
+		$db->query("INSERT INTO thread (thread_ID, thread_title, course_ID) VALUES (null, '{$title}', {$courseID})");
     
-    // Get the threadID from the last query
-    $threadID = $db->getLastInsertedID();
+		// Get the threadID from the last query
+		$threadID = $db->getLastInsertedID();
     
-    // Add a new post to the thread that was just created
-    $db->query("INSERT INTO post (post_ID, user_ID, post_content, post_time, thread_ID) VALUES (null, '{$_SESSION['userID']}', '{$content}', now(), {$threadID})");
-    
+		// Add a new post to the thread that was just created
+		$db->query("INSERT INTO post (post_ID, user_ID, post_content, post_time, thread_ID) VALUES (null, '{$_SESSION['userID']}', '{$content}', now(), {$threadID})");
+    }
     exit();
   }
   
@@ -76,16 +77,18 @@
       
       echo "<div class='thread-postdate'>{$post['post_time']}</div>";
       
-      echo "</div>";
+      echo "</div><br />";
     }
   }
   
   echo "</div>";
   
   // Form for new posts
-  echo "<form class='new-thread' name='input'>";
+  echo "<br /><h2>Start a new thread:</h2><br />";
+  echo "<p>Thread Title:</p><form class='new-thread' name='input'>";
   echo "<input type='text' name='title' id='title' />";
-  echo "<textarea name='content' id='content' rows='5' cols='35'></textarea>";
+  echo "<br />Post:<br />";
+  echo "<textarea name='content' id='content' rows='5' cols='35'></textarea><br />";
   echo "<input type='button' value='Post' onclick='postThread()' />";
   echo "</form>";
   
