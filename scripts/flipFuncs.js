@@ -3,7 +3,7 @@ var front = true;
 var deck;
 var t;
 var cards = '';
-var i = 0;
+//var i = 0;
 
 //	Takes an ajax response as object, parses the object taking the value
 //	in element identified by identifier passed in through dataStore
@@ -118,6 +118,7 @@ function deleteCards(counter){
 }
 
 function addCards(counter){
+	t= null;
 	t = new Array();	
 	
 	if( $("#0").length > 0){
