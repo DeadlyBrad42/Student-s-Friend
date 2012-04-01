@@ -20,7 +20,7 @@
 
 	public static function getInstruct($cID){
 		global $db;
-		$rs = $db->query("SELECT instructor_ID FROM course WHERE course_ID = {$cID}");
+		$rs = $db->query("CALL get_teacher({$cID})");
 		$row = $rs->fetch_array(MYSQLI_ASSOC);
 		return $row['instructor_ID'];
 	}
