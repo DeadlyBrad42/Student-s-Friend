@@ -1,5 +1,5 @@
 <?php
-  require_once("/classes/Database.php");
+  require_once("classes/Database.php");
   
   // If the page is being accessed by an AJAX call, the page needs to use the Session to get the UID.
   //  Otherwise, the page is being added indirectly by courses, and the session has already been started.
