@@ -570,6 +570,16 @@ function timer(event) {
     }
 }
 
+function processString(s){
+	s=s.replace(/\$/g,"%24");
+	s=s.replace(/\+/g,"%2B");
+	s=s.replace(/\&/g,"%26");
+	s=s.replace(/\?/g,"%3F");
+	s=s.replace(/\!/g,"%21");
+	s=s.replace(/'/g,"%92");
+	s=s.replace(/\"/g,"%22");
+	return s;
+}
 
 function makeCrsLanding(list, target) {
 	for(var i=0; i<(list.length-1); i++)
