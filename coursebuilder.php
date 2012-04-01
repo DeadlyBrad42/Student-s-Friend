@@ -6,12 +6,16 @@
 		header("Location: index.php");
 	$userID = $_SESSION['userID'];
 	
-	if (isset($_POST['courseName']))
-	{
-		//echo "post was set";
+	if (isset($_POST['courseName'])) {
 		$returnValue = Course::createCourse($userID, $_POST['courseName'], $_POST['courseDescription'], $_POST['courseLocation']);
 		
-		echo "$returnValue";
+		Course::echoInstructorCourseMenu($userID);
+		
+		exit(0);
+	} else if(isset($_POST['courseID'])) {
+		$returnValue = Course::deleteCourse($_POST['courseID']);
+		
+		Course::echoInstructorCourseMenu($userID);
 		
 		exit(0);
 	}
@@ -34,9 +38,11 @@
 			<?php Facebook::makeBodyScript(); ?>
 		</div>
 		<div id="wrapper">
-		
 			<div id = "newsfeed">
 			</div>
+			
+			<div id = "helpBox"></div>
+			
 			<h1>Create Course</h1>
 			<form id = "courseInputForm">
 				Course Name: <input type="text" id = "courseName" /><br />
@@ -44,7 +50,13 @@
 				Course Description: <textarea id = "courseDescription" rows = "5" col = "60"></textarea><br/>
 				<button type = "button" onclick = "validateCourse()">Submit Course</button>
 			</form>
-			<div id = "helpBox"></div> 
+			
+			<h1>Manage Courses</h1>
+			<table id = "coursesTable">
+				<?php
+					Course::echoInstructorCourseMenu($userID);
+				?>
+			</table>
 			
 		</div>
 		<?php require_once("layout/footer.php"); ?>

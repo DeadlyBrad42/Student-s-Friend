@@ -67,6 +67,31 @@ class Course {
 	
 	return $returnValue;
   }
+  
+  static function getInstructorCoursesResultset($instructor_ID) {
+	global $db;
+	$rs = $db->query("SELECT course_name, course_ID FROM course WHERE instructor_ID = {$instructor_ID};");
+	
+	return $rs;
+  }
+  
+  static function deleteCourse($course_ID) {
+	global $db;
+	$db->query("DELETE FROM course WHERE course_ID = {$course_ID};");
+	$db->query("DELETE FROM enrollment WHERE course_ID = {$course_ID};");
+	$db->query("DELETE FROM enrollmentrequests WHERE course_ID = {$course_ID};");
+	
+	return "Course deleted";
+  }
+  
+	static function echoInstructorCourseMenu($userID) {
+		$rs = Course::getInstructorCoursesResultset($userID);
+		while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
+			echo "<tr><td>{$row['course_name']}<br/>
+				<button type = 'button' onclick = 'okDelete({$row['course_ID']})'>Delete Course</button>
+				</td></tr>";
+		}
+	}
 
   /* Getters */
   function get_courseID() {

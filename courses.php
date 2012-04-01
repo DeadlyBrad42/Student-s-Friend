@@ -1,8 +1,8 @@
 <?php 
 	require_once("classes/Facebook.php");
-  require_once("classes/Calendar.php");
-  require_once("classes/UserStorage.php");
-  require_once("classes/FlashCardManager.php"); 
+	require_once("classes/Calendar.php");
+	require_once("classes/UserStorage.php");
+	require_once("classes/FlashCardManager.php"); 
 	require_once("classes/FlashCardDisplay.php");
   $userID = $_SESSION['userID'];
  	$makeCal = 0; 
@@ -28,7 +28,7 @@
         include("forum.php");
         break;
       case 3:
-			FlashCardDisplay::flashCardSelectBody($cid);		
+		FlashCardDisplay::flashCardSelectBody($cid);		
         break;
       default:
         break;

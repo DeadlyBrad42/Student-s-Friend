@@ -15,7 +15,7 @@ function validateCourse() {
 				courseDescription:$('#courseDescription').val()},
 			type:'post',
 			success: function(data) {
-				$('#helpBox').html(data);
+				$('#coursesTable').html(data);
 			}
 		});
 	}
@@ -33,13 +33,32 @@ function validateEnrollment() {
 		var url = "courseAdd.php";
 		$.ajax({url: url, dataType: 'html', 
 			data: {
-				courseName:$('#courseID').val()
+				courseID:$('#courseID').val()
 			},
 			
 			type:'post',
 			
 			success: function(data) {
-				$('#helpBox').html(data);
+				$('#coursesTable').html(data);
+			}
+		});
+	}
+}
+
+function okDelete(courseID) {
+	var confirmed = confirm("Are you sure you want to delete this course?");
+	
+	if(confirmed) {
+		var url = "courseBuilder.php";
+		$.ajax({url: url, dataType: 'html', 
+			data: {
+				courseID:courseID
+			},
+			
+			type:'post',
+			
+			success: function(data) {
+				$('#coursesTable').html(data);
 			}
 		});
 	}
