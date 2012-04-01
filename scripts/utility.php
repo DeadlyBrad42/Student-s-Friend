@@ -15,17 +15,17 @@ if ((isset($_POST['action']) && !empty($_POST['action'])) || (isset($_GET['actio
 
   switch($a)
   {
-    case "logout":
+    case "logout" :
       doLogout();
       break;
-    case "refreshUserUp":
+    case "refreshUserUp" :
       if (isset($_GET['uid']))
       {
       	$uid = $_GET['uid'];
         refreshUserStorageDiv($uid);
       }
       break;
-    case "deleteStorage":
+    case "deleteStorage" :
     	if (isset($_GET['storeID']) && isset($_GET['id']) && isset($_GET['isCrs']))
 			{
 				$sid = $_GET['storeID'];
@@ -33,6 +33,15 @@ if ((isset($_POST['action']) && !empty($_POST['action'])) || (isset($_GET['actio
 				$crs = $_GET['isCrs'];
     		deleteStorageItem($sid, $id, $crs);
     	}
+    	break;
+    case "approveStorage" :
+    	if (isset($_GET['storeID']) && !empty($_GET['storeID']))
+			{
+				$sid = $_GET['storeID'];
+				approveStorageItem($sid);
+			}
+			break;
+    default :
     	break;
   }
 }
@@ -74,4 +83,11 @@ function deleteStorageItem($sid, $id, $isCrs)
 		refreshUserStorageDiv($id);
 	}
 }
+
+function approveStorageItem($sid)
+{
+	global $db;
+	$rs = $db->query("UPDATE sfstorage SET approved = 1 WHERE storage_ID = {$sid}");
+}
+
 ?>

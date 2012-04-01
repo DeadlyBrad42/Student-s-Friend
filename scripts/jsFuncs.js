@@ -251,6 +251,18 @@ function deleteStorageDialogue(sid, id, isCrs)
 	dialogue('deleteStoreModal', box, "Are you sure you want to delete this item?", false);
 }
 
+function approveStorageDialogue(sid)
+{
+	var box = $('<div />', {id: 'approveStorageBox'}),
+			btn1 = $('<button />', {text: 'Yes', click: function() { 
+				$('#ui-tooltip-approveStoreModal').qtip('hide');
+				approveStorageItem(sid);} 
+			}),
+			btn2 = $('<button />', {text: 'No', click: function() { $('#ui-tooltip-approveStoreModal').qtip('hide');} });
+
+	box.append(btn1).append(btn2);
+	dialogue('approveStoreModal', box, "Are you sure you want to approve this item?", false);
+}
 
 function deleteStorageItem(sid, id, isCrs)
 {
@@ -275,6 +287,18 @@ function deleteStorageItem(sid, id, isCrs)
 			}
 		});
 	}
+}
+
+function approveStorageItem(sid)
+{
+	toggleAjaxLoader(1);
+	var url = 'scripts/utility.php?action=approveStorage&storeID='+sid;
+	$.ajax({url: url, dataType: 'html', success: function() {
+		switchCrsView(1);
+		toastMessage("Item has been approved and is viewable by the whole class!");
+		toggleAjaxLoader(0);
+		}
+	});
 }
 
 function switchCrsView(i)

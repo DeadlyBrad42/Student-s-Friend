@@ -140,7 +140,7 @@ class UserStorage {
 					}
 
 					$delClick = "deleteStorageDialogue('{$sid}','{$id}',".self::$isCourse.")";
-					$appClick = "approveStorageDialogue('{$sid}','{$id}')";
+					$appClick = "approveStorageDialogue('{$sid}')";
 					echo "<li><a class='cursorPter' onclick={$viewClick}>View</a></li>
 								<li><a class='cursorPter' onclick={$delClick}>Delete</a></li>
 								<li><a class='cursorPter' onclick={$appClick}>Approve</a></li>
