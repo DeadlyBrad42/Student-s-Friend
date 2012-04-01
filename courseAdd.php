@@ -6,12 +6,12 @@
 		header("Location: index.php");
 	$userID = $_SESSION['userID'];
 	
-	if (isset($_POST['courseName']))
+	if (isset($_POST['courseID']))
 	{
 		//echo "post was set";
-		$returnValue = Course::createCourse($userID, $_POST['courseName'], $_POST['courseDescription'], $_POST['courseLocation']);
+		$output = Course::requestEnrollWithCheck($userID, $_POST['courseID']);
 		
-		echo "$returnValue";
+		echo "$output";
 		
 		exit(0);
 	}
@@ -37,12 +37,10 @@
 		
 			<div id = "newsfeed">
 			</div>
-			<h1>Create Course</h1>
+			<h1>Add Course</h1>
 			<form id = "courseInputForm">
-				Course Name: <input type="text" id = "courseName" /><br />
-				Course Location: <input type="text" id = "courseLocation" /><br />
-				Course Description: <textarea id = "courseDescription" rows = "5" col = "60"></textarea><br/>
-				<button type = "button" onclick = "validateCourse()">Submit Course</button>
+				Course ID: <input type="text" id = "courseID" /><br />
+				<button type = "button" onclick = "validateEnrollment()">Submit Course</button>
 			</form>
 			<div id = "helpBox"></div> 
 			

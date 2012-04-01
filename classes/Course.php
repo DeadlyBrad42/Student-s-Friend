@@ -27,12 +27,45 @@ class Course {
 		$db->next_result(); // Make way for the next stored procedure
   }
   
+  static function enrollInCourse($userID, $CourseID) {
+		global $db;
+		$db->query("INSERT INTO enrollment (user_ID, course_ID) VALUES ({$userID}, {$CourseID});");
+		
+		return "Course has been created";
+	}
+	
+	static function enrollWithCheck($userID, $CourseID) {
+		$rs = $db->query("SELECT * FROM enrollment WHERE user_ID = '{$userID}' AND course_ID = '{$CourseID}';");
+		
+		if($rs->num_rows == 0) {
+			self::enrollInCourse($userID, $CourseID);
+		}
+	}
+	
+	static function requestEnrollWithCheck($userID, $CourseID) {
+		$returnValue;
+	
+		$rs = $db->query("SELECT * FROM enrollmentrequests WHERE user_ID = '{$userID}' AND course_ID = '{$CourseID}';");
+		
+		if($rs->num_rows == 0) {
+			$db->query("INSERT INTO enrollmentrequests (user_ID, course_ID) VALUES ({$userID}, {$CourseID});");
+			$returnValue = "Request for enrollment sent.";
+		} else {
+			$returnValue = "Request for enrollment has already been sent. The instructor must ok your enrollment.";
+		}
+		
+		return $returnValue;
+	}
+  
   static function createCourse($instructor_ID, $name, $location, $description) {
 	global $db;
 	$db->query("INSERT INTO course (course_name, course_description, course_location, instructor_ID) 
 		VALUES ('{$name}', '{$location}', '{$description}', '{$instructor_ID}');");
 	$lastID = $db->getLastInsertedID();
-	$db->query("INSERT INTO enrollment (user_ID, course_ID) VALUES ({$instructor_ID}, {$lastID});");
+	
+	$returnValue = self::enrollInCourse($instructor_ID, $lastID);
+	
+	return $returnValue;
   }
 
   /* Getters */
