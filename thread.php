@@ -77,7 +77,7 @@ var cid = "<?php echo "{$courseID}"; ?>";
 function postPost()
 {
   $.ajax({
-    url: "thread.php?content=" + escape($("textarea#content").val()) + "&threadID=" + $("input#threadID").val(),
+    url: "thread.php?content=" + processString($("textarea#content").val()) + "&threadID=" + $("input#threadID").val(),
     success: function() {
       // Clear text boxes
       $("textarea#content").val("");
