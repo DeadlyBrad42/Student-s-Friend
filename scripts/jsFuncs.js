@@ -5,21 +5,18 @@ function logout(token)
 
 function populateCourses(crs)
 {
-  var list = document.getElementById('crsMenu');
-  var ul = document.createElement('ul');
-  var li, a, txt, url;
+  var list = $(document.getElementById('crsMenu'));
+  var ul = $('<ul />');
+  var url;
   for(var i = 0; i < crs.length; i++)
   {
-    li = document.createElement('li');
-    a = document.createElement('a');
-    url = (crs[i].name == 'Add') ? 'coursebuilder.php' : 'courses.php?c='+crs[i].id;
-    a.setAttribute('href', url);
-    txt = document.createTextNode(crs[i].name);
-    a.appendChild(txt);
-    li.appendChild(a);
-    ul.appendChild(li);
+   	var li = $('<li />');
+   	url = (crs[i].name == 'Add') ? 'coursebuilder.php' : 'courses.php?c='+crs[i].id;
+   	var a = $('<a />',{href: url, text: crs[i].name});
+    li.append(a);
+    ul.append(li);
   }
-  list.appendChild(ul);
+  list.append(ul);
 }
 
 function dialogue(id, content, title, blur) {

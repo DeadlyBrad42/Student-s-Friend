@@ -237,7 +237,7 @@ table#viewEvt
 /* course page styles */
 div#crsContent
 {
-
+	padding-top: 25px;
 }
 
 ul#crsNav

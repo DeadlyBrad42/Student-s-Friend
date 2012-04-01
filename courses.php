@@ -5,6 +5,7 @@
   require_once("classes/FlashCardManager.php"); 
 	require_once("classes/FlashCardDisplay.php");
   $userID = $_SESSION['userID'];
+ 	$makeCal = 0; 
   if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
     header("Location: index.php");
 
@@ -12,7 +13,6 @@
   {
     $cid = $_GET['c'];
     $v = $_GET['view'];
-    $content = "";
     switch($v)
     {
       case 0:
@@ -36,9 +36,10 @@
 
     exit(0);
   }
-  else if (!isset($_GET['c']))
+  else if (!isset($_GET['view']) && isset($_GET['c']))
 	{
-
+		$cid = $_GET['c'];
+		$makeCal = 1;
 	}
 ?>
 <!DOCTYPE html>
@@ -61,7 +62,18 @@
     <?php require_once("layout/header.php"); ?>
       <div id="wrapper">
       <div id="newsfeed"></div>
-      <?php require_once("layout/courseHeader.php"); ?>
+      <div id="crsWrap">
+				<?php require_once("layout/courseHeader.php"); ?>
+				<div id='crsContent'>
+					<?php 
+					if($makeCal==1)
+					{ 
+						echo Calendar::makeCalScript($cid,1);
+						echo Calendar::makeCalDiv(); 
+					}
+					?>
+				</div>
+			</div> 
       </div> 
     <?php require_once("layout/footer.php"); ?>
   </body>

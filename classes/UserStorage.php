@@ -150,7 +150,7 @@ class UserStorage {
 				echo "</div>";
 			}
 			else
-				echo "";
+				echo "<div id='unApprUploads'><p>No Pending Items</p></div>";
 		}
   }
 ?>

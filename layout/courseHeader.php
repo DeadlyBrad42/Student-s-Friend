@@ -13,7 +13,7 @@ function makeSpecificCourse($cid)
 {
 	$c = new Course($cid);
 	$title = "Specific Course";
-	echo "<div id='crsWrap'>
+	echo"
 				 <h2 id='crsName'>".$c->get_name()."</h2>
 					<ul id='crsNav'>
 						<li><a onclick='switchCrsView(0)'>Calendar</a></li>
@@ -21,8 +21,6 @@ function makeSpecificCourse($cid)
 						 <li><a onclick='switchCrsView(2)'>Forum</a></li>
 						<li><a onclick='switchCrsView(3)'>Flash Cards</a></li>
 					</ul>
-					<div id='crsContent'></div> 
-				</div>
 				";
 }
 
@@ -37,10 +35,7 @@ function makeCourseLanding()
 							makeCrsLanding(crs, div);
 						});
 				</script>
-				<div id='crsWrap'>
-					<h2 id='crsName'>{$title}</h2>
-					<div id='crsContent'></div>
-				</div>
+				<h2 id='crsName'>{$title}</h2>
 				";
 }
 ?>
