@@ -568,13 +568,13 @@ function timer(event) {
 }
 
 function processString(s){
-	s=s.replace(/\$/g,"%24");
+	s=escape(s);
 	s=s.replace(/\+/g,"%2B");
 	s=s.replace(/\&/g,"%26");
 	s=s.replace(/\?/g,"%3F");
-	s=s.replace(/\!/g,"%21");
-	s=s.replace(/'/g,"%60");
-	s=s.replace(/\"/g,"%22");
+	s=s.replace(/\@/g,"%40");
+	//s=s.replace(/'/g,"%60");
+	//s=s.replace(/\"/g,"%22");
 	return s;
 }
 
