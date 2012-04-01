@@ -6,12 +6,18 @@
 		header("Location: index.php");
 	$userID = $_SESSION['userID'];
 	
-	if (isset($_POST['courseID']))
+	if (isset($_POST['courseID']) && !isset($_POST['disenrolling']))
 	{
 		//echo "post was set";
 		$output = Course::requestEnrollWithCheck($userID, $_POST['courseID']);
 		
-		echo "$output";
+		Course::echoStudentCourseMenu($userID);
+		
+		exit(0);
+	} else if(isset($_POST['courseID']) && isset($_POST['disenrolling'])) {
+		Course::disenrollStudent($userID, $_POST['courseID']);
+		
+		Course::echoStudentCourseMenu($userID);
 		
 		exit(0);
 	}
@@ -35,14 +41,20 @@
 		</div>
 		<div id="wrapper">
 		
+			<div id = "helpBox"></div>
+		
 			<div id = "newsfeed">
 			</div>
 			<h1>Add Course</h1>
 			<form id = "courseInputForm">
 				Course ID: <input type="text" id = "courseID" /><br />
 				<button type = "button" onclick = "validateEnrollment()">Submit Course</button>
-			</form>
-			<div id = "helpBox"></div> 
+			</form> 
+			<div id = "coursesDisplay">
+				<?php
+					Course::echoStudentCourseMenu($userID);
+				?>
+			</div>
 			
 		</div>
 		<?php require_once("layout/footer.php"); ?>

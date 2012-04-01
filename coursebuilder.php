@@ -52,7 +52,7 @@
 			</form>
 			
 			<h1>Manage Courses</h1>
-			<table id = "coursesTable">
+			<table id = "coursesDisplay">
 				<?php
 					Course::echoInstructorCourseMenu($userID);
 				?>

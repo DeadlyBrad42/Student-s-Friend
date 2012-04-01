@@ -92,6 +92,46 @@ class Course {
 				</td></tr>";
 		}
 	}
+	
+	static function echoStudentCourseMenu($userID) {
+		global $db;
+		$rs = $db->query("SELECT course.course_name AS course_name, course.course_ID AS course_ID
+				FROM course RIGHT JOIN enrollment ON course.course_ID = enrollment.course_ID
+				WHERE enrollment.user_ID = {$userID};");
+		echo "<h2>Enrolled Courses</h2>
+			<table>";
+		while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
+			echo "<tr><td>{$row['course_name']}<br/>
+				<button type = 'button' onclick = 'okDisenroll({$row['course_ID']})'>Disenroll</button>
+				</td></tr>";
+		}
+		
+		$rs->close();
+		$db->next_result();
+		
+		echo "</table>";
+		
+		echo "<h2>Pending Enrollments</h2>
+			<table>";
+			
+		$rs = $db->query("SELECT course.course_name AS course_name, course.course_ID AS course_ID
+				FROM course RIGHT JOIN enrollmentrequests ON course.course_ID = enrollmentrequests.course_ID
+				WHERE enrollmentrequests.user_ID = {$userID};");
+				
+		while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
+			echo "<tr><td>{$row['course_name']}<br/>
+				<button type = 'button' onclick = 'okDisenroll({$row['course_ID']})'>Disenroll</button>
+				</td></tr>";
+		}
+		
+		echo "</table>";
+	}
+	
+	static function disenrollStudent($userID, $courseID) {
+		global $db;
+		
+		$db->query("DELETE FROM enrollment WHERE user_ID = {$userID} AND course_ID = {$courseID}");
+	}
 
   /* Getters */
   function get_courseID() {

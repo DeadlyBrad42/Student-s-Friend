@@ -29,12 +29,12 @@
 			return mysqli_error($this->conn);
 		}
 
-		public function next_result() {
-			if (mysqli_more_results($this->conn))
-				return mysqli_next_result($this->conn);
-			else
-				return false;
-		}
+	public function next_result() {
+		if (mysqli_more_results($this->conn))
+			return mysqli_next_result($this->conn);
+		else
+			return false;
+	}
 
     public function getLastInsertedID() {
       return mysqli_insert_id($this->conn);

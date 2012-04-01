@@ -15,7 +15,7 @@ function validateCourse() {
 				courseDescription:$('#courseDescription').val()},
 			type:'post',
 			success: function(data) {
-				$('#coursesTable').html(data);
+				$('#coursesDisplay').html(data);
 			}
 		});
 	}
@@ -39,7 +39,7 @@ function validateEnrollment() {
 			type:'post',
 			
 			success: function(data) {
-				$('#coursesTable').html(data);
+				$('#coursesDisplay').html(data);
 			}
 		});
 	}
@@ -58,7 +58,27 @@ function okDelete(courseID) {
 			type:'post',
 			
 			success: function(data) {
-				$('#coursesTable').html(data);
+				$('#coursesDisplay').html(data);
+			}
+		});
+	}
+}
+
+function okDisenroll(courseID) {
+	var confirmed = confirm("You are disenrolling from the course.");
+
+	if(confirmed) {
+		var url = "courseAdd.php";
+		$.ajax({url: url, dataType: 'html', 
+			data: {
+				courseID:courseID,
+				disenrolling:'true'
+			},
+			
+			type:'post',
+			
+			success: function(data) {
+				$('#coursesDisplay').html(data);
 			}
 		});
 	}
