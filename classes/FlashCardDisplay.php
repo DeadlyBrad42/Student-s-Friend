@@ -55,7 +55,7 @@ class FlashCardDisplay{
 			}
 		}
 		$x = $x."<br /><input type='button' onclick='reSubmitCards({$counter})' value='Submit' />
-			<input type='button' onclick='deleteCards({$counter})' value='Delete Cards' /></form><br />
+			<input type='button' onclick='deleteCards({$counter})' value='Delete All Cards' /></form><br />
 			<button type='button' onclick = 'returnToSelect()' >Select Different Cards</button>
 			</div>";
 		echo $x;
