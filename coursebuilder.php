@@ -9,11 +9,15 @@
 	if (isset($_POST['courseName'])) {
 		$returnValue = Course::createCourse($userID, $_POST['courseName'], $_POST['courseDescription'], $_POST['courseLocation']);
 		
+		Course::loadCoursesIntoSession($userID);
+		
 		Course::echoInstructorCourseMenu($userID);
 		
 		exit(0);
 	}
 	else if(isset($_POST['courseID'])) {
+		Course::loadCoursesIntoSession($userID);
+	
 		if(!isset($_POST['permittedStudent']) && !isset($_POST['deniedStudent'])) {
 			$returnValue = Course::deleteCourse($_POST['courseID']);
 			

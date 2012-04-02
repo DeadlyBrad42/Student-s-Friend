@@ -66,6 +66,9 @@
 			$courses[] = $c;
       $_SESSION['courses'] = json_encode($courses);
     }  
+	
+	$db->next_result();
+	$rs->close();
     // Debugging
     // echo "Did not insert user.";
   }
