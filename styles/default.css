@@ -43,6 +43,10 @@ a:hover
 }
 
 /* General Class Styles */
+.bold
+{
+	font-weight: bold;
+}
 
 .txtCenter
 {
@@ -104,6 +108,12 @@ div#footer
 ul#nav, ul.storageItem
 {
   list-style-type: none;
+}
+
+ul.storageItem
+{
+	overflow: auto;
+	margin: 5px 0;
 }
 
 ul#nav li, ul.storageItem li

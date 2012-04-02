@@ -60,8 +60,9 @@ class UserStorage {
           $png = strpos($row['item_name'], ".png");
           $gif = strpos($row['item_name'], ".gif");
           $bmp = strpos($row['item_name'], ".bmp");
-          
           $sid = $row['storage_ID'];
+					$delClick = "deleteStorageDialogue('{$sid}','{$id}',".self::$isCourse.")";
+					
           echo "<ul class='storageItem'>";
           // Construct the list item with dynamic <a> tag
           if ($jpg !== false || $jpeg !== false ||  $png !== false || $gif !== false || $bmp !== false )
@@ -69,15 +70,16 @@ class UserStorage {
 						$img = "<img height='50' width='50' src='". self::$dir . "/" . $row['item_name'] . "' />";
 						$viewClick = "showUploadPic('".self::$dir."/".$row['item_name']."','".$row['item_name']."')";
             echo "<li>{$img}</li>";
+						echo "<li><a class='cursorPter' onclick={$viewClick}>View</a></li>
+									<li><a class='cursorPter' onclick={$delClick}>Delete</a></li>";
           }
           else
 					{
-						$viewClick = "";
-            echo "<li><a href='" . self::$dir . "/" . $row['item_name'] . "'>" . $row['item_name'] . "</a></li>";
+            echo "<li><span class='bold'>". $row['item_name'] ."</span></li>";
+						echo "<li><a class='cursorPter' href='". self::$dir . "/" . $row['item_name'] ."'>View</a>
+									</li><li><a class='cursorPter' onclick={$delClick}>Delete</a></li>";
 					}
 
-					$delClick = "deleteStorageDialogue('{$sid}','{$id}',".self::$isCourse.")";
-					echo "<li><a class='cursorPter' onclick={$viewClick}>View</a></li><li><a class='cursorPter' onclick={$delClick}>Delete</a></li>";
           echo "</ul>";
         }
         echo "</div>";

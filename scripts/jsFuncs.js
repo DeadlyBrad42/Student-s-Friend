@@ -97,17 +97,23 @@ function eventDialogue(date, course_id)
 	$(document).delegate($('#evtStartDt'),'change',function() {
 			if ($('.evtAMPM:eq(0) option:selected').text() == 'PM' && $('.evtAMPM:eq(1) option:selected').text() == 'AM')
 			{
-				var dd = new Date(date.getFullYear(),date.getMonth(),date.getDate()+1);
 				var newd = (date.getMonth()+1) + "-" + (date.getDate()+1) + "-" + date.getFullYear();
 				$('#evtEndDt').val(newd);
+			}
+			else
+			{
+				$('#evtEndDt').val(clickedDate);
 			}
 		});
 	$(document).delegate($('#evtEndDt'),'change',function() {
 			if ($('.evtAMPM:eq(0) option:selected').text() == 'PM' && $('.evtAMPM:eq(1) option:selected').text() == 'AM')
 			{
-				var dd = new Date(date.getFullYear(),date.getMonth(),date.getDate()+1);
 				var newd = (date.getMonth()+1) + "-" + (date.getDate()+1) + "-" + date.getFullYear();
 				$('#evtEndDt').val(newd);
+			}
+			else
+			{
+				$('#evtEndDt').val(clickedDate);
 			}
 		});
 	for (var i=1; i<13; i++)
@@ -663,5 +669,3 @@ function makeCrsLanding(list, target) {
 		target.append(tbl);
 	}
 }
-
-
