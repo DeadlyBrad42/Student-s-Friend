@@ -89,7 +89,7 @@
     echo "<form class='new-post' name='input' id='input' action='thread.php' method='get'>";
     echo "<textarea name='content' id='content' rows='5' cols='35'></textarea>";
     echo "<input type='hidden' name='threadID' id='threadID' value='{$currentThread}' />";
-    echo "<br /><input type='button' value='Post' onclick='postPost()' />";
+    echo "<br /><input id='poster' type='button' value='Post' onclick='postPost()' />";
     echo "</form></div>";
 
   }
@@ -110,13 +110,16 @@ $(document).ready(function() {
 
 function reloadPage()
 {
+  clearTimeout(forumTimer);
   threadTimer = setTimeout("reloadPage()", 10000);
   var pageurl = "thread.php?threadID=" + $("input#threadID").val() + " div.thread-wrapper";
   $('div.thread-wrapper').load(pageurl);
+  setTimeout(document.getElementById('poster').disabled=false, 1000);
 }
 
 function postPost()
 {
+  document.getElementById('poster').disabled=true;
   $.ajax({
     url: "thread.php?content=" + processString($("textarea#content").val()) + "&threadID=" + $("input#threadID").val(),
     success: function() {
@@ -141,7 +144,7 @@ function deletePost(postID)
     url: "thread.php?del=1&postID=" + postID + "&threadID=" + $("input#threadID").val(),
     success: function() {
       // Reload the page
-      viewForum();
+      reloadPage();
     }
   });
 }

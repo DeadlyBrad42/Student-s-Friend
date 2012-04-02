@@ -15,24 +15,6 @@
     $courseID = $_GET['c'];
   }
   
-  //Deletes threads
-  if(isset($_GET['del']) && isset($_GET['threadID']) && isset($_SESSION['userID']))
-  {
-    // Sanitize here
-    $delete = $_GET['del'];
-    $threadID = $_GET['threadID'];
-	
-	//News feed update.
-	$rs = $db->query("SELECT * FROM thread WHERE thread_ID={$threadID}");
-	$row = $rs->fetch_array(MYSQLI_ASSOC);
-	$news = "The ".$row['thread_title']." thread was deleted from the forum section.";
-	NewsFeed::postUpdate($row['course_ID'], $news);
-	$db->next_result();
-	// delete
-	$db->query("DELETE FROM thread WHERE thread_ID={$threadID}");
-  }
-  
-  
   // If content & title were passed, then add the new thread to the DB and exit.
   if(isset($_GET['content']) && isset($_GET['title']) && isset($_SESSION['userID']))
   {
@@ -59,6 +41,24 @@
 		$db->query("INSERT INTO post (post_ID, user_ID, post_content, post_time, thread_ID) VALUES (null, '{$_SESSION['userID']}', '{$content}', now(), {$threadID})");
     }
     exit();
+  }
+
+  
+  //Deletes threads
+  if(isset($_GET['del']) && isset($_GET['threadID']))
+  {
+    // Sanitize here
+    $delete = $_GET['del'];
+    $threadID = $_GET['threadID'];
+	
+	//News feed update.
+	//$rs = $db->query("SELECT * FROM thread WHERE thread_ID={$threadID}");
+	//$row = $rs->fetch_array(MYSQLI_ASSOC);
+	//$news = "The thread was deleted from the forum section.";
+	//NewsFeed::postUpdate(56, $news);
+	//$db->next_result();
+	// delete
+	$db->query("DELETE FROM thread WHERE thread_ID={$threadID}");
   }
   
   
@@ -95,7 +95,7 @@
       
       echo "<div class='thread-postdate'>{$post['post_time']}</div>";
       
-      echo "</div><a onclick=\"deleteThread('{$post['thread_ID']}')\">Delete</a><br /><br />";
+      echo "</div><br />"; //<a onclick=\"deleteThread('{$post['thread_ID']}')\">Delete</a>
     }
   }
   
@@ -107,7 +107,7 @@
   echo "<input type='text' name='title' id='title' />";
   echo "<br />Post:<br />";
   echo "<textarea name='content' id='content' rows='5' cols='35'></textarea><br />";
-  echo "<input type='button' value='Post' onclick='postThread()' />";
+  echo "<input id='poster' type='button' value='Post' onclick='postThread()' />";
   echo "</form>";
   
 ?>
@@ -116,18 +116,18 @@
 var cid = "<?php echo "{$courseID}"; ?>";
 
 $(document).ready(function() {
-  //forumTimer = setTimeout("reloadPage()", 10000);
+  forumTimer = setTimeout("reloadPage()", 10000);
 });
 
 function postThread()
 {
+  document.getElementById('poster').disabled=true;
   $.ajax({
     url: "forum.php?title=" + processString($("input#title").val()) + "&content=" + processString($("textarea#content").val()) + "&c=" + cid,
     success: function() {
       // Clear text boxes
       $("input#title").val("");
       $("textarea#content").val("");
-      
       // Reload the page
 		reloadPage();
     }
@@ -136,14 +136,16 @@ function postThread()
 
 function reloadPage()
 {
-  //forumTimer = setTimeout("reloadPage()", 10000);
+  clearTimeout(forumTimer);
+  forumTimer = setTimeout("reloadPage()", 10000);
   var pageurl = "forum.php?c=" + cid + " div.forum-wrapper";
   $('div.forum-wrapper').load(pageurl);
+  setTimeout(document.getElementById('poster').disabled=false, 1000);
 }
 
 function viewThread(threadID)
 {
-  //clearTimeout(forumTimer);
+  clearTimeout(forumTimer);
   var pageurl = "thread.php?threadID=" + threadID + "&c=" + cid;
   $("div#crsContent").load(pageurl);
 }
