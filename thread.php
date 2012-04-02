@@ -56,6 +56,7 @@
     exit(0);
   }
   
+
   
   
   // Page generation
@@ -63,9 +64,11 @@
   if(isset($_GET["threadID"]))
   {
     $currentThread = $_GET["threadID"];
-	$rs = $db->query("SELECT * FROM thread WHERE thread_ID={$currentThread}");
-	$row = $rs->fetch_array(MYSQLI_ASSOC);
-	$corID = $row['course_ID'];
+	global $db;
+	$q = $db->query("SELECT * FROM thread WHERE thread_ID={$currentThread}");
+	$b = $q->fetch_array(MYSQLI_ASSOC);
+	$isID = FlashCardManager::getInstruct($b['course_ID']);	
+	$db->next_result();
     echo "<div class='all'>";
     // Print the thread title
     $result = $db->query("SELECT * FROM thread WHERE thread_ID={$currentThread}")->fetch_array(MYSQLI_ASSOC);
@@ -87,7 +90,7 @@
       echo "<div class='post-content'>".urldecode($post['post_content'])."</div>";
       
 
-      if($post['user_ID'] == $_SESSION['userID'] || $_SESSION['userID'] == FlashCardManager::getInstruct($corID))
+      if($post['user_ID'] == $_SESSION['userID'] || $_SESSION['userID'] == $isID)
       {
         echo "<div id='post-delete'><a onclick='deletePost({$post['post_ID']})'>Delete</a></div>";
       }
