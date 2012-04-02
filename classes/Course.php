@@ -172,6 +172,23 @@ class Course {
 		
 		$db->next_result();
 	}
+
+	static function echoCourseEnrollMenu($courseID) {
+		global $db;
+		$rs = $db->query("SELECT sfuser.user_ID, sfuser.user_fname, sfuser.user_lname 
+				FROM enrollment LEFT JOIN sfuser ON enrollment.user_ID = sfuser.user_ID
+				WHERE course_ID = {$courseID};");
+		if (!$rs) echo $db->error();
+
+		echo "<table>";
+		while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
+			echo "<tr><td>{$row['user_fname']} {$row['user_lname']}<br/>
+				<button type = 'button' onclick = 'permitEnroll({$row['user_ID']}, {$courseID})'>Permit Enrollment</button>
+				<button type = 'button' onclick = 'denyEnroll({$row['user_ID']}, {$courseID})'>Deny Enrollment</button>
+				</td></tr>";
+		echo "</table>";
+		}
+	}
 	
 	static function echoEnrollRequestsMenu($courseID) {
 		global $db;
@@ -179,6 +196,7 @@ class Course {
 		$rs = $db->query("SELECT sfuser.user_ID, sfuser.user_fname, sfuser.user_lname 
 				FROM enrollmentrequests LEFT JOIN sfuser ON enrollmentrequests.user_ID = sfuser.user_ID
 				WHERE course_ID = {$courseID};");
+		if (!$rs) echo $db->error();
 		
 		echo "<table>";
 		while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
@@ -229,8 +247,8 @@ class Course {
 		  $_SESSION['courses'] = json_encode($courses);
 		}
 		
-		$db->next_result();
 		$rs->close();
+		$db->next_result();
 	}
 
   /* Getters */

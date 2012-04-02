@@ -33,6 +33,7 @@
         break;
 	  case 4:
 		  echo "<div id='enrollMenu'>";
+		  Course::echoCourseEnrollMenu($cid);
 			Course::echoEnrollRequestsMenu($cid);
 		  echo "</div>";
       default:

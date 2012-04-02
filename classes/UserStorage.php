@@ -42,7 +42,7 @@ class UserStorage {
       $count = $rs->num_rows;
       echo "<button id='addFile'>Add a new file</button>";
       if ($count < 1)
-        echo "<p>You currently have no files uploaded. Click the button above to upload something.</p>";
+        echo "<p>You currently have no uploaded/approved files. Click the button above to upload something.</p>";
       else
       {
       	if (self::$isCourse == 1)
