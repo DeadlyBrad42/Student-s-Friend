@@ -55,7 +55,7 @@
 	//News feed update.
 	$rs = $db->query("SELECT * FROM thread WHERE thread_ID={$threadID}");
 	$row = $rs->fetch_array(MYSQLI_ASSOC);
-	$news = "The thread was deleted from the forum section.";
+	$news = "The ".$row['thread_title']." thread was deleted from the forum section.";
 	NewsFeed::postUpdate($courseID, $news);
 	$db->next_result();
 	//delete
