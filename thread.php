@@ -1,6 +1,7 @@
 <?php
   require_once("classes/Database.php");
   require_once("classes/NewsFeed.php");
+  require_once("classes/FlashCardManager.php");
   session_start();
   
   // Get the specified course by ID
@@ -34,10 +35,11 @@
     
     if($delete)
     {
-      $db->query("DELETE FROM post WHERE user_ID={$_SESSION['userID']} AND post_ID={$postID}");
+      $db->query("DELETE FROM post WHERE post_ID={$postID}");
 	  
     }
     
+
     // If this makes the thread empty, delete the thread from the database
     if( $db->query("SELECT * FROM post WHERE thread_ID={$threadID}")->num_rows == 0 )
     {
@@ -61,6 +63,9 @@
   if(isset($_GET["threadID"]))
   {
     $currentThread = $_GET["threadID"];
+	$rs = $db->query("SELECT * FROM thread WHERE thread_ID={$currentThread}");
+	$row = $rs->fetch_array(MYSQLI_ASSOC);
+	$corID = $row['course_ID'];
     echo "<div class='all'>";
     // Print the thread title
     $result = $db->query("SELECT * FROM thread WHERE thread_ID={$currentThread}")->fetch_array(MYSQLI_ASSOC);
@@ -81,12 +86,13 @@
       
       echo "<div class='post-content'>".urldecode($post['post_content'])."</div>";
       
-      if($post['user_ID'] == $_SESSION['userID'])
+
+      if($post['user_ID'] == $_SESSION['userID'] || $_SESSION['userID'] == FlashCardManager::getInstruct($corID))
       {
         echo "<div id='post-delete'><a onclick='deletePost({$post['post_ID']})'>Delete</a></div>";
       }
       
-      echo "</div>";
+      echo "</div><br />";
     }
     
     echo "</div>";
@@ -94,7 +100,7 @@
     echo "<form class='new-post' name='input' id='input' action='thread.php' method='get'>";
     echo "<textarea name='content' id='content' rows='5' cols='35'></textarea>";
     echo "<input type='hidden' name='threadID' id='threadID' value='{$currentThread}' />";
-    echo "<input type='button' value='Post' onclick='postPost()' />";
+    echo "<br /><input type='button' value='Post' onclick='postPost()' />";
     echo "</form></div>";
     
   }
