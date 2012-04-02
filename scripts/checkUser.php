@@ -1,6 +1,7 @@
 <?php
   require_once("../classes/Database.php");
   require_once("../classes/UserStorage.php");
+  require_once("../scripts/utility.php");
   session_start();
   
   /*
@@ -30,47 +31,8 @@
   }
   else
   {
-    $rs = $db->query("CALL getCoursesForUser('{$userID}')");
-    if ($rs->num_rows == 0)
-    {
-      // For now, javascript handles the case where there are no rows
-    }
-    else
-    {
-      $i = 0;
-      $courses = array();
-      while($row = $rs->fetch_array(MYSQLI_ASSOC))
-      {
-       // While there is still a row to fetch, add an array to $courses based on key/value pairs 
-        $id = $row['course_ID'];
-        $name = $row['course_name'];
-        $descrip = $row['course_description'];
-        $time = $row['course_time'];
-        $location = $row['course_location'];
-        $instructFN = $row['ins_fname'];
-        $instructLN = $row['ins_lname'];
-        
-        $c = array('id' => "{$id}", 
-                   'name' => "{$name}",
-                   'descrip' => "{$descrip}",
-                  'time' => "{$time}",
-                  'location' => "{$location}",
-                  'insFirst' => "{$instructFN}",
-                  'insLast' => "{$instructLN}");
-        
-        $courses[] = $c;
-      }
-
-      // Finally, place the Add course link in the json obj
-			$c = array('name' => 'Add');
-			$courses[] = $c;
-      $_SESSION['courses'] = json_encode($courses);
-    }  
-	
-	$db->next_result();
-	$rs->close();
-    // Debugging
-    // echo "Did not insert user.";
+    // Build a JSON object containing the user's courses
+    updateCourses($userID);
   }
   
   $_SESSION['isLogged'] = 'true';

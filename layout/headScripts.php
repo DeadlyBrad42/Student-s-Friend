@@ -1,10 +1,14 @@
 <?php
   // Put all pertinent head-level styles & javascript here, it will save space/sanity in the long run
   
+  include($_SERVER['DOCUMENT_ROOT']."sf/scripts/utility.php");
+  updateCourses($_SESSION['userID']);
+  
   // For now, we're keeping the jquery.custom and qtip as global <head> includes, but we may find that those
   // are only pertinent for the Calendar, in which case we'll move them into the Calendar
   // class
-  $crs = isset($_SESSION['courses']) ? $_SESSION['courses'] : "[{'name':'Add'}]"; 
+  $crs = isset($_SESSION['courses']) ? $_SESSION['courses'] : "[{'name':'Add'}]";
+  
   echo  
   "
   <meta http-equiv='cache-control' content='no-cache' />

@@ -1,6 +1,11 @@
 <?php
-session_start();
-require_once("../classes/UserStorage.php");
+
+$ses = session_id();
+if(empty($ses))
+{
+  session_start();
+}
+require_once($_SERVER['DOCUMENT_ROOT']."sf/classes/UserStorage.php");
 
 if ((isset($_POST['action']) && !empty($_POST['action'])) || (isset($_GET['action']) && !empty($_GET['action'])))
 {
@@ -41,6 +46,13 @@ if ((isset($_POST['action']) && !empty($_POST['action'])) || (isset($_GET['actio
 				approveStorageItem($sid);
 			}
 			break;
+    case "updateCrs" :
+      if (isset($_GET['uid']))
+      {
+        $uid = $_GET['uid'];
+        updateCourses($uid);
+      }
+      break;
     default :
     	break;
   }
@@ -88,6 +100,51 @@ function approveStorageItem($sid)
 {
 	global $db;
 	$rs = $db->query("UPDATE sfstorage SET approved = 1 WHERE storage_ID = {$sid}");
+}
+
+function updateCourses($uid)
+{
+  global $db;
+  $rs = $db->query("CALL getCoursesForUser('{$uid}')");
+  if ($rs->num_rows == 0)
+  {
+    // For now, javascript handles the case where there are no rows
+  }
+  else
+  {
+    $i = 0;
+    $courses = array();
+    while($row = $rs->fetch_array(MYSQLI_ASSOC))
+    {
+      // While there is still a row to fetch, add an array to $courses based on key/value pairs 
+      $id = $row['course_ID'];
+      $name = $row['course_name'];
+      $descrip = $row['course_description'];
+      $time = $row['course_time'];
+      $location = $row['course_location'];
+      $instructFN = $row['ins_fname'];
+      $instructLN = $row['ins_lname'];
+      
+      $c = array('id' => "{$id}", 
+                 'name' => "{$name}",
+                 'descrip' => "{$descrip}",
+                 'time' => "{$time}",
+                 'location' => "{$location}",
+                 'insFirst' => "{$instructFN}",
+                 'insLast' => "{$instructLN}"
+      );
+      
+      $courses[] = $c;
+    }
+    
+    // Finally, place the Add course link in the json obj
+    $c = array('name' => 'Add');
+    $courses[] = $c;
+    $_SESSION['courses'] = json_encode($courses);
+    
+    $db->next_result();
+    $rs->close();
+  }
 }
 
 ?>
