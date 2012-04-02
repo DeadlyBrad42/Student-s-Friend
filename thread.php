@@ -38,21 +38,7 @@
       $db->query("DELETE FROM post WHERE post_ID={$postID}");
 	  
     }
-    
-
-    // If this makes the thread empty, delete the thread from the database
-    if( $db->query("SELECT * FROM post WHERE thread_ID={$threadID}")->num_rows == 0 )
-    {
-		//News feed update.
-		$rs = $db->query("SELECT * FROM thread WHERE thread_ID={$threadID}");
-		$row = $rs->fetch_array(MYSQLI_ASSOC);
-		$news = "The ".$row['thread_title']." thread was deleted from the forum section.";
-		NewsFeed::postUpdate($row['course_ID'], $news);
-		
-		// delete
-		$db->query("DELETE FROM thread WHERE thread_ID={$threadID}");
-    }
-    
+        
     exit(0);
   }
   

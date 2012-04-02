@@ -15,6 +15,24 @@
     $courseID = $_GET['c'];
   }
   
+  //Deletes threads
+  if(isset($_GET['del']) && isset($_GET['threadID']) && isset($_SESSION['userID']))
+  {
+    // Sanitize here
+    $delete = $_GET['del'];
+    $threadID = $_GET['threadID'];
+	
+	//News feed update.
+	$rs = $db->query("SELECT * FROM thread WHERE thread_ID={$threadID}");
+	$row = $rs->fetch_array(MYSQLI_ASSOC);
+	$news = "The ".$row['thread_title']." thread was deleted from the forum section.";
+	NewsFeed::postUpdate($row['course_ID'], $news);
+	$db->next_result();
+	// delete
+	$db->query("DELETE FROM thread WHERE thread_ID={$threadID}");
+  }
+  
+  
   // If content & title were passed, then add the new thread to the DB and exit.
   if(isset($_GET['content']) && isset($_GET['title']) && isset($_SESSION['userID']))
   {
@@ -77,7 +95,7 @@
       
       echo "<div class='thread-postdate'>{$post['post_time']}</div>";
       
-      echo "</div><br />";
+      echo "</div><a onclick=\"deleteThread('{$post['thread_ID']}')\">Delete</a><br /><br />";
     }
   }
   
@@ -97,6 +115,10 @@
 <script>
 var cid = "<?php echo "{$courseID}"; ?>";
 
+$(document).ready(function() {
+  //forumTimer = setTimeout("reloadPage()", 10000);
+});
+
 function postThread()
 {
   $.ajax({
@@ -107,15 +129,35 @@ function postThread()
       $("textarea#content").val("");
       
       // Reload the page
-      var pageurl = "forum.php?c=" + cid + " div.forum-wrapper";
-      $('div.forum-wrapper').load(pageurl);
+		reloadPage();
     }
   });
 }
 
+function reloadPage()
+{
+  //forumTimer = setTimeout("reloadPage()", 10000);
+  var pageurl = "forum.php?c=" + cid + " div.forum-wrapper";
+  $('div.forum-wrapper').load(pageurl);
+}
+
 function viewThread(threadID)
 {
+  //clearTimeout(forumTimer);
   var pageurl = "thread.php?threadID=" + threadID + "&c=" + cid;
   $("div#crsContent").load(pageurl);
 }
+
+function deleteThread(threadID)
+{
+  $.ajax({
+    url: "thread.php?del=1&threadID=" + threadID,
+    success: function() {
+      // Reload the page
+      reloadPage();
+    }
+  });
+	
+}
+
 </script>
