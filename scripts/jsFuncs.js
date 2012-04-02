@@ -226,29 +226,6 @@ function addEvent(recurrence, course_id)
   });
 }
 
-/*function checkDateToAdd()
-{
-	$(document).delegate('.evtAMPM:eq(0)','change', function() {
-		if ($('.evtAMPM:eq(0) option:selected').val() == 'pm' && $('.evtAMPM:eq(1) option:selected').val() == 'am')
-		{
-			console.log('evtEndDt is: '+$('#evtEndDt').val());
-			var dd = new Date(date.getFullYear(),date.getMonth(),date.getDate()+1);
-			var newd = (date.getMonth()+1) + "-" + (date.getDate()+1) + "-" + date.getFullYear();
-			$('#evtEndDt').val('HI');
-		}
-	});
-	
-	$(document).delegate('.evtAMPM:eq(1)','change',function() {
-		if ($('.evtAMPM:eq(0) option:selected').val() == 'pm' && $('.evtAMPM:eq(1) option:selected').val() == 'am')
-		{
-			console.log('evtEndDt is: '+$('#evtEndDt').val());
-			var dd = new Date(date.getFullYear(),date.getMonth(),date.getDate()+1);
-			var newd = (date.getMonth()+1) + "-" + (date.getDate()+1) + "-" + date.getFullYear();
-			$(this).val('HI');
-		}
-	});
-
-}*/
 function viewEvent(s, e, d, t, l)
 {
   var tbl = $('<table />',{id: 'viewEvt'});
