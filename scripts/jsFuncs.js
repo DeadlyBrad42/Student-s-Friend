@@ -77,7 +77,7 @@ function eventDialogue(date, course_id)
   inp[2] = $('<input />', {id: 'evtEndDt', name: 'evtEndDt', type: 'text', val: clickedDate, disabled: 'disabled'});
   inp[3] = $('<select />', {id: 'evtStartTi', name: 'evtStartTi'});
   inp[4] = $('<select />', {id: 'evtEndTi', name: 'evtEndTi'});
-  inp[5] = $('<input />', {id: 'evtLocation', name: 'evtLocation', type: 'text', val: '' });
+  inp[5] = $('<input />', {id: 'evtLocation', name: 'evtLocation', type: 'text', val: '' })
   inp[6] = $('<input />', {id: 'evtDescrip', name: 'evtDescrip', type: 'text', val: '' });
   inp[7] = $('<input />', {id: 'evtRecur', name: 'evtRecur', type: 'checkbox', val: 'yes', click: function() {
       if ($(this).is(':checked'))
@@ -94,6 +94,22 @@ function eventDialogue(date, course_id)
     } 
   });
 
+	$(document).delegate($('#evtStartDt'),'change',function() {
+			if ($('.evtAMPM:eq(0) option:selected').text() == 'PM' && $('.evtAMPM:eq(1) option:selected').text() == 'AM')
+			{
+				var dd = new Date(date.getFullYear(),date.getMonth(),date.getDate()+1);
+				var newd = (date.getMonth()+1) + "-" + (date.getDate()+1) + "-" + date.getFullYear();
+				$('#evtEndDt').val(newd);
+			}
+		});
+	$(document).delegate($('#evtEndDt'),'change',function() {
+			if ($('.evtAMPM:eq(0) option:selected').text() == 'PM' && $('.evtAMPM:eq(1) option:selected').text() == 'AM')
+			{
+				var dd = new Date(date.getFullYear(),date.getMonth(),date.getDate()+1);
+				var newd = (date.getMonth()+1) + "-" + (date.getDate()+1) + "-" + date.getFullYear();
+				$('#evtEndDt').val(newd);
+			}
+		});
 	for (var i=1; i<13; i++)
 	{
 		inp[3].append('<option>'+(i < 10 ? "0" + i : i)+'</option>');
@@ -106,7 +122,6 @@ function eventDialogue(date, course_id)
 	minSelect1.append('<option>30<option');
 	minSelect2.append('<option>00<option');
 	minSelect2.append('<option>30<option');
-
   recurList = $('<ul />', {id: 'recurList'}),
   recurD = $('<input />', {id: 'recurDaily', type: 'radio', name: 'recur', val: 'Daily', checked: true}),
   recurW = $('<input />', {id: 'recurWeekly', type: 'radio', name: 'recur', val: 'Weekly'})
@@ -211,6 +226,29 @@ function addEvent(recurrence, course_id)
   });
 }
 
+/*function checkDateToAdd()
+{
+	$(document).delegate('.evtAMPM:eq(0)','change', function() {
+		if ($('.evtAMPM:eq(0) option:selected').val() == 'pm' && $('.evtAMPM:eq(1) option:selected').val() == 'am')
+		{
+			console.log('evtEndDt is: '+$('#evtEndDt').val());
+			var dd = new Date(date.getFullYear(),date.getMonth(),date.getDate()+1);
+			var newd = (date.getMonth()+1) + "-" + (date.getDate()+1) + "-" + date.getFullYear();
+			$('#evtEndDt').val('HI');
+		}
+	});
+	
+	$(document).delegate('.evtAMPM:eq(1)','change',function() {
+		if ($('.evtAMPM:eq(0) option:selected').val() == 'pm' && $('.evtAMPM:eq(1) option:selected').val() == 'am')
+		{
+			console.log('evtEndDt is: '+$('#evtEndDt').val());
+			var dd = new Date(date.getFullYear(),date.getMonth(),date.getDate()+1);
+			var newd = (date.getMonth()+1) + "-" + (date.getDate()+1) + "-" + date.getFullYear();
+			$(this).val('HI');
+		}
+	});
+
+}*/
 function viewEvent(s, e, d, t, l)
 {
   var tbl = $('<table />',{id: 'viewEvt'});
@@ -247,16 +285,22 @@ function uploadFile(isCrs, id)
 {
   var form = $(document.createElement('form'));
   var actionUrl = isCrs == 1 ? 'scripts/upload.php?cid='+id : 'scripts/upload.php'; 
+  var errLbl = $('<span />', {id: 'infoLbl'}); 
   form.attr({enctype: 'multipart/form-data', action: actionUrl, method: 'post', target: 'uploadFrame', onsubmit: 'toggleAjaxLoader(1);'});
 
   var input = $('<input />', {type: 'file', name: 'file', id: 'file'}),
       upload_btn = $('<input />', {val: 'Upload', name: 'Upload', type: 'Submit', click: function() {
+        if ($('input#file').val() == null || $('input#file').val() == undefined || $('input#file').val() == '')
+				{
+					$('span#infoLbl').css({display :'block', color: 'red'}).html('You must select a file!');
+					return false;
+				}
         $('#ui-tooltip-uploadModal').css('display', 'none');
         $('#qtip-overlay').css('display', 'none');
         }
       }),
       cncl_btn = $('<input />', {val: 'Cancel', type: 'button', click: function() { $('#ui-tooltip-uploadModal').qtip('hide'); } });
-  form.append(input).append(upload_btn).append(cncl_btn);
+  form.append(input).append(upload_btn).append(cncl_btn).append(errLbl);
   dialogue('uploadModal', form, 'Upload A New File', true);
 }
 

@@ -208,7 +208,7 @@ ul#recurList
   list-style-type: none;
 }
 
-tr#recRow, div#infoLbl
+tr#recRow, div#infoLbl, span#infoLbl
 {
   display: none;
 }
