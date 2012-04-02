@@ -32,13 +32,13 @@
 		$news = "The ".$title." thread was started in the forum section by ".$row['user_fname']." ".$row['user_lname'].".";
 		NewsFeed::postUpdate($courseID, $news);
 
-		$db->query("CALL insert_thread('{$title}', {$courseID})");
+		$db->query("INSERT INTO thread (thread_ID, thread_title, course_ID) VALUES (null, '{$title}', {$courseID})");
     
 		// Get the threadID from the last query
 		$threadID = $db->getLastInsertedID();
     
 		// Add a new post to the thread that was just created
-		$db->query("CALL insert_post('{$_SESSION['userID']}', '{$content}', now(), {$threadID})");
+		$db->query("INSERT INTO post (post_ID, user_ID, post_content, post_time, thread_ID) VALUES (null, '{$_SESSION['userID']}', '{$content}', now(), {$threadID})");
     }
     exit();
   }
