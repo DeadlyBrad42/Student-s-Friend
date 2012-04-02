@@ -119,3 +119,19 @@ function permitEnroll(studentID, courseID) {
 		}
 	});
 }
+
+function denyEnroll(studentID, courseID) {
+	var url = "coursebuilder.php";
+	$.ajax({url: url, dataType: 'html', 
+		data: {
+			courseID:courseID,
+			deniedStudent:studentID,
+		},
+		
+		type:'post',
+		
+		success: function(data) {
+			$('#enrollMenu').html(data);
+		}
+	});
+}

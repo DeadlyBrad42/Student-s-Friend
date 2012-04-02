@@ -145,7 +145,12 @@ class Course {
 		
 		$db->query("INSERT INTO enrollment (user_ID, course_ID) VALUES ({$userID}, {$courseID});");
 		$db->next_result();
-		$db->query("DELETE FROM enrollmentrequests WHERE user_ID = {$userID} AND course_ID = {$courseID});");
+		$db->query("DELETE FROM enrollmentrequests WHERE user_ID = {$userID} AND course_ID = {$courseID};");
+	}
+	
+	static function denyEnrollRequest($userID, $courseID) {
+		global $db;
+		$db->query("DELETE FROM enrollmentrequests WHERE user_ID = {$userID} AND course_ID = {$courseID};");
 	}
 	
 	static function echoEnrollRequestsMenu($courseID) {

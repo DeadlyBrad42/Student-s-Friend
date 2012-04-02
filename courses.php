@@ -32,9 +32,9 @@
 		FlashCardDisplay::flashCardSelectBody($cid);		
         break;
 	  case 4:
-	  echo "<div id='enrollMenu'>";
-		Course::echoEnrollRequestsMenu($cid);
-	  echo "</div>";
+		  echo "<div id='enrollMenu'>";
+			Course::echoEnrollRequestsMenu($cid);
+		  echo "</div>";
       default:
         break;
     }
