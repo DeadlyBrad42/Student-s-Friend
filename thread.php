@@ -105,7 +105,7 @@
     echo "<input type='hidden' name='threadID' id='threadID' value='{$currentThread}' />";
     echo "<br /><input type='button' value='Post' onclick='postPost()' />";
     echo "</form></div>";
-    
+
   }
   else
   {
@@ -116,9 +116,15 @@
 
 <script>
 var cid = "<?php echo "{$courseID}"; ?>";
+var threadTimer;
+
+$(document).ready(function() {
+  threadTimer = setTimeout("reloadPage()", 10000);
+});
 
 function reloadPage()
 {
+  threadTimer = setTimeout("reloadPage()", 10000);
   var pageurl = "thread.php?threadID=" + $("input#threadID").val() + " div.thread-wrapper";
   $('div.thread-wrapper').load(pageurl);
 }
@@ -138,6 +144,7 @@ function postPost()
 }
 
 function viewForum(){
+	clearTimeout(threadTimer);
 	var pageurl = 'forum.php?c='+cid;
 	$('div.all').load(pageurl);
 }
