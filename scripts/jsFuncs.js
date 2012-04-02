@@ -73,10 +73,10 @@ function eventDialogue(date, course_id)
 	clickedTime = (clickedTime == "00:00") ? "12:00" : clickedTime;  
   var inp = new Array(); 
   inp[0] = $('<input />', {id: 'evtTitle', name: 'evtTitle', type: 'text', val: ''});
-  inp[1] = $('<input />', {id: 'evtStartDt', name: 'evtStartDt', type: 'text', val: clickedDate});
-  inp[2] = $('<input />', {id: 'evtEndDt', name: 'evtEndDt', type: 'text', val: clickedDate});
-  inp[3] = $('<input />', {id: 'evtStartTi', name: 'evtStartTi', type: 'text', val: clickedTime});
-  inp[4] = $('<input />', {id: 'evtEndTi', name: 'evtEndTi', type: 'text', val: clickedTime});
+  inp[1] = $('<input />', {id: 'evtStartDt', name: 'evtStartDt', type: 'text', val: clickedDate, disabled: 'disabled'});
+  inp[2] = $('<input />', {id: 'evtEndDt', name: 'evtEndDt', type: 'text', val: clickedDate, disabled: 'disabled'});
+  inp[3] = $('<select />', {id: 'evtStartTi', name: 'evtStartTi'});
+  inp[4] = $('<select />', {id: 'evtEndTi', name: 'evtEndTi'});
   inp[5] = $('<input />', {id: 'evtLocation', name: 'evtLocation', type: 'text', val: '' });
   inp[6] = $('<input />', {id: 'evtDescrip', name: 'evtDescrip', type: 'text', val: '' });
   inp[7] = $('<input />', {id: 'evtRecur', name: 'evtRecur', type: 'checkbox', val: 'yes', click: function() {
@@ -93,6 +93,20 @@ function eventDialogue(date, course_id)
       
     } 
   });
+
+	for (var i=1; i<13; i++)
+	{
+		inp[3].append('<option>'+(i < 10 ? "0" + i : i)+'</option>');
+		inp[4].append('<option>'+(i < 10 ? "0" + i : i)+'</option>');
+	}
+
+	var minSelect1 = $('<select />',{id: 'minS1'});
+	var minSelect2 = $('<select />',{id: 'minS2'});
+	minSelect1.append('<option>00<option');
+	minSelect1.append('<option>30<option');
+	minSelect2.append('<option>00<option');
+	minSelect2.append('<option>30<option');
+
   recurList = $('<ul />', {id: 'recurList'}),
   recurD = $('<input />', {id: 'recurDaily', type: 'radio', name: 'recur', val: 'Daily', checked: true}),
   recurW = $('<input />', {id: 'recurWeekly', type: 'radio', name: 'recur', val: 'Weekly'})
@@ -121,12 +135,20 @@ function eventDialogue(date, course_id)
   
   for (var i=0; i < labels.length; i++)
   {
-    if (i == 3 || i == 4)
+    if (i == 3)
 		{
   		var amPmSelect = $('<select />',{class: 'evtAMPM', name: 'evtAMPM'});
   		amPmSelect.append($('<option />',{val: 'am', text: 'AM'})).append($('<option />',{val: 'pm', text: 'PM'}));
 			if (isPM) {amPmSelect.prop('selectedIndex', 1);}
-    	var row = $('<tr />').append(labels[i]).append($('<td />').append(inp[i])).append($('<td />').append(amPmSelect));
+    	var row = $('<tr />').append(labels[i]).append($('<td />').append(inp[i]).append(minSelect1).append(amPmSelect));
+		}
+		else if (i == 4)
+		{
+  		var amPmSelect = $('<select />',{class: 'evtAMPM', name: 'evtAMPM'});
+  		amPmSelect.append($('<option />',{val: 'am', text: 'AM'})).append($('<option />',{val: 'pm', text: 'PM'}));
+			if (isPM) {amPmSelect.prop('selectedIndex', 1);}
+    	var row = $('<tr />').append(labels[i]).append($('<td />').append(inp[i]).append(minSelect2).append(amPmSelect));
+			
 		}
 		else
     	var row = $('<tr />').append(labels[i]).append($('<td />').append(inp[i]));
@@ -160,8 +182,10 @@ function addEvent(recurrence, course_id)
 {
   // PHP's json_decode() is expecting a string of json, so we need to
   // do a join on the array and send it as a string.
-	var sTime = $('#evtStartTi').attr('value') +' '+$('.evtAMPM:eq(0) option:selected').text();
-	var eTime = $('#evtEndTi').attr('value') +' '+$('.evtAMPM:eq(1) option:selected').text()
+	var sTime = $('#evtStartTi option:selected').text()+':'+$('#minS1 option:selected').text()+' '
+							+$('.evtAMPM:eq(0) option:selected').text();
+	var eTime = $('#evtEndTi option:selected').text()+':'+$('#minS2 option:selected').text()+' '
+							+$('.evtAMPM:eq(1) option:selected').text();
   var event = [
     '"name":', '"'+$('#evtTitle').attr('value')+'",',
     '"sDate":', '"'+$('#evtStartDt').attr('value')+'",',

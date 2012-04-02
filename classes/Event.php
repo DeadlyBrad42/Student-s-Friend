@@ -11,22 +11,6 @@
 	private $endTime;
 	private $privacy;
     
-  function __construct($etID) {
-    $this->id = $etID;
-  }
-    
-  function getALL() {
-    global $db;
-    $rs = $db->query("CALL getEvent('{$this->id}')");
-    $row = $rs->fetch_array(MYSQLI_ASSOC);
-    $this->set_name($row['name']);
-    $this->set_description($row['description']);
-    $this->set_location($row['location']);
-    $this->set_startTime($row['start']);
-    $this->set_endTime($row['end']);
-    $this->set_privacy($row['privacy']);
-  }
-    
   // $obj here is a json object that's been decoded
   public static function createEvent($obj, $courseID) {
     global $db;
@@ -81,21 +65,17 @@
       	echo $db->error();
     }
   }
-
-	public function isRecurring(){
-	}
 	
   public static function getEvents($id, $isCrs=0) {
     global $db;
     
     if ($isCrs == 1)
     {
-      // Do crap here
-      $rs = $db->query("SELECT * FROM sfevent WHERE course_ID = '{$id}'");
+      $rs = $db->query("CALL events_by_course('{$id}')");
     }
     else
     {
-      $rs = $db->query("SELECT * FROM sfevent WHERE user_ID = '{$id}'");
+      $rs = $db->query("CALL events_by_user('{$id}')");
     }
 
     $evt = array();
@@ -183,64 +163,6 @@
     {
       echo "query did not work!";
     } 
-  }
-
-  /* GETTERS */
-  public function get_id() {
-    return $this->id;
-  }
-
-	public function get_name() {
-    return $this->name;
-  }
-	
-	public function get_description() {
-    return $this->description;
-  }
-	
-	public function get_location() {
-    return $this->location;
-  }
-	
-	public function get_startTime() {
-    return $this->startTime;
-  }
-	
-	public function get_endTime() {
-    return $this->endTime;
-  }
-	
-	public function get_privacy() {
-    return $this->privacy;
-  } 
-    /* SETTERS */
-    
-  private function set_id($x) {
-    $this->id = $x;
-  }
-	
-	private function set_name($x) {
-    $this->name = $x;
-  }
-	
-	function set_description($x) {
-    $this->description = $x;
-  }
-	
-	function set_location($x) {
-    $this->location = $x;
-  }
-	
-	function set_startTime($x) {
-    $this->startTime = $x;
-  }
-	
-	function set_endTime($x) {
-    $this->endTime = $x;
-  }
-	
-	function set_privacy($x) {
-    $this->privacy = $x;
   }
 }
 ?>
