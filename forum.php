@@ -140,7 +140,7 @@ function reloadPage()
   forumTimer = setTimeout("reloadPage()", 10000);
   var pageurl = "forum.php?c=" + cid + " div.forum-wrapper";
   $('div.forum-wrapper').load(pageurl);
-  setTimeout(document.getElementById('poster').disabled=false, 1000);
+  setTimeout("document.getElementById('poster').disabled=false, 1000");
 }
 
 function viewThread(threadID)

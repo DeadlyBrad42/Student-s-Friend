@@ -114,7 +114,7 @@ function reloadPage()
   threadTimer = setTimeout("reloadPage()", 10000);
   var pageurl = "thread.php?threadID=" + $("input#threadID").val() + " div.thread-wrapper";
   $('div.thread-wrapper').load(pageurl);
-  setTimeout(document.getElementById('poster').disabled=false, 1000);
+  setTimeout("document.getElementById('poster').disabled=false", 1000);
 }
 
 function postPost()
