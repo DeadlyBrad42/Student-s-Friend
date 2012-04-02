@@ -4,6 +4,7 @@
 	require_once("classes/UserStorage.php");
 	require_once("classes/FlashCardManager.php"); 
 	require_once("classes/FlashCardDisplay.php");
+	require_once("classes/Course.php");
   $userID = $_SESSION['userID'];
  	$makeCal = 0; 
   if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
@@ -30,6 +31,10 @@
       case 3:
 		FlashCardDisplay::flashCardSelectBody($cid);		
         break;
+	  case 4:
+	  echo "<div id='enrollMenu'>";
+		Course::echoEnrollRequestsMenu($cid);
+	  echo "</div>";
       default:
         break;
     }
@@ -50,6 +55,8 @@
 	<script type='text/javascript' src='scripts/flipFuncs.js'></script>
 	<link rel='stylesheet' type='text/css' href='styles/basic-quickflips.css' />
 	<link rel='stylesheet' type='text/css' href='styles/flashcard.css' />
+	<script src='scripts/courseBuilder.js' type='text/javascript'></script>
+	
 		<script type="text/javascript">
       populate_newsfeed(<?php echo $userID ?>, 10);
 		</script>

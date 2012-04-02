@@ -103,3 +103,19 @@ function okCancelEnroll(courseID) {
 		});
 	}
 }
+
+function permitEnroll(studentID, courseID) {
+	var url = "coursebuilder.php";
+	$.ajax({url: url, dataType: 'html', 
+		data: {
+			courseID:courseID,
+			permittedStudent:studentID,
+		},
+		
+		type:'post',
+		
+		success: function(data) {
+			$('#enrollMenu').html(data);
+		}
+	});
+}

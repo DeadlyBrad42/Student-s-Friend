@@ -20,6 +20,7 @@ function makeSpecificCourse($cid)
 						<li><a onclick='switchCrsView(1)'>Course Storage</a></li>
 						 <li><a onclick='switchCrsView(2)'>Forum</a></li>
 						<li><a onclick='switchCrsView(3)'>Flash Cards</a></li>
+						<li><a onclick='switchCrsView(4)'>Course Management</a></li>
 					</ul>
 				";
 }

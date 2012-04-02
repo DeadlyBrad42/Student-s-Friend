@@ -12,10 +12,16 @@
 		Course::echoInstructorCourseMenu($userID);
 		
 		exit(0);
-	} else if(isset($_POST['courseID'])) {
+	} else if(isset($_POST['courseID']) && !isset($_POST['permittedStudent'])) {
 		$returnValue = Course::deleteCourse($_POST['courseID']);
 		
 		Course::echoInstructorCourseMenu($userID);
+		
+		exit(0);
+	} else if(isset($_POST['permittedStudent']) && isset($_POST['courseID'])) {
+		Course::approveEnrollRequest($_POST['permittedStudent'], $_POST['courseID']);
+		
+		Course::echoEnrollRequestsMenu($_POST['courseID']);
 		
 		exit(0);
 	}
