@@ -31,6 +31,9 @@ class Course {
 		global $db;
 		$db->query("INSERT INTO enrollment (user_ID, course_ID) VALUES ({$userID}, {$CourseID});");
 		
+		$db->next_result();
+		$rs->close();
+		
 		return "Course has been created";
 	}
 	
@@ -40,6 +43,9 @@ class Course {
 		if($rs->num_rows == 0) {
 			self::enrollInCourse($userID, $CourseID);
 		}
+		
+		$db->next_result();
+		$rs->close();
 	}
 	
 	static function requestEnrollWithCheck($userID, $CourseID) {
@@ -54,6 +60,9 @@ class Course {
 		} else {
 			$returnValue = "Request for enrollment has already been sent. The instructor must ok your enrollment.";
 		}
+		
+		$db->next_result();
+		$rs->close();
 		
 		return $returnValue;
 	}
@@ -126,18 +135,25 @@ class Course {
 		}
 		
 		echo "</table>";
+		
+		$db->next_result();
+		$rs->close();
 	}
 	
 	static function disenrollStudent($userID, $courseID) {
 		global $db;
 		
 		$db->query("DELETE FROM enrollment WHERE user_ID = {$userID} AND course_ID = {$courseID}");
+		
+		$db->next_result();
 	}
 	
 	static function cancelEnroll($userID, $courseID) {
 		global $db;
 		
 		$db->query("DELETE FROM enrollmentrequests WHERE user_ID = {$userID} AND course_ID = {$courseID}");
+		
+		$db->next_result();
 	}
 	
 	static function approveEnrollRequest($userID, $courseID) {
@@ -146,11 +162,15 @@ class Course {
 		$db->query("INSERT INTO enrollment (user_ID, course_ID) VALUES ({$userID}, {$courseID});");
 		$db->next_result();
 		$db->query("DELETE FROM enrollmentrequests WHERE user_ID = {$userID} AND course_ID = {$courseID};");
+		
+		$db->next_result();
 	}
 	
 	static function denyEnrollRequest($userID, $courseID) {
 		global $db;
 		$db->query("DELETE FROM enrollmentrequests WHERE user_ID = {$userID} AND course_ID = {$courseID};");
+		
+		$db->next_result();
 	}
 	
 	static function echoEnrollRequestsMenu($courseID) {

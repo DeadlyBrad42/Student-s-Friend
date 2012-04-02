@@ -34,6 +34,8 @@
 	  $this->set_semester($row['user_semester']);
 	  $this->set_university($row['user_university']);
 	  $this->set_major($row['user_major']);
+	  $db->next_result();
+	  $rs->close();
     }
     
     /* GETTERS */

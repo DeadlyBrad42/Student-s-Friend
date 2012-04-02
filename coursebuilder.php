@@ -1,10 +1,14 @@
 <?php
 	require_once("classes/Facebook.php");
 	require_once("classes/Course.php");
+	require_once("classes/User.php");
 	session_start();
 	if (!isset($_SESSION['isLogged']) || $_SESSION['isLogged'] == 'false')
 		header("Location: index.php");
 	$userID = $_SESSION['userID'];
+	$user = new User($userID);
+	if ($user->get_userType() == 2)
+		header("Location: courseAdd.php");
 	
 	if (isset($_POST['courseName'])) {
 		$returnValue = Course::createCourse($userID, $_POST['courseName'], $_POST['courseDescription'], $_POST['courseLocation']);

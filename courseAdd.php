@@ -7,7 +7,6 @@
 	$userID = $_SESSION['userID'];
 	
 	if(isset($_POST['courseID'])) {
-		Course::loadCoursesIntoSession($userID);
 		
 		if (!isset($_POST['action']))
 		{

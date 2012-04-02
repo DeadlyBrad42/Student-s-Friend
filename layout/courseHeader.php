@@ -1,5 +1,7 @@
 <?php
 require_once("classes/Course.php");
+require_once("classes/User.php");
+
 if (isset($_GET['c']) && !empty($_GET['c']))
 {
 	makeSpecificCourse($_GET['c']);
@@ -11,18 +13,20 @@ else
 
 function makeSpecificCourse($cid)
 {
+	$user = new User($_SESSION['userID']);
 	$c = new Course($cid);
 	$title = "Specific Course";
-	echo"
-				 <h2 id='crsName'>".$c->get_name()."</h2>
+	$x = " <h2 id='crsName'>".$c->get_name()."</h2>
 					<ul id='crsNav'>
 						<li><a onclick='switchCrsView(0)'>Calendar</a></li>
 						<li><a onclick='switchCrsView(1)'>Course Storage</a></li>
 						 <li><a onclick='switchCrsView(2)'>Forum</a></li>
-						<li><a onclick='switchCrsView(3)'>Flash Cards</a></li>
-						<li><a onclick='switchCrsView(4)'>Course Management</a></li>
-					</ul>
-				";
+						<li><a onclick='switchCrsView(3)'>Flash Cards</a></li>";
+	if($user->get_userType() < 2) {
+		$x = $x."<li><a onclick='switchCrsView(4)'>Course Management</a></li>";
+	}
+					$x = $x."</ul>";
+	echo $x;
 }
 
 function makeCourseLanding()
