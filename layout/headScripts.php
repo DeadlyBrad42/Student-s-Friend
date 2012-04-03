@@ -19,6 +19,8 @@
 	<link rel='stylesheet' type='text/css' href='styles/qtip.css' />
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
   <script type='text/javascript' src='scripts/jquery-ui-1.8.17.custom.min.js'></script>
+  <script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>
+  <script type='text/javascript' src='scripts/flipFuncs.js'></script>
   <script type='text/javascript' src='scripts/jsFuncs.js'></script>
   <script type='text/javascript' src='scripts/qtip.min.js'></script>
   <script type='text/javascript'>

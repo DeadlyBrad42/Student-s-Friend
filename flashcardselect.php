@@ -73,10 +73,7 @@
 		require_once("layout/headScripts.php");	
 	?>
 	
-	<script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>
-	<script type='text/javascript' src='scripts/flipFuncs.js'></script>
 	<link rel='stylesheet' type='text/css' href='styles/basic-quickflips.css' />
-	<link rel='stylesheet' type='text/css' href='styles/flashcard.css' />
 	
 	<?php
 		require_once("layout/header.php"); 
