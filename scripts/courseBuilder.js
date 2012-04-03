@@ -135,3 +135,23 @@ function denyEnroll(studentID, courseID) {
 		}
 	});
 }
+
+function disenrollStudent(studentID, courseID) {
+	var confirmed = confirm("You are disenrolling from the course.");
+
+	if(confirmed) {
+		var url = "coursebuilder.php";
+		$.ajax({url: url, dataType: 'html', 
+			data: {
+				courseID:courseID,
+				disenrolledStudent:studentID
+			},
+			
+			type:'post',
+			
+			success: function(data) {
+				$('#enrollMenu').html(data);
+			}
+		});
+	}
+}
