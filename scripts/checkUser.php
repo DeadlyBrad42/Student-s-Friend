@@ -29,11 +29,6 @@
     // Debugging
     // echo "Inserted new user.";
   }
-  else
-  {
-    // Build a JSON object containing the user's courses
-    updateCourses($userID);
-  }
   
   $_SESSION['isLogged'] = 'true';
 ?>
