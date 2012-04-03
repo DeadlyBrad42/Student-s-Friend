@@ -20,12 +20,12 @@ function makeSpecificCourse($cid)
 					<ul id='crsNav'>
 						<li><a onclick='switchCrsView(0)'>Calendar</a></li>
 						<li><a onclick='switchCrsView(1)'>Course Storage</a></li>
-						 <li><a onclick='switchCrsView(2)'>Forum</a></li>
+						<li><a onclick='switchCrsView(2)'>Forum</a></li>
 						<li><a onclick='switchCrsView(3)'>Flash Cards</a></li>";
 	if($user->get_userType() < 2) {
 		$x = $x."<li><a onclick='switchCrsView(4)'>Course Management</a></li>";
 	}
-					$x = $x."</ul>";
+	$x = $x."</ul>";
 	echo $x;
 }
 

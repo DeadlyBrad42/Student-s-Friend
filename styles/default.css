@@ -285,9 +285,14 @@ button#loginBtn
   margin-top: 25px;
 }
 
-button#logoutBtn
+div#headerRight span, div#headerRight button
 {
   float: right;
+}
+
+div#headerRight button
+{
+	margin-left: 15px;
 }
 
 button#addFile

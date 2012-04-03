@@ -3,6 +3,7 @@
 	require_once($path);
 	
 	$user = new User($_SESSION['userID']);
+	$userLink = $_SESSION['userName'];
  
 	$x = "<div id='headerWrap'>
           <div id='header'>
@@ -17,11 +18,14 @@
 	$x = $x."<li><a href='courseAdd.php'>Enrollment Management</a></li>
 			<li class='last'><a href='storage.php'>User Storage</a></li>
             </ul>
-          <button id='logoutBtn' 
-            onclick='FB.logout(function(response){ 
-              if (response.authResponse) 
-                logout(response.authResponse.accessToken); 
-              });'>Log Out</button>
+           <div id='headerRight'>
+          	<button id='logoutBtn' 
+            	onclick='FB.logout(function(response){ 
+              	if (response.authResponse) 
+                	logout(response.authResponse.accessToken); 
+              	});'>Log Out</button>
+           <span><a class='cursorPter'>{$userLink}</a></span><br />
+          </div>
           </div>
         </div>";
 		

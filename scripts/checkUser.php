@@ -15,7 +15,7 @@
   Populate session with user's values
   */
   $_SESSION["userID"] = $userID;
-  $_SESSION["userName"] = $fname;
+  $_SESSION["userName"] = "{$fname} {$lname}";
   
   // Dubugging
   // echo "{$userID}, {$fname}, {$lname}";

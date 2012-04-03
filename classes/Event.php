@@ -10,6 +10,9 @@
 	private $startTime;
 	private $endTime;
 	private $privacy;
+	private static $normFormat = "n-j-Y h:i a";
+	private static $dbFormat = "Y-m-d H:i:s";
+	private static $prettyFormat = "n-j-Y";
     
   // $obj here is a json object that's been decoded
   public static function createEvent($obj, $courseID) {
@@ -21,8 +24,8 @@
     $isRecur = 0;
     $start = $obj->sDate . " " . $obj->sTime;
     $end = $obj->eDate . " " . $obj->eTime;
-    $sTime = DateTime::createFromFormat($orgFormat, $start);
-    $eTime = DateTime::createFromFormat($orgFormat, $end);
+    $sTime = DateTime::createFromFormat(self::$normFormat, $start);
+    $eTime = DateTime::createFromFormat(self::$normFormat, $end);
     switch ($obj->isRecur)
     {
       case "Daily":
@@ -52,16 +55,18 @@
 	//	If courseID is anything other than user we are adding event under course, otherwise we are adding it under user.
     if ($courseID != 0)
     {
-      if(!$db->query("CALL createEvent('{$obj->name}', '{$obj->descrip}', '{$obj->loc}', '".$sTime->format($dbFormat)."','".$eTime->format($dbFormat)."', 0, '0', '{$courseID}', {$isRecur}, {$daysUntilRecur}, {$event_recurs})"));
+      if(!$db->query("CALL createEvent('{$obj->name}', '{$obj->descrip}', '{$obj->loc}', '".$sTime->format(self::$dbFormat)."',
+      	'".$eTime->format(self::$dbFormat)."', 0, '0', '{$courseID}', {$isRecur}, {$daysUntilRecur}, {$event_recurs})"));
       	echo $db->error();
 	  
-	  NewsFeed::postUpdate($courseID, "New event {$obj->name} added on ".$sTime->format('n-j-Y'));
+	  NewsFeed::postUpdate($courseID, "New event {$obj->name} added on ".$sTime->format(self::$prettyFormat));
     }
     else
     {
       $id = $_SESSION['userID'];
 				
-      if(!$db->query("CALL createEvent('{$obj->name}', '{$obj->descrip}', '{$obj->loc}', '".$sTime->format($dbFormat)."','".$eTime->format($dbFormat)."', 0, '{$id}', '0', {$isRecur}, {$daysUntilRecur}, {$event_recurs})"));
+      if(!$db->query("CALL createEvent('{$obj->name}', '{$obj->descrip}', '{$obj->loc}', '".$sTime->format(self::$dbFormat)."',
+      	'".$eTime->format(self::$dbFormat)."', 0, '{$id}', '0', {$isRecur}, {$daysUntilRecur}, {$event_recurs})"));
       	echo $db->error();
     }
   }
@@ -100,11 +105,11 @@
 		      $daysToAdd = $row['event_daysUntilRecur'];
 		      $start = new DateTime($e['start']);
 		      $start->add(new DateInterval("P{$daysToAdd}D"));
-		      $e['start'] = $start->format('Y-m-d H:i:s');
+		      $e['start'] = $start->format(self::$dbFormat);
 		  
 		      $end = new DateTime($e['end']);
 		      $end->add(new DateInterval("P{$daysToAdd}D"));
-		      $e['end'] = $end->format('Y-m-d H:i:s');
+		      $e['end'] = $end->format(self::$dbFormat);
 		  
 		      $evt[] = $e;
 	      }
@@ -144,7 +149,8 @@
 	$rs = $db->query("SELECT course_ID, event_name, event_startTime FROM sfevent WHERE event_ID = {$id}");
 	$row = $rs->fetch_array(MYSQLI_ASSOC);
 	
-	NewsFeed::postUpdate($row['course_ID'], "Event {$row['event_name']} rescheduled to {$row['event_startTime']}.");
+	$date = new DateTime($row['event_startTime']);
+	NewsFeed::postUpdate($row['course_ID'], "Event {$row['event_name']} rescheduled to ".$date->format(self::$prettyFormat));
   }
 
   public static function deleteEvent($id) {
