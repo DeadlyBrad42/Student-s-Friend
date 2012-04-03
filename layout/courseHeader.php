@@ -13,7 +13,7 @@ else
 
 function makeSpecificCourse($cid)
 {
-	$user = new User($_SESSION['userID']);
+	$course = new Course($_SESSION['userID']);
 	$c = new Course($cid);
 	$title = "Specific Course";
 	$x = " <h2 id='crsName'>".$c->get_name()."</h2>
@@ -22,7 +22,7 @@ function makeSpecificCourse($cid)
 						<li><a onclick='switchCrsView(1)'>Course Storage</a></li>
 						<li><a onclick='switchCrsView(2)'>Forum</a></li>
 						<li><a onclick='switchCrsView(3)'>Flash Cards</a></li>";
-	if($user->get_userType() < 2) {
+	if($course->get_instructorID() == $_SESSION['userID']) {
 		$x = $x."<li><a onclick='switchCrsView(4)'>Course Management</a></li>";
 	}
 	$x = $x."</ul>";
