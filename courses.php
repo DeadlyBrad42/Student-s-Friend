@@ -57,7 +57,6 @@
 	<script src='scripts/jquery.quickflip.source.js' type='text/javascript'></script>
 	<script type='text/javascript' src='scripts/flipFuncs.js'></script>
 	<link rel='stylesheet' type='text/css' href='styles/basic-quickflips.css' />
-	<link rel='stylesheet' type='text/css' href='styles/flashcard.css' />
 	<script src='scripts/courseBuilder.js' type='text/javascript'></script>
 	
 		<script type="text/javascript">
