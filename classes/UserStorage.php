@@ -91,7 +91,7 @@ class UserStorage {
 				{
 					$crs = new Course($id);	
       		if ($crs->get_instructorID() == $_SESSION['userID'])
-      			echo self::getItemsNeedingApproval($id);
+      			self::getItemsNeedingApproval($id);
 				}
         echo "<iframe id='uploadFrame' src='#' name='uploadFrame'></iframe>"; // We want the iframe on the page in either case
     }
@@ -111,7 +111,7 @@ class UserStorage {
 
 		public static function getItemsNeedingApproval($id) {
 			global $db;
-			$rs = $db->query("CALL getStorageItems('$id', 0)");
+			$rs = $db->query("CALL getStorageItems('{$id}', 0)");
 			$count = $rs->num_rows;
 			if ($count > 0)
 			{
