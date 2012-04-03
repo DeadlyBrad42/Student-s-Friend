@@ -13,7 +13,7 @@ else
 
 function makeSpecificCourse($cid)
 {
-	$course = new Course($_SESSION['userID']);
+	$course = new Course($cid);
 	$c = new Course($cid);
 	$title = "Specific Course";
 	$x = " <h2 id='crsName'>".$c->get_name()."</h2>
