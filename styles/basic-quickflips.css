@@ -1,5 +1,19 @@
 /* it's a good idea to define a height and width for quickFlip */
 
+div.pos_set
+{
+	position:absolute;
+	bottom:10px;
+	left:121px;
+}
+
+div.under
+{
+	position:relative;
+	top:30px;
+	left:188px;
+}
+
 body {
     min-width: 600px;
 }
