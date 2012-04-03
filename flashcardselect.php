@@ -14,13 +14,13 @@
 		$cID = $_GET['c'];
 	}
 	if(isset($_GET['Result'])){
-		$titles= explode("<>",$_GET['Result']);
+		$titles= explode("<ii>",$_GET['Result']);
 		FlashCardDisplay::makeFlashCardScript($titles);
 		exit(0);
 	}
 	elseif(isset($_GET['Change'])){		
 		$h=$_GET['Change'];
-		$titles= explode("<>",$h);
+		$titles= explode("<ii>",$h);
 		FlashCardDisplay::makeFlashCardEditBody($titles, $_SESSION['userID'], $cID);
 		exit(0);
 	}
@@ -34,7 +34,7 @@
 			$tHolder = "";
 			$news= "The ";
 			$t;
-			$edits = explode("<>",$_GET['edit']);
+			$edits = explode("<ii>",$_GET['edit']);
 			for( $i=0; $i<count($edits)-4; $i+=4){
 				if($tHolder != $edits[$i+1]){
 					$tHolder = $edits[$i+1];
@@ -55,7 +55,7 @@
 			NewsFeed::postUpdate($cID, $news);
 		}
 		elseif(isset($_GET['inst'])){
-			$in = explode("<>",$_GET['inst']);
+			$in = explode("<ii>",$_GET['inst']);
 			NewsFeed::postUpdate($cID, "{$in[0]} card group was added to flashcards.");
 			for( $i=0; $i<count($in)-3; $i+=3)
 				FlashCardManager::insertFlashCards($cID, $_SESSION['userID'], $in[$i], $in[$i+1], $in[$i+2]);
