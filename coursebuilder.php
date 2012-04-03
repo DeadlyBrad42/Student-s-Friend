@@ -22,7 +22,7 @@
 	else if(isset($_POST['courseID'])) {
 		Course::loadCoursesIntoSession($userID);
 	
-		if(!isset($_POST['permittedStudent']) && !isset($_POST['deniedStudent'])) {
+		if(!isset($_POST['permittedStudent']) && !isset($_POST['deniedStudent']) && !isset($_POST['disenrolledStudent'])) {
 			$returnValue = Course::deleteCourse($_POST['courseID']);
 			
 			Course::echoInstructorCourseMenu($userID);
@@ -31,12 +31,27 @@
 		} else if(isset($_POST['permittedStudent'])) {
 			Course::approveEnrollRequest($_POST['permittedStudent'], $_POST['courseID']);
 			
+			echo "<h2>Enrolled Students</h2>";
+			Course::echoCourseEnrollMenu($_POST['courseID']);
+			echo "<h2>Enrollment Requests</h2>";
 			Course::echoEnrollRequestsMenu($_POST['courseID']);
 			
 			exit(0);
 		} else if(isset($_POST['deniedStudent'])) {
 			Course::denyEnrollRequest($_POST['deniedStudent'], $_POST['courseID']);
 			
+			echo "<h2>Enrolled Students</h2>";
+			Course::echoCourseEnrollMenu($_POST['courseID']);
+			echo "<h2>Enrollment Requests</h2>";
+			Course::echoEnrollRequestsMenu($_POST['courseID']);
+			
+			exit(0);
+		} else if(isset($_POST['disenrolledStudent'])) {
+			Course::disenrollStudent($_POST['disenrolledStudent'], $_POST['courseID']);
+			
+			echo "<h2>Enrolled Students</h2>";
+			Course::echoCourseEnrollMenu($_POST['courseID']);
+			echo "<h2>Enrollment Requests</h2>";
 			Course::echoEnrollRequestsMenu($_POST['courseID']);
 			
 			exit(0);

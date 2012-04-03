@@ -32,7 +32,6 @@ class Course {
 		$db->query("INSERT INTO enrollment (user_ID, course_ID) VALUES ({$userID}, {$CourseID});");
 		
 		$db->next_result();
-		$rs->close();
 		
 		return "Course has been created";
 	}
@@ -183,11 +182,10 @@ class Course {
 		echo "<table>";
 		while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
 			echo "<tr><td>{$row['user_fname']} {$row['user_lname']}<br/>
-				<button type = 'button' onclick = 'permitEnroll({$row['user_ID']}, {$courseID})'>Permit Enrollment</button>
-				<button type = 'button' onclick = 'denyEnroll({$row['user_ID']}, {$courseID})'>Deny Enrollment</button>
+				<button type = 'button' onclick = 'disenrollStudent({$row['user_ID']}, {$courseID})'>Disenroll Student</button>
 				</td></tr>";
-		echo "</table>";
 		}
+		echo "</table>";
 	}
 	
 	static function echoEnrollRequestsMenu($courseID) {
@@ -204,8 +202,8 @@ class Course {
 				<button type = 'button' onclick = 'permitEnroll({$row['user_ID']}, {$courseID})'>Permit Enrollment</button>
 				<button type = 'button' onclick = 'denyEnroll({$row['user_ID']}, {$courseID})'>Deny Enrollment</button>
 				</td></tr>";
-		echo "</table>";
 		}
+		echo "</table>";
 	}
 	
 	static function loadCoursesIntoSession($userID) {

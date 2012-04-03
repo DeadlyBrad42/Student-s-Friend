@@ -33,7 +33,9 @@
         break;
 	  case 4:
 		  echo "<div id='enrollMenu'>";
-		  Course::echoCourseEnrollMenu($cid);
+		  echo "<h2>Enrolled Students</h2>";
+			Course::echoCourseEnrollMenu($cid);
+		  echo "<h2>Enrollment Requests</h2>";
 			Course::echoEnrollRequestsMenu($cid);
 		  echo "</div>";
       default:
