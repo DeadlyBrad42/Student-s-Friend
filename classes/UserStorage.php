@@ -34,7 +34,7 @@ class UserStorage {
               });
         });
         </script>";
-    }
+	}
 
     public static function makePage($id) {
       global $db;
@@ -82,8 +82,8 @@ class UserStorage {
 
           echo "</ul>";
         }
-        echo "</div>";
-
+        	echo "</div>";
+			}
        	$rs->close(); // Close the current result set 
        	$db->next_result(); // Make way for the next stored procedure
 
@@ -93,7 +93,6 @@ class UserStorage {
       		if ($crs->get_instructorID() == $_SESSION['userID'])
       			echo self::getItemsNeedingApproval($id);
 				}
-      }
         echo "<iframe id='uploadFrame' src='#' name='uploadFrame'></iframe>"; // We want the iframe on the page in either case
     }
 
