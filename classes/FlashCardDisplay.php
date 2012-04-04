@@ -15,7 +15,7 @@ class FlashCardDisplay{
 			$x = $x."<p>Select the titles you would like to study:</p> <form>";
 			for($i = 0; $i < $counter; $i++)
 				$x = $x."<input type='checkbox' id='{$i}' value='{$titles[$i]->title}' /> {$titles[$i]->title}<br />";
-			$x = $x."<br /><input type='button' onclick='validateMyForm({$counter}, true);' value='Submit' />
+			$x = $x."<br /><input type='button' onclick='validateMyForm({$counter}, true);' value='View' />
 						   <input type='button' onclick='validateMyForm({$counter}, false);' value='Edit' />";
 		}
 		$x = $x."<input type='button' onclick='addCards({$counter});' value='Add Cards' />";
