@@ -3,7 +3,7 @@
   require_once("classes/NewsFeed.php");
   require_once("classes/FlashCardManager.php");
   session_start();
-  
+    
   // Get the specified course by ID
   $courseID = null;
   if(isset($_GET['c']))
@@ -68,7 +68,7 @@
     while($post = $result->fetch_array(MYSQLI_ASSOC))
     {
       echo "<div class='post-wrapper'>";
-      
+      echo "<div class='post-picture'><img src=http://graph.facebook.com/".$post['user_ID']."/picture/></div>";
       echo "<div class='post-author'>".($post['user_ID'] != null ? "{$post['user_fname']} {$post['user_lname']}" : "Anonymous")."</div>";
       
       echo "<div class='post-time'>{$post['post_time']}</div>";
@@ -105,6 +105,7 @@ var cid = "<?php echo "{$courseID}"; ?>";
 var threadTimer;
 
 $(document).ready(function() {
+  toggleAjaxLoader(0);
   threadTimer = setTimeout("reloadPage()", 10000);
 });
 
@@ -119,6 +120,7 @@ function reloadPage()
 
 function postPost()
 {
+  toggleAjaxLoader(1);
   document.getElementById('poster').disabled=true;
   $.ajax({
     url: "thread.php?content=" + processString($("textarea#content").val()) + "&threadID=" + $("input#threadID").val(),
@@ -128,11 +130,13 @@ function postPost()
       
       // Reload the page
       reloadPage();
+	  toggleAjaxLoader(0);
     }
   });
 }
 
 function viewForum(){
+    toggleAjaxLoader(1);
 	clearTimeout(threadTimer);
 	var pageurl = 'forum.php?c='+cid;
 	$('div.all').load(pageurl);
@@ -140,11 +144,13 @@ function viewForum(){
 
 function deletePost(postID)
 {
+  toggleAjaxLoader(1);
   $.ajax({
     url: "thread.php?del=1&postID=" + postID + "&threadID=" + $("input#threadID").val(),
     success: function() {
       // Reload the page
       reloadPage();
+	  toggleAjaxLoader(0);
     }
   });
 }
