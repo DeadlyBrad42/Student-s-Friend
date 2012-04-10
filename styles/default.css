@@ -373,4 +373,15 @@ div#imgBox img
 {
   display: block;
 }
+
+div#post-picture
+{
+  float:left;
+  padding-right:5px;
+}
+
+span#post-name
+{
+  padding-right:10px;
+}
 /* ~~~ End Specific Styles ~~~ */

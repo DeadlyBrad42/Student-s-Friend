@@ -42,9 +42,6 @@
     exit(0);
   }
   
-
-  
-  
   // Page generation
   
   if(isset($_GET["threadID"]))
@@ -61,27 +58,27 @@
     echo "<h1 class='thread-title'>".urldecode($result['thread_title'])."</h1>";
     
     echo "<div class='thread-wrapper'>";
-    echo "<a onclick='viewForum()'>Back to forum</a>";
+    echo "<a onclick='viewForum()'>Back to forum</a><br />";
     
     // Print each post in the specified thread
     $result = $db->query("SELECT * FROM post LEFT JOIN sfuser ON post.user_ID=sfuser.user_ID WHERE thread_ID={$currentThread} ORDER BY post_time ASC");
     while($post = $result->fetch_array(MYSQLI_ASSOC))
     {
       echo "<div class='post-wrapper'>";
-      echo "<div class='post-picture'><img src=http://graph.facebook.com/".$post['user_ID']."/picture/></div>";
-      echo "<div class='post-author'>".($post['user_ID'] != null ? "{$post['user_fname']} {$post['user_lname']}" : "Anonymous")."</div>";
+	  echo "<div id='post-picture' class='post-picture'><img src=http://graph.facebook.com/".$post['user_ID']."/picture/ width='45' height='45'></div>";
+      echo "<span id='post-name'>".($post['user_ID'] != null ? "{$post['user_fname']} {$post['user_lname']}" : "Anonymous")."</span>";
       
-      echo "<div class='post-time'>{$post['post_time']}</div>";
+      echo "<span>{$post['post_time']}</span><br />";
       
-      echo "<div class='post-content'>".urldecode($post['post_content'])."</div>";
+      echo "<span>".urldecode($post['post_content'])."</span><br />";
       
 
       if($post['user_ID'] == $_SESSION['userID'] || $_SESSION['userID'] == $isID)
       {
-        echo "<div id='post-delete'><a onclick='deletePost({$post['post_ID']})'>Delete</a></div>";
+        echo "<span><a onclick='deletePost({$post['post_ID']})'>Delete</a></span>";
       }
       
-      echo "</div><br />";
+      echo "</div><br /><br />";
     }
     
     echo "</div>";
