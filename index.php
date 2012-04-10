@@ -3,7 +3,7 @@
   if ($logout == 'true')
     $_SESSION['isLogged'] = 'false';
   if (isset($_SESSION['isLogged']) && $_SESSION['isLogged'] == 'true')
-    header("Location: main.php");
+    header("Location: calendar.php");
 ?>
 <!DOCTYPE html>
 <html>

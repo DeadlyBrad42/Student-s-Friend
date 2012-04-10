@@ -72,6 +72,7 @@
 		</script>
 	</head>
 	<body>
+		<div id="ajaxLoader"></div>
 		<div id="fb-root">
 			<?php Facebook::makeBodyScript(); ?>
 		</div>
