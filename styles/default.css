@@ -319,6 +319,30 @@ table#coursesDisplay td{
 }
 /**** end add course page styles ****/
 
+/**** enrollment management page styles ****/
+table#enrolledcourses th{
+  text-align: left;
+  vertical-align: middle;
+  padding: 10px;
+}
+
+table#enrolledcourses td{
+  width: 100px;
+  padding: 10px;
+}
+
+table#pendingenrollments th{
+  text-align: left;
+  vertical-align: middle;
+  padding: 10px;
+}
+
+table#pendingenrollments td{
+  width: 100px;
+  padding: 10px;
+}
+/**** end enrollment management page styles ****/
+
 button#loginBtn
 {
   height: 50px;

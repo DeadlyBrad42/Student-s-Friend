@@ -55,6 +55,7 @@
 		
 			<div id = "newsfeed">
 			</div>
+			<div id="crsWrap">
 			<h1>Add Course</h1>
 			<form id = "courseInputForm">
 				Course ID: <input type="text" id = "courseID" /><br />
@@ -66,6 +67,7 @@
 				?>
 			</div>
 			
+			</div>
 		</div>
 		<?php require_once("layout/footer.php"); ?>
 	</body>

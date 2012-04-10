@@ -108,9 +108,9 @@ class Course {
 				FROM course RIGHT JOIN enrollment ON course.course_ID = enrollment.course_ID
 				WHERE enrollment.user_ID = {$userID} AND course.instructor_ID != {$userID};");
 		echo "<h2>Enrolled Courses</h2>
-			<table>";
+			<table id='enrolledcourses'>";
 		while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
-			echo "<tr><td>{$row['course_name']}<br/>
+			echo "<tr><th>{$row['course_name']}</th><td>
 				<button type = 'button' onclick = 'okDisenroll({$row['course_ID']})'>Disenroll</button>
 				</td></tr>";
 		}
@@ -121,14 +121,14 @@ class Course {
 		echo "</table>";
 		
 		echo "<h2>Pending Enrollments</h2>
-			<table>";
+			<table id='pendingenrollments'>";
 			
 		$rs = $db->query("SELECT course.course_name AS course_name, course.course_ID AS course_ID
 				FROM course RIGHT JOIN enrollmentrequests ON course.course_ID = enrollmentrequests.course_ID
 				WHERE enrollmentrequests.user_ID = {$userID};");
 				
 		while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
-			echo "<tr><td>{$row['course_name']}<br/>
+			echo "<tr><th>{$row['course_name']}</th><td>
 				<button type = 'button' onclick = 'okCancelEnroll({$row['course_ID']})'>Cancel Request</button>
 				</td></tr>";
 		}
