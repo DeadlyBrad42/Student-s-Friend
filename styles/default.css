@@ -279,6 +279,46 @@ div#unApprUploads
 }
 /**** end course page styles ****/
 
+/**** add course page styles ****/
+#courseInputForm table{
+  width: 500px;
+}
+
+#courseInputForm table td input[type=text]{
+  width: 100%;
+}
+
+#courseInputForm table td textarea{
+  /*width: 400px;*/
+  width: 100%;
+}
+
+#courseInputForm table th{
+  text-align: left;
+  vertical-align: top;
+  padding: 10px;
+}
+
+#courseInputForm button{
+  margin-bottom: 10px;
+}
+
+table#coursesDisplay{
+  width: 500px;
+}
+
+table#coursesDisplay th{
+  text-align: left;
+  vertical-align: middle;
+  padding: 10px;
+}
+
+table#coursesDisplay td{
+  width: 100px;
+  padding: 10px;
+}
+/**** end add course page styles ****/
+
 button#loginBtn
 {
   height: 50px;

@@ -82,11 +82,22 @@
 			<div id = "helpBox"></div>
 			
 			<h1>Create Course</h1>
-			<form id = "courseInputForm">
-				Course Name: <input type="text" id = "courseName" /><br />
-				Course Location: <input type="text" id = "courseLocation" /><br />
-				Course Description: <textarea id = "courseDescription" rows = "5" col = "60"></textarea><br/>
-				<button type = "button" onclick = "validateCourse()">Submit Course</button>
+			<form id="courseInputForm">
+				<table>
+					<tr>
+						<th>Course Name:</th>
+						<td><input type="text" id="courseName"/></td>
+					</tr>
+					<tr>
+						<th>Course Location:</th>
+						<td><input type="text" id="courseLocation"/></td>
+					</tr>
+					<tr>
+						<th>Course Description:</th>
+						<td><textarea id="courseDescription" rows="5" cols="40"></textarea></td>
+					</tr>
+				</table>
+				<button type="button" onclick="validateCourse()">Submit Course</button>
 			</form>
 			
 			<h1>Manage Courses</h1>

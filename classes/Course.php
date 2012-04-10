@@ -96,8 +96,8 @@ class Course {
 	static function echoInstructorCourseMenu($userID) {
 		$rs = Course::getInstructorCoursesResultset($userID);
 		while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
-			echo "<tr><td>Course Name: {$row['course_name']} <br /> ID:{$row['course_ID']}<br/>
-				<button type = 'button' onclick = 'okDelete({$row['course_ID']})'>Delete Course</button>
+			echo "<tr><th>Course Name: {$row['course_name']} <br /> ID:{$row['course_ID']}<br/></th>
+				<td><button type = 'button' onclick = 'okDelete({$row['course_ID']})'>Delete Course</button>
 				</td></tr>";
 		}
 	}
