@@ -1,3 +1,6 @@
 #### Files to be ignored from commits ####
 *.swp
 *.swn
+
+# Ignore files added to the uploads directory
+/uploads/*
