@@ -61,7 +61,7 @@ function validateMyForm(con, flag){
 	//alert(titles.toString());	//debug
 	if( f == true ){
 		if(flag){
-		
+			toggleAjaxLoader(1);
 		    $.ajax({
 			url: 'flashcardselect.php?Result=' + processString(titles)+'&c='+document.getElementById('cID').value, 
 			dataType: 'html', 
@@ -73,16 +73,18 @@ function validateMyForm(con, flag){
 					//	Set quickflip function and get new card.
 					$('.quickFlip3').quickFlip();
 					getNew();
+					toggleAjaxLoader(0);
 				}, 
 			asyc: false});
 		}
 		
 		else{
-			
+			toggleAjaxLoader(1);
 			$.ajax({url: 'flashcardselect.php?Change=' + processString(titles)+'&c='+document.getElementById('cID').value, dataType: 'html', 
 			
 			success: function(object) {
 				deck = loadDeckAndPostOutput(object);
+				toggleAjaxLoader(0);
 			},
 			
 			asyc: true});	
@@ -104,8 +106,10 @@ function reSubmitCards(c){
 		results = results+toEdits[i].id+'<ii>'+currentTitle+'<ii>'+document.getElementById(qID.concat(i)).value+'<ii>'+document.getElementById(aID.concat(i)).value+'<ii>';
 		
 	}
+	toggleAjaxLoader(1);
 	$.ajax({url: 'flashcardselect.php?edit=' + processString(results)+'&c='+document.getElementById('cID').value, dataType: 'html', success: function(object) {
 		$('#f').html(object);
+		toggleAjaxLoader(0);
 		}, asyc: true
 	 });
 }
@@ -130,11 +134,12 @@ function addCards(cont){
 		t[i] = document.getElementById(i).value;                                                                                                                               
 	}
 	}
-	
+	toggleAjaxLoader(1);
 	$.ajax({url: 'flashcardselect.php?add='+processString(t.toString())+'&c='+document.getElementById('cID').value, dataType: 'html', 
 		success: function(object) {
-				$('#f').html(object);}, 
-				
+				$('#f').html(object);
+				toggleAjaxLoader(0);
+				}, 
 				asyc: false});
 }
 								
@@ -166,8 +171,10 @@ function getNew() {
 }
 
 function returnToSelect(){
+	toggleAjaxLoader(1);
 	$.ajax({url: 'flashcardselect.php?return=1'+'&c='+document.getElementById('cID').value, dataType: 'html', success: function(object) {
 		$('#f').html(object);
+		toggleAjaxLoader(0);
 		}, asyc: false
 	  });
 }
@@ -210,8 +217,11 @@ function checkTitle(){
 
 function sumitNewCards(){
 	makeNewCardsArray();
+	toggleAjaxLoader(1);
 	$.ajax({url: 'flashcardselect.php?inst='+processString(cards)+'&c='+document.getElementById('cID').value, dataType: 'html', success: function(object) {
-				$('#f').html(object);}, asyc: false});					
+				$('#f').html(object);
+				toggleAjaxLoader(0);
+			}, asyc: false});					
 }
 
 function clearFeild(i){

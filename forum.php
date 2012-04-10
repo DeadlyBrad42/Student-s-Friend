@@ -122,11 +122,13 @@
 var cid = "<?php echo "{$courseID}"; ?>";
 
 $(document).ready(function() {
+  toggleAjaxLoader(0);
   forumTimer = setTimeout("reloadPage()", 10000);
 });
 
 function postThread()
 {
+  toggleAjaxLoader(1);
   document.getElementById('poster').disabled=true;
   $.ajax({
     url: "forum.php?title=" + processString($("input#title").val()) + "&content=" + processString($("textarea#content").val()) + "&c=" + cid,
@@ -136,6 +138,7 @@ function postThread()
       $("textarea#content").val("");
       // Reload the page
 		reloadPage();
+		toggleAjaxLoader(0);
     }
   });
 }
@@ -151,6 +154,7 @@ function reloadPage()
 
 function viewThread(threadID)
 {
+  toggleAjaxLoader(1);
   clearTimeout(forumTimer);
   var pageurl = "thread.php?threadID=" + threadID + "&c=" + cid;
   $("div#crsContent").load(pageurl);
@@ -158,11 +162,13 @@ function viewThread(threadID)
 
 function deleteThread(threadID)
 {
+  toggleAjaxLoader(1);
   $.ajax({
     url: "forum.php?del=1&threadID=" + threadID,
     success: function() {
       // Reload the page
       reloadPage();
+	  toggleAjaxLoader(0);
     }
   });
 	

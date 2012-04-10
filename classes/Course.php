@@ -106,7 +106,7 @@ class Course {
 		global $db;
 		$rs = $db->query("SELECT course.course_name AS course_name, course.course_ID AS course_ID
 				FROM course RIGHT JOIN enrollment ON course.course_ID = enrollment.course_ID
-				WHERE enrollment.user_ID = {$userID};");
+				WHERE enrollment.user_ID = {$userID} AND course.instructor_ID != {$userID};");
 		echo "<h2>Enrolled Courses</h2>
 			<table>";
 		while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
@@ -176,7 +176,8 @@ class Course {
 		global $db;
 		$rs = $db->query("SELECT sfuser.user_ID, sfuser.user_fname, sfuser.user_lname 
 				FROM enrollment LEFT JOIN sfuser ON enrollment.user_ID = sfuser.user_ID
-				WHERE course_ID = {$courseID};");
+				WHERE course_ID = {$courseID} AND sfuser.user_ID NOT IN 
+				(SELECT instructor_ID FROM course WHERE course_ID = {$courseID});");
 		if (!$rs) echo $db->error();
 
 		echo "<table>";
