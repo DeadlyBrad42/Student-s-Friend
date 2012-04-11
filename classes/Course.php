@@ -16,15 +16,18 @@ class Course {
   function getALL($courseID) {
     global $db;
     $rs = $db->query("SELECT * FROM course WHERE course_ID = {$courseID}");
-    $row = $rs->fetch_array(MYSQLI_ASSOC);
-		$this->set_courseID($row['course_ID']);
-		$this->set_name($row['course_name']);
-		$this->set_descrip($row['course_description']);
-		$this->set_time($row['course_time']);
-		$this->set_location($row['course_location']);
-		$this->set_instructorID($row['instructor_ID']);
-		$rs->close(); // Close current result set
-		$db->next_result(); // Make way for the next stored procedure
+    if ($rs)
+		{
+    	$row = $rs->fetch_array(MYSQLI_ASSOC);
+			$this->set_courseID($row['course_ID']);
+			$this->set_name($row['course_name']);
+			$this->set_descrip($row['course_description']);
+			$this->set_time($row['course_time']);
+			$this->set_location($row['course_location']);
+			$this->set_instructorID($row['instructor_ID']);
+			$rs->close(); // Close current result set
+			$db->next_result(); // Make way for the next stored procedure
+		}
   }
   
   static function enrollInCourse($userID, $CourseID) {
