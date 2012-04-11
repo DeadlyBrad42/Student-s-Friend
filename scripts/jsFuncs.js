@@ -5,8 +5,8 @@ function logout(token)
 
 function populateCourses(crs)
 {
-  var list = $(document.getElementById('crsMenu'));
-  var ul = $('<ul />');
+  var list = $('li#courses');
+  var ul = $('<ul />',{id:'crsMenu'});
   var url;
   for(var i = 0; i < crs.length; i++)
   {

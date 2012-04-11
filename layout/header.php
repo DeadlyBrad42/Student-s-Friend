@@ -8,7 +8,7 @@
           <div id='header'>
             <ul id='nav'>
               <li><a href='calendar.php'>Calendar</a></li>
-              <li id='courses'><a href='courses.php'>Courses</a><div id='crsMenu'></div></li>";
+              <li id='courses'><a href='courses.php'>Courses</a></li>";
 			  
 	if($user->get_userType() < 2) {
 		$x = $x."<li><a href='coursebuilder.php'>Instructor Course Management</a></li>";
