@@ -9,7 +9,7 @@
     }
     
     public function setConn() {
-      // address might become numerical IP if server goes down (take time for DNS to trickle down)
+      // address might become numerical IP if server goes down (takes time for DNS to trickle down)
       $this->conn = new mysqli("www.troop551.com", "root", "denim", "sf");
       if(mysqli_connect_errno())
       {

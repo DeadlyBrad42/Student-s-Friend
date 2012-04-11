@@ -23,19 +23,22 @@
     }
     
     function getALL() {
-      global $db;
-      $rs = $db->query("CALL getUser('{$this->id}')");
-      $row = $rs->fetch_array(MYSQLI_ASSOC);
-	  
-	  $this->set_userType($row['user_type']);
-      $this->set_fname($row['user_fname']);
-	  $this->set_lname($row['user_lname']);
-	  $this->set_dob($row['user_dob']);
-	  $this->set_semester($row['user_semester']);
-	  $this->set_university($row['user_university']);
-	  $this->set_major($row['user_major']);
-	  $db->next_result();
-	  $rs->close();
+    global $db;
+    $rs = $db->query("CALL getUser('{$this->id}')");
+    if ($rs)
+		{
+			$row = $rs->fetch_array(MYSQLI_ASSOC);
+			
+			$this->set_userType($row['user_type']);
+			$this->set_fname($row['user_fname']);
+			$this->set_lname($row['user_lname']);
+			$this->set_dob($row['user_dob']);
+			$this->set_semester($row['user_semester']);
+			$this->set_university($row['user_university']);
+			$this->set_major($row['user_major']);
+			$db->next_result();
+			$rs->close();
+		}
     }
     
     /* GETTERS */

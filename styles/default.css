@@ -75,6 +75,8 @@ div#wrapper, div#headerWrap
 div#wrapper
 {
 	overflow: auto;
+	padding-top: 10px;
+	clear: both;
 }
 
 div#crsWrap, div#uploadContent
@@ -90,7 +92,7 @@ body.login div#wrapper
 
 div#header
 {
- padding: 25px 0; 
+ padding: 10px 0; 
 }
 
 div#footerWrap
@@ -105,6 +107,14 @@ div#footer
   text-align: center;
 }
 
+ul#nav
+{
+	float: left;
+	background-color: #999999;
+	border: 1px solid black;
+	border-radius: 4px;
+}
+
 ul#nav, ul.storageItem
 {
   list-style-type: none;
@@ -116,7 +126,22 @@ ul.storageItem
 	margin: 5px 0;
 }
 
-ul#nav li, ul.storageItem li
+ul#nav li
+{
+	float: left;
+}
+
+ul#nav li a
+{
+	display: block;
+	padding: 8px;
+	text-decoration: none;
+	border-style: solid;
+	border-color: #333333;
+	border-width: 0 1px 0 0;
+}
+
+ul.storageItem li
 {
   float: left;
   margin-right: 15px;
@@ -125,6 +150,11 @@ ul#nav li, ul.storageItem li
 ul#nav li.last
 {
   margin: 0;
+}
+
+ul#nav li.last a
+{
+	border: none;
 }
 
 div#ajaxLoader
@@ -151,31 +181,36 @@ li#courses div#crsMenu
 {
   position: absolute;
   background-color: #ffffff;
-  opacity: 0.80;
+  white-space: nowrap;
   border: 1px solid black;
   display: none;
+  left: -5px;
 }
+
 li#courses div#crsMenu ul
 {
+  display: block;
   list-style-type: none;
-  padding: 5px;
 }
 
 li#courses div#crsMenu ul li
 {
-  margin: 5px 0 0 0;
   float: none;
+  margin: 0;
 }
 
 li#courses div#crsMenu ul li a
 {
   color: #030303;
+  display: block;
+  text-decoration: none;
+  padding: 5px;
 }
 
 li#courses div#crsMenu ul li a:hover
 {
-  text-decoration: none;
-  font-weight: bold;
+	background-color: #666666;
+	color: #ffffff;
 }
 
 li#courses:hover div#crsMenu
@@ -187,9 +222,8 @@ li#courses:hover div#crsMenu
 /**** calendar styles ****/
 div#calendarWrap
 {
-  width: 710px; 
-  margin: 0 15px;
-  float: left;
+  width: 740px; 
+  float: right;
 }
 
 ul.evtOptions
@@ -349,7 +383,7 @@ button#loginBtn
   margin-top: 25px;
 }
 
-div#headerRight span, div#headerRight button
+div#headerRight
 {
   float: right;
 }

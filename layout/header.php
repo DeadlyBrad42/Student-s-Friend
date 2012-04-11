@@ -3,7 +3,6 @@
 	require_once($path);
 	
 	$user = new User($_SESSION['userID']);
-	$userLink = $_SESSION['userName'];
  
 	$x = "<div id='headerWrap'>
           <div id='header'>
@@ -19,12 +18,12 @@
 			<li class='last'><a href='storage.php'>User Storage</a></li>
             </ul>
            <div id='headerRight'>
+           <img id='profilePic' src='https://graph.facebook.com/".$_SESSION['userID']."/picture' />
           	<button id='logoutBtn' 
             	onclick='FB.logout(function(response){ 
               	if (response.authResponse) 
                 	logout(response.authResponse.accessToken); 
               	});'>Log Out</button>
-           <span><a class='cursorPter'>{$userLink}</a></span><br />
           </div>
           </div>
         </div>";

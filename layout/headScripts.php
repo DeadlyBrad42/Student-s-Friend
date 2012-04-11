@@ -1,6 +1,8 @@
 <?php
+	$path = $_SERVER['DOCUMENT_ROOT'] . "sf/classes/User.php";
+	require_once($path);
   // Put all pertinent head-level styles & javascript here, it will save space/sanity in the long run
-  
+ 	$user = new User($_SESSION['userID']); 
   include($_SERVER['DOCUMENT_ROOT']."sf/scripts/utility.php");
   updateCourses($_SESSION['userID']);
   
@@ -8,6 +10,19 @@
   // are only pertinent for the Calendar, in which case we'll move them into the Calendar
   // class
   $crs = isset($_SESSION['courses']) ? $_SESSION['courses'] : "[{'name':'Add'}]";
+  global $user;
+  switch ($user->get_userType())
+	{
+		case 0 :
+			$type = "Administrator";
+			break;
+		case 1 :
+			$type = "Instructor";
+			break;
+		default :
+			$type = "Student";
+			break;
+	}
   
   echo  
   "
@@ -29,6 +44,20 @@
         populateCourses(x);
         // Utilise delegate so we don't have to rebind for every qTip!
         $(document).delegate('.qtip.jgrowl', 'mouseenter mouseleave', timer); 
+        $('img#profilePic').qtip({
+        		content: { 
+        			title: '".$user->get_fname()." ".$user->get_lname()."',
+        			text: 'Logged in as&#58; {$type}'
+        			},
+						position: {
+							my: 'right center', 
+							at: 'left center' 
+						},
+						style: {
+							tip: true,
+							classes: 'ui-tooltip-tipped'
+						}
+        	});
       });
   </script>
   ";

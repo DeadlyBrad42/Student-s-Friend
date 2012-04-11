@@ -38,8 +38,8 @@ class UserStorage {
 
     public static function makePage($id) {
       global $db;
-      $rs= $db->query("CALL getStorageItems('{$id}',1)"); 
-      $count = $rs->num_rows;
+			$rs= $db->query("CALL getStorageItems('{$id}',1)"); 
+      $count = $rs ? $rs->num_rows : 0;
       echo "<button id='addFile'>Add a new file</button>";
       if ($count < 1)
         echo "<p>You currently have no uploaded/approved files. Click the button above to upload something.</p>";
@@ -83,9 +83,10 @@ class UserStorage {
           echo "</ul>";
         }
         	echo "</div>";
-			}
+
        	$rs->close(); // Close the current result set 
        	$db->next_result(); // Make way for the next stored procedure
+			}
 
 				if (self::$isCourse == 1)
 				{
