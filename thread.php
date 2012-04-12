@@ -66,7 +66,7 @@
     while($post = $result->fetch_array(MYSQLI_ASSOC))
     {
       echo "<div class='post-wrapper'>";
-	  echo "<div id='post-picture' class='post-picture'><a href='http://www.facebook.com/".$post['user_ID']."'><img src=http://graph.facebook.com/".$post['user_ID']."/picture/ width='45' height='45'></a></div>";
+	  echo "<div id='post-picture' class='post-picture'><a href='http://www.facebook.com/".$post['user_ID']."' target='_blank'><img src=http://graph.facebook.com/".$post['user_ID']."/picture/ width='45' height='45'></a></div>";
       echo "<p id='post-name'>".($post['user_ID'] != null ? "{$post['user_fname']} {$post['user_lname']}" : "Anonymous")."</p>";
     
 	$pFormat = "n-j-y H:i";
