@@ -20,8 +20,8 @@
   if(isset($_GET['content']) && isset($_GET['title']) && isset($_SESSION['userID']))
   {
     // Sanatize here
-    $content = $_GET['content'];
-    $title = $_GET['title'];
+    $content = addslashes ($_GET['content']);
+    $title = addslashes ($_GET['title']);
     
     echo "recieved {$content} and {$title}.";
     

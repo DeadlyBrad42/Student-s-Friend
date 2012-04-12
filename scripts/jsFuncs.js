@@ -657,7 +657,6 @@ function timer(event) {
 }
 
 function processString(s){
-	s=s.replace(/'/g,"");
 	s=s.replace(/\+/g,"%2B");
 	s=s.replace(/\&/g,"%26");
 	s=s.replace(/\?/g,"%3F");

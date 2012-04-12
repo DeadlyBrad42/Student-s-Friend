@@ -15,7 +15,7 @@
   if(isset($_GET['content']) && isset($_GET['threadID']) && isset($_SESSION['userID']))
   {
     // Sanatize here
-    $content = $_GET['content'];
+    $content = addslashes($_GET['content']);
     $threadID = $_GET['threadID'];
     
     // Add a new post
@@ -66,11 +66,16 @@
     while($post = $result->fetch_array(MYSQLI_ASSOC))
     {
       echo "<div class='post-wrapper'>";
-	  echo "<div id='post-picture' class='post-picture'><img src=http://graph.facebook.com/".$post['user_ID']."/picture/ width='45' height='45'></div>";
+	  echo "<div id='post-picture' class='post-picture'><a href='http://www.facebook.com/".$post['user_ID']."'><img src=http://graph.facebook.com/".$post['user_ID']."/picture/ width='45' height='45'></a></div>";
       echo "<p id='post-name'>".($post['user_ID'] != null ? "{$post['user_fname']} {$post['user_lname']}" : "Anonymous")."</p>";
-      
+    
+	$pFormat = "n-j-y H:i";
+	$date = new DateTime($post['post_time']);
+	$date = $date->format($pFormat);
+	  
+	  
       //echo "<p>{$post['post_time']}</p><br />";
-      echo "<p>{$post['post_time']}</p>";
+      echo "<p>{$date}</p>";
       
       //echo "<p>".urldecode($post['post_content'])."</p><br />";
       echo "<p>".urldecode($post['post_content'])."</p>";
