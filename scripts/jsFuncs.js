@@ -33,6 +33,7 @@ function dialogue(id, content, title, blur) {
     },
     show: {
       ready: true, // Show it straight away
+      solo: true, // Hide all other tips when this pops up
       modal: {
         on: true, // Make it modal (darken the rest of the page)...
         blur: blur // parameter will decide whether to let user click out of form

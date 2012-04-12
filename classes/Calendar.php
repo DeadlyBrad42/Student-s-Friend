@@ -39,7 +39,9 @@
       var agendaDayLoaded = false;
       var gotoDate;
       var dateToAdd;
-      var eStart, eEnd, eDesc, eTitle, eLoc, eid;
+      var eStart = new Date();
+      var eEnd = new Date();
+      var eDesc, eTitle, eLoc, eid;
       var menuOptions = {
         add: '<li><a onclick=\'eventDialogue(dateToAdd, {$crsID})\'>Add Event</a></li>',
         delete: '<li><a onclick=\'deleteEvent(eid)\'>Delete Event</a></li>',
@@ -61,6 +63,7 @@
 			      $('#calendar').fullCalendar('gotoDate', date);
           }
           dateToAdd = date;
+			    var mousePos = [jsEvent.pageX, jsEvent.pageY]; // grabs mouse position at time of click
 		  ";
 		  
 		  //	In place to prevent users from modifying or creating events on course calendars
@@ -69,7 +72,8 @@
             content: '<ul class=\'evtOptions\'>'+menuOptions.add+'</ul>', 
             position: {
               at: 'center',
-              my: 'bottom center'
+              my: 'bottom center',
+              target: (view.name != 'month' ? mousePos: '')
             },
             show: {ready: true, event: 'click'},
             hide: {event: 'unfocus', fixed: true},
@@ -113,8 +117,9 @@
             });
 			},
           eventClick: function(event, jsEvent, view) {
-            gotoDate = eStart = event.start;
-            eEnd = event.end;
+            gotoDate = eStart = event.start.toLocaleDateString();
+            eEnd = event.end.toLocaleDateString()
+            console.log('start='+eStart+' end='+eEnd);
             eTitle = event.title;
             eLoc = event.location;
             eDesc = event.description;
