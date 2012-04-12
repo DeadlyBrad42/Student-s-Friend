@@ -80,7 +80,10 @@
             style: {
               classes: 'ui-tooltip-blue addTip'
             },
-            solo: true
+            solo: true,
+            events: {
+            	hide: function(event, api) { api.destroy(); }
+						}
           });
 		  ";
 		  }
@@ -92,7 +95,6 @@
           },
 			eventRender: function(event, element) {
 				element.qtip({
-             prerender: true,
              id: 'evtTip',
              solo: true,
              overwrite: false,
