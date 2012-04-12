@@ -415,13 +415,24 @@ div#imgBox img
   display: block;
 }
 
+/**** Forum Styles ****/
+div.post-wrapper
+{
+	padding: 10px 0;
+}
+
 div#post-picture
 {
   float:left;
   padding-right:5px;
 }
 
-span#post-name
+div#post-picture img
+{
+	display: block;
+}
+
+p#post-name
 {
   padding-right:10px;
 }
@@ -430,5 +441,6 @@ div.all
 {
   width:600px;
 }
+/**** End Forum Styles ****/
 
 /* ~~~ End Specific Styles ~~~ */

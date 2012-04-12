@@ -58,7 +58,8 @@
     echo "<h1 class='thread-title'>".urldecode($result['thread_title'])."</h1>";
     
     echo "<div class='thread-wrapper'>";
-    echo "<a class='cursorPter' onclick='viewForum()'>Back to forum</a><br />";
+    //echo "<a class='cursorPter' onclick='viewForum()'>Back to forum</a><br />";
+    echo "<a class='cursorPter' onclick='viewForum()'>Back to forum</a>";
     
     // Print each post in the specified thread
     $result = $db->query("SELECT * FROM post LEFT JOIN sfuser ON post.user_ID=sfuser.user_ID WHERE thread_ID={$currentThread} ORDER BY post_time ASC");
@@ -66,11 +67,13 @@
     {
       echo "<div class='post-wrapper'>";
 	  echo "<div id='post-picture' class='post-picture'><img src=http://graph.facebook.com/".$post['user_ID']."/picture/ width='45' height='45'></div>";
-      echo "<span id='post-name'>".($post['user_ID'] != null ? "{$post['user_fname']} {$post['user_lname']}" : "Anonymous")."</span>";
+      echo "<p id='post-name'>".($post['user_ID'] != null ? "{$post['user_fname']} {$post['user_lname']}" : "Anonymous")."</p>";
       
-      echo "<span>{$post['post_time']}</span><br />";
+      //echo "<p>{$post['post_time']}</p><br />";
+      echo "<p>{$post['post_time']}</p>";
       
-      echo "<span>".urldecode($post['post_content'])."</span><br />";
+      //echo "<p>".urldecode($post['post_content'])."</p><br />";
+      echo "<p>".urldecode($post['post_content'])."</p>";
       
 
       if($post['user_ID'] == $_SESSION['userID'] || $_SESSION['userID'] == $isID)
@@ -78,7 +81,7 @@
         echo "<span><a class='cursorPter' onclick='deletePost({$post['post_ID']})'>Delete</a></span>";
       }
       
-      echo "</div><br /><br />";
+      echo "</div><!--<br /><br />-->";
     }
     
     echo "</div>";
