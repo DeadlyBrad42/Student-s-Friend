@@ -58,7 +58,7 @@
     echo "<h1 class='thread-title'>".urldecode($result['thread_title'])."</h1>";
     
     echo "<div class='thread-wrapper'>";
-    echo "<a onclick='viewForum()'>Back to forum</a><br />";
+    echo "<a class='cursorPter' onclick='viewForum()'>Back to forum</a><br />";
     
     // Print each post in the specified thread
     $result = $db->query("SELECT * FROM post LEFT JOIN sfuser ON post.user_ID=sfuser.user_ID WHERE thread_ID={$currentThread} ORDER BY post_time ASC");
@@ -75,7 +75,7 @@
 
       if($post['user_ID'] == $_SESSION['userID'] || $_SESSION['userID'] == $isID)
       {
-        echo "<span><a onclick='deletePost({$post['post_ID']})'>Delete</a></span>";
+        echo "<span><a class='cursorPter' onclick='deletePost({$post['post_ID']})'>Delete</a></span>";
       }
       
       echo "</div><br /><br />";

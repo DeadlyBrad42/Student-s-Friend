@@ -12,7 +12,7 @@
   // Get the specified course by ID
   $courseID = null;
   if(isset($_GET['c']))
-  {
+  {  
     $courseID = $_GET['c'];
   }
   
@@ -91,7 +91,7 @@
       echo "<div class='thread-wrapper'>";
       
       echo "<div class='thread-title'>";
-      echo "<a onclick=\"viewThread('{$post['thread_ID']}')\">".urldecode($post['thread_title'])."</a>";
+      echo "<a class='cursorPter' onclick=\"viewThread('{$post['thread_ID']}')\">".urldecode($post['thread_title'])."</a>";
       echo "</div>";
       
       echo "<div class='thread-author'>".($post['user_ID'] != null ? "{$post['user_fname']} {$post['user_lname']}" : "Anonymous")."</div>";
@@ -99,7 +99,7 @@
       echo "<div class='thread-postdate'>{$post['post_time']}</div>";
       
 	  if($_SESSION['userID'] == $isID){
-		echo "<a onclick=\"deleteThread('{$post['thread_ID']}')\">Delete</a>";
+		echo "<a class='cursorPter' onclick=\"deleteThread('{$post['thread_ID']}')\">Delete</a>";
 	  }
       echo "</div><br />"; 
     }
