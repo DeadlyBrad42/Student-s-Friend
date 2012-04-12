@@ -16,6 +16,24 @@ class UserStorage {
       chmod($path, 0777); // Used to make sure the mkdir call doesn't default to 0755
     }
   }
+  
+  public static function deleteCourseDirectory($id) {
+	$path = $_SERVER['DOCUMENT_ROOT'] . "sf/uploads/Courses/{$id}";
+	self::rrmdir($path);
+  }
+  
+  static function rrmdir($dir) { 
+   if (is_dir($dir)) { 
+	 $objects = scandir($dir); 
+		 foreach ($objects as $object) { 
+		   if ($object != "." && $object != "..") { 
+			 if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object); 
+		   } 
+		 } 
+		 reset($objects); 
+		 rmdir($dir); 
+   } 
+ }
 
   public static function getDir() {
     return self::$dir;

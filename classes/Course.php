@@ -1,5 +1,6 @@
 <?php
 require_once("Database.php");
+require_once("UserStorage.php");
 
 class Course {
   private $id;
@@ -29,6 +30,8 @@ class Course {
 			$db->next_result(); // Make way for the next stored procedure
 		}
   }
+  
+  
   
   static function enrollInCourse($userID, $CourseID) {
 		global $db;
@@ -71,6 +74,9 @@ class Course {
   
   static function createCourse($instructor_ID, $name, $location, $description) {
 	global $db;
+	
+	$name = addslashes($name);
+	
 	$db->query("INSERT INTO course (course_name, course_description, course_location, instructor_ID) 
 		VALUES ('{$name}', '{$location}', '{$description}', '{$instructor_ID}');");
 	$lastID = $db->getLastInsertedID();
@@ -92,6 +98,15 @@ class Course {
 	$db->query("DELETE FROM course WHERE course_ID = {$course_ID};");
 	$db->query("DELETE FROM enrollment WHERE course_ID = {$course_ID};");
 	$db->query("DELETE FROM enrollmentrequests WHERE course_ID = {$course_ID};");
+	$db->query("DELETE FROM flashcard WHERE course_ID = {$course_ID};");
+	$db->query("DELETE FROM post WHERE thread_ID IN
+		(SELECT thread_ID FROM thread WHERE course_ID = {$course_ID};");
+	$db->query("DELETE FROM thread WHERE course_ID = {$course_ID};");
+	$db->query("DELETE FROM sfevent WHERE course_ID = {$course_ID};");
+	$db->query("DELETE FROM sfupdate WHERE course_ID = {$course_ID};");
+	UserStorage::deleteCourseDirectory($course_ID);
+	$db->query("DELETE FROM sfstorage WHERE owner_ID = {$course_ID};");
+	
 	
 	return "Course deleted";
   }
