@@ -189,7 +189,7 @@ li#courses ul#crsMenu
   white-space: nowrap;
   list-style-type: none;
   display: none;
-  width: 100%;
+  width: inherit;
   border: 1px solid #333;
 }
 

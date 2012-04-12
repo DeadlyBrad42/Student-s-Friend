@@ -11,7 +11,7 @@ function populateCourses(crs)
   for(var i = 0; i < crs.length; i++)
   {
    	var li = $('<li />');
-   	url = (crs[i].name == 'Add') ? 'courseAdd.php' : 'courses.php?c='+crs[i].id;
+   	url = (crs[i].name == 'Manage\ Courses') ? 'courseAdd.php' : 'courses.php?c='+crs[i].id;
    	var a = $('<a />',{href: url, text: crs[i].name});
     li.append(a);
     ul.append(li);

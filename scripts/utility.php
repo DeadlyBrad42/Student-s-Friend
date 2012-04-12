@@ -137,8 +137,8 @@ function updateCourses($uid)
       $courses[] = $c;
     }
     
-    // Finally, place the Add course link in the json obj
-    $c = array('name' => 'Add');
+    // Finally, place the Manage course link in the json obj
+    $c = array('name' => 'Manage Courses');
     $courses[] = $c;
     $_SESSION['courses'] = json_encode($courses);
     

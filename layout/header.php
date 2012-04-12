@@ -14,8 +14,7 @@
 		$x = $x."<li><a href='coursebuilder.php'>Instructor Course Management</a></li>";
 	}
 			  
-	$x = $x."<li><a href='courseAdd.php'>Enrollment Management</a></li>
-			<li class='last'><a href='storage.php'>User Storage</a></li>
+	$x = $x."<li class='last'><a href='storage.php'>User Storage</a></li>
             </ul>
            <div id='headerRight'>
            <img id='profilePic' src='https://graph.facebook.com/".$_SESSION['userID']."/picture' />

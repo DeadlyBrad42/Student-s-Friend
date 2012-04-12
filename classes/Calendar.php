@@ -117,9 +117,9 @@
             });
 			},
           eventClick: function(event, jsEvent, view) {
-            gotoDate = eStart = event.start.toLocaleDateString();
-            eEnd = event.end.toLocaleDateString()
-            console.log('start='+eStart+' end='+eEnd);
+            gotoDate = event.start; 
+            eStart = event.start.toLocaleDateString();
+            eEnd = (event.end != null) ? event.end.toLocaleDateString() : eStart;
             eTitle = event.title;
             eLoc = event.location;
             eDesc = event.description;
