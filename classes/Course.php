@@ -76,6 +76,8 @@ class Course {
 	global $db;
 	
 	$name = addslashes($name);
+	$location = addslashes($location);
+	$description = addslashes($description);
 	
 	$db->query("INSERT INTO course (course_name, course_description, course_location, instructor_ID) 
 		VALUES ('{$name}', '{$location}', '{$description}', '{$instructor_ID}');");
