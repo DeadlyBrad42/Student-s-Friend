@@ -95,8 +95,12 @@
       echo "</div>";
       
       echo "<div class='thread-author'>".($post['user_ID'] != null ? "{$post['user_fname']} {$post['user_lname']}" : "Anonymous")."</div>";
+
+	$pFormat = "n-j-y H:i";
+	$date = new DateTime($post['post_time']);
+	$date = $date->format($pFormat);
       
-      echo "<div class='thread-postdate'>{$post['post_time']}</div>";
+      echo "<div class='thread-postdate'>{$date}</div>";
       
 	  if($_SESSION['userID'] == $isID){
 		echo "<a class='cursorPter' onclick=\"deleteThread('{$post['thread_ID']}')\">Delete</a>";
