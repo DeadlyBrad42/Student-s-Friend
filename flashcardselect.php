@@ -34,7 +34,7 @@
 			$tHolder = "";
 			$news= "The ";
 			$t;
-			$edits = explode("<ii>",addslashes($_GET['edit']));
+			$edits = explode("<ii>",$_GET['edit']);
 			for( $i=0; $i<count($edits)-4; $i+=4){
 				if($tHolder != $edits[$i+1]){
 					$tHolder = $edits[$i+1];
@@ -55,10 +55,10 @@
 			NewsFeed::postUpdate($cID, $news);
 		}
 		elseif(isset($_GET['inst'])){
-			$in = explode("<ii>",addslashes($_GET['inst']));
+			$in = explode("<ii>",$_GET['inst']);
 			NewsFeed::postUpdate($cID, "{$in[0]} card group was added to flashcards.");
 			for( $i=0; $i<count($in)-3; $i+=3)
-				FlashCardManager::insertFlashCards($cID, $_SESSION['userID'], $in[$i], $in[$i+1], $in[$i+2]);
+				FlashCardManager::insertFlashCards($cID, $_SESSION['userID'], addslashes($in[$i]), addslashes($in[$i+1]), addslashes($in[$i+2]));
 		}
 		FlashCardDisplay::flashCardSelectBody($cID);
 		exit(0);

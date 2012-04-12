@@ -43,12 +43,12 @@ class FlashCardDisplay{
 				$flag = false;
 				if($tHolder != $toEdits[$i]->title){
 					$tHolder = $toEdits[$i]->title;
-					$x = $x."Title: <input type='text' id='{$i}' value='{$toEdits[$i]->title}'/><br /><br />";
+					$x = $x."Title: <input type='text' id='{$i}' value=\"{$toEdits[$i]->title}\"/><br /><br />";
 				}
 				$q = "Q".$i;
 				$a = "A".$i;
-				$x = $x."Q: <input type='text' id='{$q}' value='{$toEdits[$i]->question}'/>
-						 A: <input type='text' id='{$a}' value='{$toEdits[$i]->answer}'/>
+				$x = $x."Q: <input type='text' id='{$q}' value=\"{$toEdits[$i]->question}\"/>
+						 A: <input type='text' id='{$a}' value=\"{$toEdits[$i]->answer}\"/>
 						 <button type='button' onclick = 'clearFeild({$i})' >Clear</button><br /><br />";	
 			}
 			else{
