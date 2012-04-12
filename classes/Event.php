@@ -26,6 +26,9 @@
     $end = $obj->eDate . " " . $obj->eTime;
     $sTime = DateTime::createFromFormat(self::$normFormat, $start);
     $eTime = DateTime::createFromFormat(self::$normFormat, $end);
+	$obj->name = addslashes($obj->name);
+	$obj->descrip = addslashes($obj->descrip);
+	$obj->loc = addslashes($obj->loc);
     switch ($obj->isRecur)
     {
       case "Daily":
