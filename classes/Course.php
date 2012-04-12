@@ -98,10 +98,12 @@ class Course {
   
 	static function echoInstructorCourseMenu($userID) {
 		$rs = Course::getInstructorCoursesResultset($userID);
-		while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
-			echo "<tr><th>Course Name: {$row['course_name']} <br /> ID:{$row['course_ID']}<br/></th>
-				<td><button type = 'button' onclick = 'okDelete({$row['course_ID']})'>Delete Course</button>
-				</td></tr>";
+		if($rs) {
+			while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
+				echo "<tr><th>Course Name: {$row['course_name']} <br /> ID:{$row['course_ID']}<br/></th>
+					<td><button type = 'button' onclick = 'okDelete({$row['course_ID']})'>Delete Course</button>
+					</td></tr>";
+			}
 		}
 	}
 	
@@ -110,36 +112,44 @@ class Course {
 		$rs = $db->query("SELECT course.course_name AS course_name, course.course_ID AS course_ID
 				FROM course RIGHT JOIN enrollment ON course.course_ID = enrollment.course_ID
 				WHERE enrollment.user_ID = {$userID} AND course.instructor_ID != {$userID};");
-		echo "<h2>Enrolled Courses</h2>
-			<table id='enrolledcourses'>";
-		while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
-			echo "<tr><th>{$row['course_name']}</th><td>
-				<button type = 'button' onclick = 'okDisenroll({$row['course_ID']})'>Disenroll</button>
-				</td></tr>";
+		
+		if($rs) {
+			
+			echo "<h2>Enrolled Courses</h2>
+				<table id='enrolledcourses'>";
+			while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
+				echo "<tr><th>{$row['course_name']}</th><td>
+					<button type = 'button' onclick = 'okDisenroll({$row['course_ID']})'>Disenroll</button>
+					</td></tr>";
+			}
+			
+			echo "</table>";
+			
+			$rs->close();
+			$db->next_result();
 		}
 		
-		$rs->close();
-		$db->next_result();
-		
 		echo "</table>";
-		
-		echo "<h2>Pending Enrollments</h2>
-			<table id='pendingenrollments'>";
 			
 		$rs = $db->query("SELECT course.course_name AS course_name, course.course_ID AS course_ID
 				FROM course RIGHT JOIN enrollmentrequests ON course.course_ID = enrollmentrequests.course_ID
 				WHERE enrollmentrequests.user_ID = {$userID};");
-				
-		while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
-			echo "<tr><th>{$row['course_name']}</th><td>
-				<button type = 'button' onclick = 'okCancelEnroll({$row['course_ID']})'>Cancel Request</button>
-				</td></tr>";
+		
+		if($rs) {
+			echo "<h2>Pending Enrollments</h2>
+				<table id='pendingenrollments'>";
+					
+			while($row = $rs->fetch_array(MYSQLI_ASSOC)) {
+				echo "<tr><th>{$row['course_name']}</th><td>
+					<button type = 'button' onclick = 'okCancelEnroll({$row['course_ID']})'>Cancel Request</button>
+					</td></tr>";
+			}
+			
+			echo "</table>";
+			
+			$db->next_result();
+			$rs->close();
 		}
-		
-		echo "</table>";
-		
-		$db->next_result();
-		$rs->close();
 	}
 	
 	static function disenrollStudent($userID, $courseID) {
