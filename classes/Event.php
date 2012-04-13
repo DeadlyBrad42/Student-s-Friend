@@ -151,9 +151,13 @@
 	
 	$rs = $db->query("SELECT course_ID, event_name, event_startTime FROM sfevent WHERE event_ID = {$id}");
 	$row = $rs->fetch_array(MYSQLI_ASSOC);
+	$courseID = $row['course_ID'];
 	
 	$date = new DateTime($row['event_startTime']);
-	NewsFeed::postUpdate($row['course_ID'], "Event {$row['event_name']} rescheduled to ".$date->format(self::$prettyFormat));
+	
+	if($courseID != 0) {
+		NewsFeed::postUpdate($row['course_ID'], "Event {$row['event_name']} rescheduled to ".$date->format(self::$prettyFormat));
+	}
   }
 
   public static function deleteEvent($id) {
@@ -162,11 +166,15 @@
 	$rs = $db->query("SELECT course_ID, event_name FROM sfevent WHERE event_ID = {$id}");
 	$row = $rs->fetch_array(MYSQLI_ASSOC);
 	
+	$courseID = $row['course_ID'];
+	
     if ($db->query("DELETE FROM sfevent WHERE event_ID = {$id}"))
     {
-      echo "query worked!";
+		echo "query worked!";
 	  
-	  NewsFeed::postUpdate($row['course_ID'], "Event {$row['event_name']} was deleted from calendar.");
+		if($courseID != 0) {
+			NewsFeed::postUpdate($row['course_ID'], "Event {$row['event_name']} was deleted from calendar.");
+		}
     }
     else
     {
