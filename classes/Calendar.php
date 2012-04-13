@@ -39,8 +39,8 @@
       var agendaDayLoaded = false;
       var gotoDate;
       var dateToAdd;
-      var eStart = new Date();
-      var eEnd = new Date();
+      var eStart;
+      var eEnd;
       var eDesc, eTitle, eLoc, eid;
       var menuOptions = {
         add: '<li><a onclick=\'eventDialogue(dateToAdd, {$crsID})\'>Add Event</a></li>',
@@ -120,8 +120,13 @@
 			},
           eventClick: function(event, jsEvent, view) {
             gotoDate = event.start; 
-            eStart = event.start.toLocaleDateString();
-            eEnd = (event.end != null) ? event.end.toLocaleDateString() : eStart;
+            eStart = dateToFormattedString(event.start);
+	
+            if(event.end != null)	{
+				eEnd = dateToFormattedString(event.end);
+			} else {
+				eEnd = eStart;
+			}
             eTitle = event.title;
             eLoc = event.location;
             eDesc = event.description;

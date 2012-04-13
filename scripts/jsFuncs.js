@@ -689,3 +689,28 @@ function makeCrsLanding(list, target) {
 		target.append(tbl);
 	}
 }
+
+function dateToFormattedString(date) {
+
+	formattedDate = date.toDateString();
+				
+	if(date.getHours() > 12) {
+		hours = (date.getHours() - 12);
+		end = ' PM';
+	} else {
+		hours = date.getHours();
+		end = ' AM';
+	}
+
+	formattedDate = formattedDate + ' ' + hours + ':';
+
+	if(date.getMinutes() < 10) {
+		formattedDate = formattedDate + '0'  + date.getMinutes();
+	} else {
+		formattedDate = formattedDate + date.getMinutes();
+	}
+
+	formattedDate = formattedDate + end;
+	
+	return formattedDate;
+}
