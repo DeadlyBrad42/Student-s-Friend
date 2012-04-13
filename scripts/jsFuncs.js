@@ -369,30 +369,10 @@ function approveStorageItem(sid)
 
 function switchCrsView(i)
 {
-	var hash;
-	switch(i)
-	{
-		case 0 :
-			hash = '#cal';
-			break;
-		case 1 :
-			hash = '#store';
-			break;
-		case 2 :
-			hash = '#forum';
-			break;
-		case 3 :
-			hash = '#card';
-			break;
-		case 4 :
-			hash = '#manage';
-			break;
-	}
-  var url = document.location.href + '&view=' + i + hash;
+  var url = document.location.href + '&view='+i;
   $.ajax({url: url, dataType: 'html', success: function(html) {
       $('div#crsContent').html(html);
       toggleAjaxLoader(0); // if loader is showing, hide it
-      url = url + hash;
     }
   });
 }
