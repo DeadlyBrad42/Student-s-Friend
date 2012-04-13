@@ -101,10 +101,10 @@ class UserStorage {
           echo "</ul>";
         }
         	echo "</div>";
+			}
 
        	$rs->close(); // Close the current result set 
        	$db->next_result(); // Make way for the next stored procedure
-			}
 
 				if (self::$isCourse == 1)
 				{
