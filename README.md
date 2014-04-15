@@ -1,12 +1,12 @@
 Student's Friend
 ==============
 
-# About
+## About
 Student's Friend is an online course management system built by a team of myself and 3 others for our senior project at Penn State Behrend.
 
 The system allows users and faculty to log in and view announcements, assignments, their course schedule, and upload/download files. It also features a flash card system for studying and a forum for communication amongst other students and faculty.
 
-# Screenshots
+## Screenshots
 
 ![1.png](https://raw.githubusercontent.com/DeadlyBrad42/Student-s-Friend/master/screenshots/1.png)
 The site utilized Facebook for logging in, though non-facebook accounts were (hackily) supported
